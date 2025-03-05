@@ -31,14 +31,14 @@ export default function LoginPage() {
                     Homepage
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <i className="icon-arrRight" />
-                </li>
-                <li>
+                </li> */}
+                {/* <li>
                   <a className="link" href="#">
                     Pages
                   </a>
-                </li>
+                </li> */}
                 <li>
                   <i className="icon-arrRight" />
                 </li>
