@@ -621,7 +621,7 @@ export default function MobileMenu() {
             </ul>
           </div>
         </div>
-        <div className="mb-bottom">
+        {/* <div className="mb-bottom">
           <div className="bottom-bar-language">
             <div className="tf-currencies">
               <CurrencySelect />
@@ -630,7 +630,7 @@ export default function MobileMenu() {
               <LanguageSelect parentClassName="image-select center style-default type-languages" />
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -1805,9 +1805,9 @@
       height: 36px;
     }
   }
-  .wrap-sidebar-account {
-    display: none;
-  }
+  // .wrap-sidebar-account {
+  //   display: none;
+  // }
   .terms-of-use-wrap {
     gap: 30px;
     .left {
@@ -2558,8 +2558,12 @@
     line-height: 24px;
   }
   #header {
+    // .nav-search{
+    //   display: none;
+    // }
     .nav-icon {
       .nav-account,
+      
       .nav-wishlist,
       .nav-compare {
         display: none;

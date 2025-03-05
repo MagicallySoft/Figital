@@ -13,6 +13,10 @@ import SizeGuide from "@/components/modals/SizeGuide";
 import Wishlist from "@/components/modals/Wishlist";
 import DemoModal from "@/components/modals/DemoModal";
 import Categories from "@/components/modals/Categories";
+import Information from "@/components/my-account/Information";
+import Address from "@/components/my-account/Address";
+import OrderDetails from "@/components/my-account/OrderDetails";
+import Orers from "@/components/my-account/Orers";
 import { Route, Routes, useLocation } from "react-router-dom";
 import HomeElectronicPage from "./pages/homes";
 import ShopDefaultGridPage from "./pages/products/shop-default-grid";
@@ -234,27 +238,34 @@ function App() {
                 <Route path="login" element={<LoginPage />} />
                 <Route path="forget-password" element={<ForgotPasswordPage />} />
                 <Route path="order-tracking" element={<OrderTrackingPage />} />
-                <Route path="my-account" element={<PrivateRoute element={<MyAccountPage />} />} />
+                
+                <Route path="my-account" element={<PrivateRoute element={<MyAccountPage />} />}>
+                  <Route index element={<Information />} />
+                  <Route path="my-account-address" element={<Address />} />
+                  <Route path="track-order" element={<OrderDetails />} />
+                  <Route path="my-account-orders" element={<Orers />} />
+                </Route>
+
 
                 <Route path="product-detail/:id" element={<ProductDetailPage />} />
 
-                <Route path="product-swatch-rounded-image/:id" element={<ProductSwatchRoundedImagePage />}  />
+                <Route path="product-swatch-rounded-image/:id" element={<ProductSwatchRoundedImagePage />} />
 
-                <Route path="product-frequently-bought-together/:id" element={<ProductFrequentlyBoughtTogetherPage1 />}  />
+                <Route path="product-frequently-bought-together/:id" element={<ProductFrequentlyBoughtTogetherPage1 />} />
 
-                <Route path="product-up-sell/:id" element={<ProductUpSellPage />}  />
-                <Route path="product-pre-order/:id" element={<ProductPreorderPage />}  />
-                <Route path="product-grouped/:id" element={<ProductGroupedPage />}  />
+                <Route path="product-up-sell/:id" element={<ProductUpSellPage />} />
+                <Route path="product-pre-order/:id" element={<ProductPreorderPage />} />
+                <Route path="product-grouped/:id" element={<ProductGroupedPage />} />
 
-                <Route path="product-customer-note/:id" element={<ProductCustomerNotePage />}  />
-                
-                <Route path="product-out-of-stock/:id" element={<ProductOutOfStockPage />}  />
-                <Route path="product-pickup-available/:id" element={<ProductPickupAvailablePage />}  />
-                <Route path="product-variable/:id" element={<ProductVariablePage />}  />
+                <Route path="product-customer-note/:id" element={<ProductCustomerNotePage />} />
+
+                <Route path="product-out-of-stock/:id" element={<ProductOutOfStockPage />} />
+                <Route path="product-pickup-available/:id" element={<ProductPickupAvailablePage />} />
+                <Route path="product-variable/:id" element={<ProductVariablePage />} />
                 <Route path="product-deals/:i" element={<ProductDealsPage />} />
-                <Route path="product-with-discount/:id" element={<ProductWithDiscountPage />}  />
-                <Route path="product-external/:id" element={<ProductExternalPage />}  />
-                <Route path="product-subscribe-save/:id" element={<ProductSubscribeSavePage />}  />
+                <Route path="product-with-discount/:id" element={<ProductWithDiscountPage />} />
+                <Route path="product-external/:id" element={<ProductExternalPage />} />
+                <Route path="product-subscribe-save/:id" element={<ProductSubscribeSavePage />} />
 
 
                 <Route path="blog-list" element={<BlogListPage />} />

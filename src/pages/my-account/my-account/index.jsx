@@ -3,10 +3,13 @@ import Header11 from "@/components/headers/Header11";
 import Topbar6 from "@/components/headers/Topbar6";
 import AccountSidebar from "@/components/my-account/AccountSidebar";
 import Information from "@/components/my-account/Information";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import React from "react";
 
 import MetaComponent from "@/components/common/MetaComponent";
+import Address from "@/components/my-account/Address";
+import OrderDetails from "@/components/my-account/OrderDetails";
+import Orers from "@/components/my-account/Orers";
 const metadata = {
   title: "My Account || Modave  ",
   description: "Modave  ",
@@ -63,11 +66,16 @@ export default function MyAccountPage() {
         <div className="container">
           <div className="my-account-wrap">
             <AccountSidebar />
-            <Information />
+            <div className="account-content">
+              <div className="account-content-wrap">
+                <Outlet />
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
-      <Footer1 dark/>
+      <Footer1 dark />
     </>
   );
 }

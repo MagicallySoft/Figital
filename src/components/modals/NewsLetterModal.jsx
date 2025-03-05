@@ -1,33 +1,51 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useAuth } from "@/context/AuthProvider";
 
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 export default function NewsLetterModal() {
+
+  const { user, isAuthenticated } = useAuth();
+
   const { pathname } = useLocation();
   const modalElement = useRef();
   useEffect(() => {
     const showModal = async () => {
-      if (pathname === "/") {
-        const bootstrap = await import("bootstrap"); // dynamically import bootstrap
-        const myModal = new bootstrap.Modal(
-          document.getElementById("newsletterPopup"),
-          {
-            keyboard: false,
+      // Only proceed if the user is not authenticated and on the home page.
+      if (!isAuthenticated && pathname === "/") {
+        // Check if the page load is a refresh.
+        const navEntries = performance.getEntriesByType("navigation");
+        const isRefresh =
+          navEntries.length > 0
+            ? navEntries[0].type === "reload"
+            : performance.navigation.type === 1; // Fallback for older browsers
+
+        if (isRefresh) {
+          const bootstrap = await import("bootstrap");
+          const myModal = new bootstrap.Modal(
+            document.getElementById("newsletterPopup"),
+            {
+              keyboard: false,
+            }
+          );
+
+          // Delay before showing the modal.
+          await new Promise((resolve) => setTimeout(resolve, 2000));
+          myModal.show();
+
+          // Optionally, attach an event listener for when the modal is hidden.
+          if (modalElement.current) {
+            modalElement.current.addEventListener("hidden.bs.modal", () => {
+              myModal.hide();
+            });
           }
-        );
-
-        // Show the modal after a delay using a promise
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        myModal.show();
-
-        modalElement.current.addEventListener("hidden.bs.modal", () => {
-          myModal.hide();
-        });
+        }
       }
     };
 
     showModal();
-  }, [pathname]);
+  }, [pathname, isAuthenticated]);
+
   const [success, setSuccess] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
   const handleShowMessage = () => {
@@ -94,9 +112,8 @@ export default function NewsLetterModal() {
               Receive 10% OFF your next order, exclusive offers &amp; more!
             </h5>
             <div
-              className={`tfSubscribeMsg  footer-sub-element ${
-                showMessage ? "active" : ""
-              }`}
+              className={`tfSubscribeMsg  footer-sub-element ${showMessage ? "active" : ""
+                }`}
             >
               {success ? (
                 <p style={{ color: "rgb(52, 168, 83)" }}>

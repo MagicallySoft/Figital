@@ -30,8 +30,8 @@ export default function AccountSidebar() {
         <ul className="my-account-nav">
           <li>
             <Link
-              to={`/my-account`}
-              className={`my-account-nav-item ${pathname == "/my-account" ? "active" : ""
+              to={``}
+              className={`my-account-nav-item d-flex flex-wrap justify-content-center justify-content-lg-start ${pathname == "/my-account" ? "active" : ""
                 } `}
             >
               <svg
@@ -56,13 +56,13 @@ export default function AccountSidebar() {
                   strokeLinejoin="round"
                 />
               </svg>
-              Account Details
+              <span>Account Details</span>
             </Link>
           </li>
           <li>
             <Link
-              to={`/my-account-orders`}
-              className={`my-account-nav-item ${pathname == "/my-account-orders" ? "active" : ""
+              to={`my-account-orders`}
+              className={`my-account-nav-item d-flex flex-wrap justify-content-center justify-content-lg-start ${pathname == "/my-account/my-account-orders" ? "active" : ""
                 } `}
             >
               <svg
@@ -85,8 +85,33 @@ export default function AccountSidebar() {
           </li>
           <li>
             <Link
-              to={`/my-account-address`}
-              className={`my-account-nav-item ${pathname == "/my-account-address" ? "active" : ""
+              to={`track-order`}
+              className={`my-account-nav-item d-flex flex-wrap justify-content-center justify-content-lg-start ${pathname == "/my-account/track-order" ? "active" : ""
+                } `}
+            >
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#181818"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect x="1" y="3" width="15" height="13" />
+                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                <circle cx="5.5" cy="18.5" r="2.5" />
+                <circle cx="18.5" cy="18.5" r="2.5" />
+              </svg>
+              Track Order
+            </Link>
+          </li>
+          <li>
+            <Link
+              to={`my-account-address`}
+              className={`my-account-nav-item d-flex flex-wrap justify-content-center justify-content-lg-start ${pathname == "/my-account/my-account-address" ? "active" : ""
                 } `}
             >
               <svg
@@ -117,7 +142,7 @@ export default function AccountSidebar() {
           <li>
             <Link
               onClick={() => dispatch(logoutUser())}
-              className={`my-account-nav-item ${pathname == "/login" ? "active" : ""
+              className={`my-account-nav-item d-flex flex-wrap justify-content-center justify-content-lg-start ${pathname == "/login" ? "active" : ""
                 } `}
             >
               <svg
@@ -149,7 +174,7 @@ export default function AccountSidebar() {
                   strokeLinejoin="round"
                 />
               </svg>
-                Logout
+              Logout
             </Link>
           </li>
         </ul>

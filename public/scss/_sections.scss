@@ -1278,20 +1278,90 @@ ul.list-text {
   }
 }
 
+// .my-account-wrap {
+//   display: flex;
+//   gap: 81px;
+//   max-width: 1130px;
+//   margin-left: auto;
+//   margin-right: auto;
+//   .my-account-content {
+//     width: 100%;
+//   }
+//   .wrap-sidebar-account {
+//     width: 369px;
+//     flex-shrink: 0;
+//   }
+// }
+
 .my-account-wrap {
   display: flex;
   gap: 81px;
   max-width: 1130px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
+  
   .my-account-content {
     width: 100%;
   }
+  
   .wrap-sidebar-account {
     width: 369px;
     flex-shrink: 0;
   }
 }
+
+/* Responsive styles for small screens */
+@media only screen and (max-width: 991px) {
+  .sidebar-account{
+    padding: 40px 5px 0 10px !important;
+    // background-color: #28513b !important;
+  }
+  .my-account-wrap {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .wrap-sidebar-account {
+    width: 100% !important;
+    /* Remove display:none from mobile so sidebar is visible */
+    display: block;
+  }
+  // .sidebar-account{
+  //   width: 100% !important;
+  //   /* Remove display:none from mobile so sidebar is visible */
+  //   display: block;
+  // }
+  /* Center the avatar and add spacing */
+  .account-avatar {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  /* Change the navigation list to horizontal */
+  .my-account-nav {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-around;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    overflow-y:scroll;
+  }
+  
+  .my-account-nav li {
+    
+    flex: 1;
+    text-align: center;
+  }
+  
+  /* Optionally, adjust the nav item style */
+  .my-account-nav-item {
+    display: inline-block;
+    padding: 10px 5px !important;
+    font-size: 14px !important;
+    border-radius: 16px 16px 0 0 !important;
+  }
+}
+
 
 .sidebar-account {
   background-color: var(--surface);
