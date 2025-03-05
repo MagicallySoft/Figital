@@ -527,7 +527,7 @@ export default function MobileMenu() {
           </div>
           <div className="mb-other-content">
             <div className="group-icon">
-              <Link onClick={() => dispatch(logoutUser())} className="site-nav-icon">
+              {isAuthenticated ? (<Link onClick={() => dispatch(logoutUser())} className="site-nav-icon">
                 <svg
                   width={24}
                   height={24}
@@ -558,7 +558,8 @@ export default function MobileMenu() {
                   />
                 </svg>
                 Logout
-              </Link>
+              </Link>) : null}
+              
               <Link to={isAuthenticated ? '/my-account' : '/login'} className="site-nav-icon">
                 <svg
                   className="icon"
