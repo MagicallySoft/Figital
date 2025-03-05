@@ -17,7 +17,7 @@ export default function ShopCategoriesTopPage1() {
       <MetaComponent meta={metadata} />
       <Topbar6  />
       <Header11 />
-      <div
+      {/* <div
         className="page-title"
         style={{ backgroundImage: "url(/images/section/page-title.jpg)" }}
       >
@@ -39,7 +39,7 @@ export default function ShopCategoriesTopPage1() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       <ShopCategories />
       <Products1 parentClass="flat-spacing pt-0" />
       <Footer1 dark/>

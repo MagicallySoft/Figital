@@ -18,7 +18,7 @@ export default function ShopingCartPage() {
       <MetaComponent meta={metadata} />
       <Topbar6  />
       <Header11 />
-      <div
+      {/* <div
         className="page-title"
         style={{ backgroundImage: "url(/images/section/page-title.jpg)" }}
       >
@@ -44,7 +44,7 @@ export default function ShopingCartPage() {
             <li>Shopping Cart</li>
           </ul>
         </div>
-      </div>
+      </div> */}
 
       <ShopCart />
       <RecentProducts />

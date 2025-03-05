@@ -15,7 +15,7 @@ export default function WishListPage() {
       <MetaComponent meta={metadata} />
       <Topbar6  />
       <Header11 />
-      <div
+      {/* <div
         className="page-title"
         style={{ backgroundImage: "url(/images/section/page-title.jpg)" }}
       >
@@ -41,7 +41,7 @@ export default function WishListPage() {
             <li>Wishlist</li>
           </ul>
         </div>
-      </div>
+      </div> */}
 
       <Wishlist />
 

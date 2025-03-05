@@ -18,7 +18,7 @@ export default function ContactPage2() {
       <MetaComponent meta={metadata} />
       <Topbar6  />
       <Header11 />
-      <div
+      {/* <div
         className="page-title"
         style={{ backgroundImage: "url(/images/section/page-title.jpg)" }}
       >
@@ -48,7 +48,7 @@ export default function ContactPage2() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       <StoreLocations3 />
       <Contact3 />
 

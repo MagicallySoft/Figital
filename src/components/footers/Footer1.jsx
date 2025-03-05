@@ -268,7 +268,7 @@ export default function Footer1({
                       <p className="text-caption-1">
                         ©{new Date().getFullYear()} Modave. All Rights Reserved.
                       </p>
-                      <div className="tf-cur justify-content-end">
+                      {/* <div className="tf-cur justify-content-end">
                         <div className="tf-currencies">
                           <CurrencySelect light={dark ? true : false} />
                         </div>
@@ -279,7 +279,7 @@ export default function Footer1({
                             }`}
                           />
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                     <div className="tf-payment">
                       <p className="text-caption-1">Payment:</p>

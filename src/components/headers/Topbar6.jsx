@@ -27,7 +27,7 @@ export default function Topbar6({ bgColor = "bg-blue-2" }) {
               </Link>
             </li>
           </ul>
-          <div className="topbar-right d-none d-xl-block">
+          {/* <div className="topbar-right d-none d-xl-block">
             <div className="tf-cur justify-content-end">
               <div className="tf-currencies">
                 <CurrencySelect topStart light />
@@ -39,7 +39,7 @@ export default function Topbar6({ bgColor = "bg-blue-2" }) {
                 />
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

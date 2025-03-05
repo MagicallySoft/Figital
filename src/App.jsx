@@ -261,7 +261,7 @@ function App() {
                 <Route path="blog-detail-02/:id" element={<BlogDetailsPage2 />} />
                 <Route path="about-us" element={<AboutUsPage />} />
                 <Route path="store-list-02" element={<StorelistPage2 />} />
-                <Route path="contact-02" element={<ContactPage2 />} />
+                <Route path="contact" element={<ContactPage2 />} />
                 <Route path="404" element={<PageNotFoundPage />} />
                 <Route path="FAQs" element={<FAQSPage />} />
                 <Route path="term-of-use" element={<TermsOfUsePage />} />
