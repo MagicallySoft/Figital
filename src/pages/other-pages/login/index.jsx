@@ -15,9 +15,9 @@ export default function LoginPage() {
   return (
     <>
       <MetaComponent meta={metadata} />
-      {/* <Topbar6  />
-      <Header11 /> */}
-      <div
+      <Topbar6  />
+      {/* <Header11 /> */}
+      {/* <div
         className="page-title"
         style={{ backgroundImage: "url(/images/section/page-title.jpg)" }}
       >
@@ -31,14 +31,6 @@ export default function LoginPage() {
                     Homepage
                   </Link>
                 </li>
-                {/* <li>
-                  <i className="icon-arrRight" />
-                </li> */}
-                {/* <li>
-                  <a className="link" href="#">
-                    Pages
-                  </a>
-                </li> */}
                 <li>
                   <i className="icon-arrRight" />
                 </li>
@@ -47,7 +39,7 @@ export default function LoginPage() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <Login />
       {/* <Footer1 dark/> */}

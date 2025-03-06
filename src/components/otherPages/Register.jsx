@@ -53,15 +53,13 @@ export default function Register() {
                     required
                   />
                   <span
-                    className={`toggle-password ${
-                      !(passwordType === "text") ? "unshow" : ""
-                    }`}
+                    className={`toggle-password ${!(passwordType === "text") ? "unshow" : ""
+                      }`}
                     onClick={togglePassword}
                   >
                     <i
-                      className={`icon-eye-${
-                        !(passwordType === "text") ? "hide" : "show"
-                      }-line`}
+                      className={`icon-eye-${!(passwordType === "text") ? "hide" : "show"
+                        }-line`}
                     />
                   </span>
                 </fieldset>
@@ -78,15 +76,13 @@ export default function Register() {
                     required
                   />
                   <span
-                    className={`toggle-password ${
-                      !(confirmPasswordType === "text") ? "unshow" : ""
-                    }`}
+                    className={`toggle-password ${!(confirmPasswordType === "text") ? "unshow" : ""
+                      }`}
                     onClick={toggleConfirmPassword}
                   >
                     <i
-                      className={`icon-eye-${
-                        !(confirmPasswordType === "text") ? "hide" : "show"
-                      }-line`}
+                      className={`icon-eye-${!(confirmPasswordType === "text") ? "hide" : "show"
+                        }-line`}
                     />
                   </span>
                 </fieldset>
@@ -122,17 +118,54 @@ export default function Register() {
                 </button>
               </div>
             </form>
+            <div className="d-flex pt-3">
+              <span>Already have an account?   &nbsp;</span>
+              <Link to="/login" className=" text-decoration-underline text-primary">
+                <span> Login now</span>
+              </Link>
+            </div>
           </div>
           <div className="right">
-            <h4 className="mb_8">Already have an account?</h4>
+            <h4 className="mb_8">Welcome to Modave</h4>
             <p className="text-secondary">
-              Welcome back. Sign in to access your personalized experience,
-              saved preferences, and more. We're thrilled to have you with us
-              again!
+              Discover the best in electronic products. Experience unmatched innovation, lightning-fast delivery, and excellent customer service.
             </p>
-            <Link to={`/login`} className="tf-btn btn-fill">
-              <span className="text text-button">Login</span>
-            </Link>
+
+            <div className="d-flex align-items-center my-3">
+              <div className="tf-icon-box mx-3">
+                <div className="icon-box">
+                  <span className="icon icon-return" />
+                </div>
+              </div>
+              <div className="content">
+                <h6>14-Day Returns</h6>
+                <p className="m-0">on time dilivery with all safty checkups, best shipment service with up, so do not forgot to buy from us.</p>
+              </div>
+            </div>
+            <div className="d-flex align-items-center my-3">
+              <div className="tf-icon-box mx-3">
+                <div className="icon-box">
+                  <span className="icon icon-shipping" />
+                </div>
+              </div>
+              <div className="content">
+                <h6>Free Shipping</h6>
+                <p className="m-0">on time dilivery with all safty checkups, best shipment service with up, so do not forgot to buy from us.</p>
+              </div>
+            </div>
+            <div className="d-flex align-items-center my-3">
+              <div className="tf-icon-box mx-3">
+                <div className="icon-box">
+                  <span className="icon icon-headset" />
+                </div>
+              </div>
+              <div className="content">
+                <h6>24/7 Support</h6>
+                <p className="m-0">on time dilivery with all safty checkups, best shipment service with up, so do not forgot to buy from us.</p>
+              </div>
+            </div>
+
+
           </div>
         </div>
       </div>

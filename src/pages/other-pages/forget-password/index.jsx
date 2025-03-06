@@ -16,8 +16,8 @@ export default function ForgotPasswordPage() {
     <>
       <MetaComponent meta={metadata} />
       <Topbar6  />
-      <Header11 />
-      <div
+      {/* <Header11 /> */}
+      {/* <div
         className="page-title"
         style={{ backgroundImage: "url(/images/section/page-title.jpg)" }}
       >
@@ -47,10 +47,10 @@ export default function ForgotPasswordPage() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <ForgotPass />
-      <Footer1 dark/>
+      {/* <Footer1 dark/> */}
     </>
   );
 }

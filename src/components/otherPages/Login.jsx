@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate  } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "@/redux/action/auth/authActions";
+import { FcGoogle } from "react-icons/fc"
 
 export default function Login() {
   const navigate = useNavigate();
@@ -132,19 +133,70 @@ export default function Login() {
                 </button>
               </div>
             </form>
+            <div className="d-flex pt-3">
+              <span>Don't have an account ?  &nbsp;</span>
+              <Link to="/register" className=" text-decoration-underline text-primary">
+                <span> Register now</span>
+              </Link>
+            </div>
+            {/* <p>or</p>
+            <div className="mt-3 mb-3">
+              <p>Login with Google</p>
+              <i className="bg-secondary rounded-5 p-3">
+                <FcGoogle className="modern-google-icon" />
+              </i>
+
+            </div> */}
           </div>
           <div className="right">
-            <h4 className="mb_8">New Customer</h4>
+            <h4 className="mb_8">Welcome to Modave</h4>
             <p className="text-secondary">
-              Be part of our growing family of new customers! Join us today and unlock a world of exclusive benefits,
-              offers, and personalized experiences.
+              Discover the best in electronic products. Experience unmatched innovation, lightning-fast delivery, and excellent customer service.
             </p>
-            <Link to="/register" className="tf-btn btn-fill">
-              <span className="text text-button">Register</span>
-            </Link>
+
+            <div className="d-flex align-items-center my-3">
+              <div className="tf-icon-box mx-3">
+                <div className="icon-box">
+                  <span className="icon icon-return" />
+                </div>
+              </div>
+              <div className="content">
+                <h6>14-Day Returns</h6>
+                <p className="m-0">on time dilivery with all safty checkups, best shipment service with up, so do not forgot to buy from us.</p>
+              </div>
+            </div>
+            <div className="d-flex align-items-center my-3">
+              <div className="tf-icon-box mx-3">
+                <div className="icon-box">
+                  <span className="icon icon-shipping" />
+                </div>
+              </div>
+              <div className="content">
+                <h6>Free Shipping</h6>
+                <p className="m-0">on time dilivery with all safty checkups, best shipment service with up, so do not forgot to buy from us.</p>
+              </div>
+            </div>
+            <div className="d-flex align-items-center my-3">
+              <div className="tf-icon-box mx-3">
+                <div className="icon-box">
+                  <span className="icon icon-headset" />
+                </div>
+              </div>
+              <div className="content">
+                <h6>24/7 Support</h6>
+                <p className="m-0">on time dilivery with all safty checkups, best shipment service with up, so do not forgot to buy from us.</p>
+              </div>
+            </div>
+
+
           </div>
+
+
         </div>
       </div>
     </section>
   );
 }
+
+
+

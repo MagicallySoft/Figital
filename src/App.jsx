@@ -47,6 +47,7 @@ import WishListPage from "./pages/other-pages/wish-list";
 import SearchResultPage from "./pages/products/search-result";
 import ShopingCartPage from "./pages/products/shopping-cart";
 import LoginPage from "./pages/other-pages/login";
+import RegisterPage from "./pages/other-pages/register";
 import ForgotPasswordPage from "./pages/other-pages/forget-password";
 import OrderTrackingPage from "./pages/other-pages/order-tracking";
 import MyAccountPage from "./pages/my-account/my-account";
@@ -236,6 +237,7 @@ function App() {
                 <Route path="search-result" element={<SearchResultPage />} />
                 <Route path="shopping-cart" element={<ShopingCartPage />} />
                 <Route path="login" element={<LoginPage />} />
+                <Route path="register" element={<RegisterPage />} />
                 <Route path="forget-password" element={<ForgotPasswordPage />} />
                 <Route path="order-tracking" element={<OrderTrackingPage />} />
                 

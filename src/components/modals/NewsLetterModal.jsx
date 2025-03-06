@@ -5,7 +5,7 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 export default function NewsLetterModal() {
 
-  const { user, isAuthenticated } = useAuth();
+  const {  isAuthenticated } = useAuth();
 
   const { pathname } = useLocation();
   const modalElement = useRef();

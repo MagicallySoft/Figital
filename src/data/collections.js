@@ -911,12 +911,12 @@ export const collectionData4 = [
 
 export const categories5 = [
   {
-    imgSrc: "/images/collections/collection-circle/electronics.png",
+    imgSrc: "/images/collections/collection-circle/cls-electronic1.jpg",
     alt: "collection-img",
     title: "Electronics",
   },
   {
-    imgSrc: "/images/collections/collection-circle/small-appliance.png",
+    imgSrc: "/images/collections/collection-circle/cls-electronic2.jpg",
     alt: "collection-img",
     title: "Appliances",
   },
