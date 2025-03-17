@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import CountdownTimer from "../common/Countdown";
 import { useContextElement } from "@/context/Context";
 export default function ProductCard11({ product, gridClass = "" }) {
-  const [currentImage, setCurrentImage] = useState(product.imgSrc);
+    const [currentImage, setCurrentImage] = useState(product.banner_img);
 
+  const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
   const {
     setQuickAddItem,
     addToWishlist,
@@ -18,8 +19,8 @@ export default function ProductCard11({ product, gridClass = "" }) {
   } = useContextElement();
 
   useEffect(() => {
-    setCurrentImage(product.imgSrc);
-  }, [product]);
+      setCurrentImage(`${BASE_URL}${product.banner_img}`);
+    }, [product]);
 
   return (
     <div
@@ -31,15 +32,18 @@ export default function ProductCard11({ product, gridClass = "" }) {
         <Link to={`/product-detail/${product.id}`} className="product-img">
           <img
             className="lazyload img-product"
-            src={currentImage}
+            // src={currentImage}
+            data-src={`${BASE_URL}${product.banner_img}`}
+            src={`${BASE_URL}${product.banner_img}`}
             alt={product.title}
             width={600}
             height={800}
           />
-
+        
           <img
             className="lazyload img-hover"
-            src={product.imgHover}
+            sdata-src={`${BASE_URL}${product.banner_img}`}
+            src={`${BASE_URL}${product.banner_img}`}
             alt={product.title}
             width={600}
             height={800}

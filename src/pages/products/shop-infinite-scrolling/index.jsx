@@ -16,7 +16,7 @@ export default function ShopInfinateScrollingPage() {
       <MetaComponent meta={metadata} />
       <Topbar6  />
       <Header11 />
-      <div
+      {/* <div
         className="page-title"
         style={{ backgroundImage: "url(/images/section/page-title.jpg)" }}
       >
@@ -38,7 +38,7 @@ export default function ShopInfinateScrollingPage() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       <Products15 />
       <Footer1 dark/>
     </>

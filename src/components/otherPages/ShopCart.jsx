@@ -176,8 +176,22 @@ export default function ShopCart() {
                             className="tf-cart-item_price text-center"
                           >
                             <div className="cart-price text-button price-on-sale">
-                              ${elm.price.toFixed(2)}
+                              {/* ${elm.price.toFixed(2)} */}
+                              {elm.price && (
+                                <span className="old-price text-decoration-line-through">
+                                  ₹{Number(elm.price)?.toFixed(2)}
+                                </span>
+                              )}{" "}
+                              ₹{elm.discount_price ? Number(elm.discount_price).toFixed(2) : elm.discount_price}
                             </div>
+                            {/* <span className="price current-price">
+                              {elm.price && (
+                                <span className="old-price">
+                                  ${Number(elm.price)?.toFixed(2)}
+                                </span>
+                              )}{" "}
+                              ${elm.discount_price ? Number(elm.discount_price).toFixed(2) : elm.discount_price}
+                            </span> */}
                           </td>
                           <td
                             data-cart-title="Quantity"
@@ -214,7 +228,7 @@ export default function ShopCart() {
                             className="tf-cart-item_total text-center"
                           >
                             <div className="cart-total text-button total-price">
-                              ${(elm.price * elm.quantity).toFixed(2)}
+                              ₹{(elm.discount_price * elm.quantity).toFixed(2)}
                             </div>
                           </td>
                           <td
@@ -238,9 +252,8 @@ export default function ShopCart() {
                     {discounts.map((item, index) => (
                       <div
                         key={index}
-                        className={`box-discount ${
-                          activeDiscountIndex === index ? "active" : ""
-                        }`}
+                        className={`box-discount ${activeDiscountIndex === index ? "active" : ""
+                          }`}
                         onClick={() => setActiveDiscountIndex(index)}
                       >
                         <div className="discount-top">
@@ -282,11 +295,11 @@ export default function ShopCart() {
                   <h5 className="title">Order Summary</h5>
                   <div className="subtotal text-button d-flex justify-content-between align-items-center">
                     <span>Subtotal</span>
-                    <span className="total">${totalPrice.toFixed(2)}</span>
+                    <span className="total">₹ {totalPrice.toFixed(2)}</span>
                   </div>
                   <div className="discount text-button d-flex justify-content-between align-items-center">
                     <span>Discounts</span>
-                    <span className="total">${totalPrice ? "20" : 0}</span>
+                    <span className="total">₹ {totalPrice ? "20" : 0}</span>
                   </div>
                   <div className="ship">
                     <span className="text-button">Shipping</span>
@@ -304,7 +317,8 @@ export default function ShopCart() {
                           <label htmlFor={option.id}>
                             <span>{option.label}</span>
                             <span className="price">
-                              ${option.price.toFixed(2)}
+                              {/* ${option.discount_price.toFixed(2)} */}
+                              ₹ {option.price ? Number(option.price).toFixed(2) : option.price}
                             </span>
                           </label>
                         </fieldset>
@@ -314,10 +328,12 @@ export default function ShopCart() {
                   <h5 className="total-order d-flex justify-content-between align-items-center">
                     <span>Total</span>
                     <span className="total">
-                      $
+                      ₹
                       {totalPrice
                         ? (selectedOption.price + totalPrice).toFixed(2)
                         : 0}
+
+                      {/* ${elm.discount_price ? Number(elm.discount_price).toFixed(2) : elm.discount_price} */}
                     </span>
                   </h5>
                   <div className="box-progress-checkout">

@@ -585,7 +585,7 @@ export default function MobileMenu() {
                   />
                 </svg>
                 {isAuthenticated ? (
-                  <span className="user-name">&nbsp;{user?.user || "User"}</span>
+                  <span className="user-name">&nbsp;{user?.full_name || "User"}</span>
                 ) : (
                   "Login"
                 )}

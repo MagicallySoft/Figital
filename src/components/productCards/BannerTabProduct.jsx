@@ -7,7 +7,7 @@ export default function BannerTabProduct({ product }) {
         <img
           className="lazyload"
           alt="banner-cls"
-          src={product.imgSrc}
+          src={product.banner_img}
           width={710}
           height={945}
         />

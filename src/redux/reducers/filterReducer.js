@@ -1,12 +1,13 @@
 import { productMain } from "@/data/products";
 
 export const initialState = {
-  price: [20, 300],
+  price: [99, 99999],
 
   availability: "All",
 
   color: "All",
   size: "All",
+  category: "All",
   activeFilterOnSale: false,
   brands: [],
   filtered: productMain,
@@ -29,6 +30,8 @@ export function reducer(state, action) {
       return { ...state, availability: action.payload };
     case "SET_BRANDS":
       return { ...state, brands: action.payload };
+    case "SET_CATEGORY":
+      return { ...state, category: action.payload };
     case "SET_FILTERED":
       return { ...state, filtered: [...action.payload] };
     case "SET_SORTING_OPTION":
@@ -50,6 +53,7 @@ export function reducer(state, action) {
 
         color: "All",
         size: "All",
+        category: "All",
 
         brands: [],
         activeFilterOnSale: false,

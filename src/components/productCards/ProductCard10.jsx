@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import CountdownTimer from "../common/Countdown";
 import { useContextElement } from "@/context/Context";
 export default function ProductCard10({ product, gridClass = "" }) {
-  const [currentImage, setCurrentImage] = useState(product.imgSrc);
+  const [currentImage, setCurrentImage] = useState(product.banner_img);
 
+  const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
   const {
     setQuickAddItem,
     addToWishlist,
@@ -18,14 +19,14 @@ export default function ProductCard10({ product, gridClass = "" }) {
   } = useContextElement();
 
   useEffect(() => {
-    setCurrentImage(product.imgSrc);
+    setCurrentImage(`${BASE_URL}${product.banner_img}`);
   }, [product]);
+
 
   return (
     <div
-      className={`card-product style-5 wow fadeInUp ${gridClass} ${
-        product.isOnSale ? "on-sale" : ""
-      } ${product.sizes ? "card-product-size" : ""}`}
+      className={`card-product style-5 wow fadeInUp ${gridClass} ${product.isOnSale ? "on-sale" : ""
+        } ${product.sizes ? "card-product-size" : ""}`}
     >
       <div className="card-product-wrapper">
         <Link to={`/product-detail/${product.id}`} className="product-img">
@@ -237,9 +238,8 @@ export default function ProductCard10({ product, gridClass = "" }) {
             {product.colors.map((color, index) => (
               <li
                 key={index}
-                className={`list-color-item color-swatch ${
-                  currentImage == color.imgSrc ? "active" : ""
-                }  ${color.bgColor == "bg-white" ? "line" : ""}`}
+                className={`list-color-item color-swatch ${currentImage == color.imgSrc ? "active" : ""
+                  }  ${color.bgColor == "bg-white" ? "line" : ""}`}
                 onMouseOver={() => setCurrentImage(color.imgSrc)}
               >
                 <span className={`swatch-value ${color.bgColor}`} />

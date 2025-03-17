@@ -1,0 +1,41 @@
+.gender-slider {
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+}
+
+/* Hide the radio buttons */
+.gender-slider input[type="radio"] {
+  display: none;
+}
+
+/* Style the labels as buttons */
+.gender-slider label {
+  padding: 0.5rem 1rem;
+  background: #ddd;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+/* Highlight the selected option */
+.gender-slider input[type="radio"]:checked + label {
+  background: #007bff;
+  color: #fff;
+}
+
+/* Optional: add a sliding indicator */
+
+
+/* Adjust the sliding indicator for each option */
+#male:checked ~ .gender-slider::before {
+  left: 0;
+}
+#female:checked ~ .gender-slider::before {
+  left: 100px; /* Adjust based on layout */
+}
+#other:checked ~ .gender-slider::before {
+  left: 200px; /* Adjust based on layout */
+}

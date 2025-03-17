@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import CountdownTimer from "../common/Countdown";
 import { useContextElement } from "@/context/Context";
 export default function ProductCard7({ product, gridClass = "" }) {
-  const [currentImage, setCurrentImage] = useState(product.imgSrc);
+    const [currentImage, setCurrentImage] = useState(product.banner_img);
 
+    const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
   const {
     setQuickAddItem,
     addToWishlist,
@@ -17,9 +18,10 @@ export default function ProductCard7({ product, gridClass = "" }) {
     isAddedToCartProducts,
   } = useContextElement();
 
-  useEffect(() => {
-    setCurrentImage(product.imgSrc);
-  }, [product]);
+useEffect(() => {
+  setCurrentImage(`${BASE_URL}${product.banner_img}`);
+}, [product]);
+
 
   return (
     <div

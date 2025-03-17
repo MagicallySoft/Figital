@@ -4,8 +4,11 @@ import { Link } from "react-router-dom";
 import CountdownTimer from "../common/Countdown";
 import { useContextElement } from "@/context/Context";
 export default function ProductCard1({ product, gridClass = "" }) {
-  const [currentImage, setCurrentImage] = useState(product.imgSrc);
+    const [currentImage, setCurrentImage] = useState(product.banner_img);
 
+  // const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
+  const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
+  
   const {
     setQuickAddItem,
     addToWishlist,
@@ -17,21 +20,23 @@ export default function ProductCard1({ product, gridClass = "" }) {
     isAddedToCartProducts,
   } = useContextElement();
 
-  useEffect(() => {
-    setCurrentImage(product.imgSrc);
-  }, [product]);
+useEffect(() => {
+  setCurrentImage(`${BASE_URL}${product.banner_img}`);
+}, [product]);
+
 
   return (
     <div
-      className={`card-product wow fadeInUp ${gridClass} ${
-        product.isOnSale ? "on-sale" : ""
-      } ${product.sizes ? "card-product-size" : ""}`}
+      className={`card-product wow fadeInUp ${gridClass} ${product.isOnSale ? "on-sale" : ""
+        } ${product.sizes ? "card-product-size" : ""}`}
     >
       <div className="card-product-wrapper">
         <Link to={`/product-detail/${product.id}`} className="product-img">
           <img
             className="lazyload img-product"
-            src={currentImage}
+            // src={currentImage}
+            data-src={`${BASE_URL}${product.banner_img}`}
+            src={`${BASE_URL}${product.banner_img}`}
             alt={product.title}
             width={600}
             height={800}
@@ -39,7 +44,8 @@ export default function ProductCard1({ product, gridClass = "" }) {
 
           <img
             className="lazyload img-hover"
-            src={product.imgHover}
+            data-src={`${BASE_URL}${product.banner_img}`}
+            src={`${BASE_URL}${product.banner_img}`}
             alt={product.title}
             width={600}
             height={800}
@@ -235,26 +241,43 @@ export default function ProductCard1({ product, gridClass = "" }) {
         <Link to={`/product-detail/${product.id}`} className="title link">
           {product.title}
         </Link>
-        <span className="price">
-          {product.oldPrice && (
-            <span className="old-price">${product.oldPrice.toFixed(2)}</span>
+        {/* <span className="price">
+          {product.price && (
+            <span className="old-price">${product.price.toFixed(2)}</span>
           )}{" "}
           ${product.price?.toFixed(2)}
+        </span> */}
+        {/* <span className="price">
+          {product.price && (
+            <span className="old-price">${Number(product.price)?.toFixed(2)}</span>
+          )}
+          ${typeof product.price === "number" && !isNaN(product.price)
+            ? product.price.toFixed(2)
+            : "0.00"}
+        </span> */}
+        <span className="price current-price">
+          {product.price && (
+            <span className="old-price">
+              ₹{Number(product.price)?.toFixed(2)} 
+            </span>
+          )}{" "}
+          ₹{product.discount_price ? Number(product.discount_price).toFixed(2) : product.discount_price} 
         </span>
+
         {product.colors && (
           <ul className="list-color-product">
             {product.colors.map((color, index) => (
               <li
                 key={index}
-                className={`list-color-item color-swatch ${
-                  currentImage == color.imgSrc ? "active" : ""
-                } ${color.bgColor == "bg-white" ? "line" : ""}`}
+                className={`list-color-item color-swatch ${currentImage == color.imgSrc ? "active" : ""
+                  } ${color.bgColor == "bg-white" ? "line" : ""}`}
                 onMouseOver={() => setCurrentImage(color.imgSrc)}
               >
                 <span className={`swatch-value ${color.bgColor}`} />
                 <img
                   className="lazyload"
-                  src={color.imgSrc}
+                  data-src={`${BASE_URL}${color.imgSrc}`}
+                  src={`${BASE_URL}${color.imgSrc}`}
                   alt="color variant"
                   width={600}
                   height={800}

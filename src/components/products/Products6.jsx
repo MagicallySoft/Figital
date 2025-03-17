@@ -200,9 +200,9 @@ export default function Products6() {
                   />
                 ))}
                 {/* pagination */}
-                <ul className="wg-pagination justify-content-center">
+                {/* <ul className="wg-pagination justify-content-center">
                   <Pagination />
-                </ul>
+                </ul> */}
               </div>
             )}
           </div>

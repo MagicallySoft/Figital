@@ -2,15 +2,21 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "@/redux/action/auth/authActions";
-import { FcGoogle } from "react-icons/fc"
+import { useAuth } from "@/context/AuthProvider";
+import { Alert, Spinner } from "react-bootstrap";
 
 export default function Login() {
+  const { loading, error } = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // Initialize form state with username, password, and rememberMe flag.
+  // console.log(loading);
+
+
+
+  // Initialize form state with email, password, and rememberMe flag.
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
     rememberMe: false,
   });
@@ -22,9 +28,9 @@ export default function Login() {
       try {
         const parsed = JSON.parse(remembered);
         // Support both 'username' and legacy 'email' keys.
-        const username = parsed.username || parsed.email || "";
+        const email = parsed.username || parsed.email || "";
         const password = parsed.password || "";
-        setFormData({ username, password, rememberMe: true });
+        setFormData({ email, password, rememberMe: true });
       } catch (error) {
         console.error("Error parsing remembered credentials:", error);
       }
@@ -50,7 +56,7 @@ export default function Login() {
       localStorage.setItem(
         "rememberedCredentials",
         JSON.stringify({
-          username: formData.username,
+          email: formData.email,
           password: formData.password,
         })
       );
@@ -58,9 +64,9 @@ export default function Login() {
       localStorage.removeItem("rememberedCredentials");
     }
 
-    dispatch(loginUser({ username: formData.username, password: formData.password }, navigate)).then(
+    dispatch(loginUser({ email: formData.email, password: formData.password }, navigate)).then(
       () => {
-        setFormData({ username: "", password: "", rememberMe: false });
+        setFormData({ email: "", password: "", rememberMe: false });
       }
     )
   };
@@ -73,15 +79,20 @@ export default function Login() {
             <div className="heading">
               <h4>Login</h4>
             </div>
+            {error && (
+              <Alert variant="danger" className="login-alert">
+                {error}
+              </Alert>
+            )}
             <form onSubmit={handleSubmit} className="form-login form-has-password">
               <div className="wrap">
                 <fieldset>
                   <input
                     type="text"
                     placeholder="Username or email address*"
-                    name="username"
+                    name="email"
                     tabIndex={2}
-                    value={formData.username}
+                    value={formData.email}
                     onChange={handleChange}
                     aria-required="true"
                     required
@@ -128,8 +139,11 @@ export default function Login() {
                 </div>
               </div>
               <div className="button-submit">
-                <button className="tf-btn btn-fill" type="submit">
-                  <span className="text text-button">Login</span>
+                <button className="tf-btn btn-fill" type="submit" disabled={loading}>
+                  {loading ? (
+                    <Spinner animation="border" size="sm" />
+                  ) : (<span className="text text-button">Login</span>) }
+                  
                 </button>
               </div>
             </form>

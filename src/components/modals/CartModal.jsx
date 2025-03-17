@@ -3,7 +3,11 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useContextElement } from "@/context/Context";
 import { products41 } from "@/data/products";
+import { selectProducts, selectLoading, selectError, selectPagination } from '@/redux/action/product/productSelectors';
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProducts } from "@/redux/action/product/productAction";
 export default function CartModal() {
+  const dispatch = useDispatch();
   const {
     cartProducts,
     setCartProducts,
@@ -11,6 +15,15 @@ export default function CartModal() {
     addProductToCart,
     isAddedToCartProducts,
   } = useContextElement();
+
+  const products = useSelector(selectProducts);
+  const loading = useSelector(selectLoading);
+  const error = useSelector(selectError);
+  const pagination = useSelector(selectPagination);
+
+  useEffect(() => {
+    dispatch(fetchProducts(1));
+  }, [dispatch]);
 
   const removeItem = (id) => {
     setCartProducts((pre) => [...pre.filter((elm) => elm.id != id)]);
@@ -129,7 +142,8 @@ export default function CartModal() {
                                 <div className="text-secondary-2">XL/Blue</div>
                                 <div className="text-button">
                                   {product.quantity} X $
-                                  {product.price.toFixed(2)}
+                                  {/* {product.price.toFixed(2)} */}
+                                  ${product?.discount_price ? Number(product?.discount_price).toFixed(2) : product?.discount_price} 
                                 </div>
                               </div>
                             </div>

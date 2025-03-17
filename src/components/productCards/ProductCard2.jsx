@@ -7,8 +7,9 @@ export default function ProductCard2({
   product = products3[0],
   addedClass = "",
 }) {
-  const [currentImage, setCurrentImage] = useState(product.imgSrc);
+    const [currentImage, setCurrentImage] = useState(product.banner_img);
 
+  const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
   const {
     setQuickAddItem,
     addToWishlist,
@@ -20,9 +21,10 @@ export default function ProductCard2({
     isAddedToCartProducts,
   } = useContextElement();
 
-  useEffect(() => {
-    setCurrentImage(product.imgSrc);
-  }, [product]);
+useEffect(() => {
+  setCurrentImage(`${BASE_URL}${product.banner_img}`);
+}, [product]);
+
 
   return (
     <div

@@ -34,7 +34,7 @@ export default function Header11() {
                 <i className="icon text-white icon-categories" />
               </a>
             </div>
-            <div className="col-xl-8 col-md-4 col-6">
+            <div className="col-xl-7 col-md-4 col-6">
               <div className="wrapper-header-left justify-content-center justify-content-xl-start">
                 <Link to={`/`} className="logo-header">
                   <img
@@ -50,7 +50,7 @@ export default function Header11() {
                 </div>
               </div>
             </div>
-            <div className="col-xl-4 col-md-4 col-3">
+            <div className="col-xl-5 col-md-4 col-3">
               <div className="wrapper-header-right">
                 <div className="d-none d-xl-flex box-support">
                   <span className="text-white icon icon-lifebuoy" />
@@ -121,7 +121,7 @@ export default function Header11() {
                           strokeLinejoin="round"
                         />
                       </svg>
-                      {isAuthenticated && <span className="user-name text-white">&nbsp;{user?.user || "User"}</span>}
+                      {isAuthenticated && <span className="user-name text-white">&nbsp;{user?.full_name || "User"}</span>}
                     </a>
                     {/* <div className="dropdown-account dropdown-login">
                       <div className="sub-top">
@@ -140,7 +140,7 @@ export default function Header11() {
                     <div className="dropdown-account dropdown-login">
                       {isAuthenticated ? (
                         <div className="sub-top">
-                          <p className="greeting">Hello, {user?.user || "User"}!</p>
+                          <p className="greeting">Hello, {user?.full_name || "User"}!</p>
                           <Link to="/my-account" className="tf-btn btn-reset">
                             Profile
                           </Link>

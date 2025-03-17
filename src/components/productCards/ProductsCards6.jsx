@@ -1,12 +1,164 @@
-import React, { useEffect, useState } from "react";
+// import React, { useEffect, useState } from "react";
 
+// import { Link } from "react-router-dom";
+// import CountdownTimer from "../common/Countdown";
+
+// import { useContextElement } from "@/context/Context";
+// export default function ProductsCards6({ product }) {
+//     const [currentImage, setCurrentImage] = useState(product.banner_img);
+
+
+//   const {
+//     setQuickAddItem,
+//     addToWishlist,
+//     isAddedtoWishlist,
+//     addToCompareItem,
+//     isAddedtoCompareItem,
+//     setQuickViewItem,
+//     addProductToCart,
+//     isAddedToCartProducts,
+//   } = useContextElement();
+
+//   useEffect(() => {
+//     setCurrentImage(product.imgSrc);
+//   }, [product]);
+//   return (
+//     <div
+//       className="card-product style-list"
+//       data-availability="In stock"
+//       data-brand="gucci"
+//     >
+//       <div className="card-product-wrapper">
+//         <Link to={`/product-detail/${product.id}`} className="product-img">
+//           <img
+//             className="lazyload img-product"
+//             src={currentImage}
+//             alt={product.title}
+//             width={600}
+//             height={800}
+//           />
+//           <img
+//             className="lazyload img-hover"
+//             src={product.imgHover}
+//             alt={product.title}
+//             width={600}
+//             height={800}
+//           />
+//         </Link>
+//         {product.isOnSale && (
+//           <div className="on-sale-wrap">
+//             <span className="on-sale-item">-25%</span>
+//           </div>
+//         )}
+//       </div>
+//       <div className="card-product-info">
+//         <Link to={`/product-detail/${product.id}`} className="title link">
+//           {product.title}
+//         </Link>
+//         <span className="price current-price">
+//           {product.oldPrice && (
+//             <span className="old-price">${product.oldPrice.toFixed(2)}</span>
+//           )}{" "}
+//           ${product.price?.toFixed(2)}
+//         </span>
+//         <p className="description text-secondary text-line-clamp-2">
+//           The garments labelled as Committed are products that have been
+//           produced using sustainable fibres or processes, reducing their
+//           environmental impact.
+//         </p>
+//         <div className="variant-wrap-list">
+//           {product.colors && (
+//             <ul className="list-color-product">
+//               {product.colors.map((color, index) => (
+//                 <li
+//                   key={index}
+//                   className={`list-color-item color-swatch ${
+//                     currentImage == color.imgSrc ? "active" : ""
+//                   } `}
+//                   onMouseOver={() => setCurrentImage(color.imgSrc)}
+//                 >
+//                   <span className={`swatch-value ${color.bgColor}`} />
+//                   <img
+//                     className="lazyload"
+//                     src={color.imgSrc}
+//                     alt="color variant"
+//                     width={600}
+//                     height={800}
+//                   />
+//                 </li>
+//               ))}
+//             </ul>
+//           )}
+//           {product.sizes && (
+//             <div className="size-box list-product-btn">
+//               <span className="size-item box-icon">S</span>
+//               <span className="size-item box-icon">M</span>
+//               <span className="size-item box-icon">L</span>
+//               <span className="size-item box-icon">XL</span>
+//               <span className="size-item box-icon disable">XXL</span>
+//             </div>
+//           )}
+//           <div className="list-product-btn">
+//             <a
+//               onClick={() => addProductToCart(product.id)}
+//               className="btn-main-product"
+//             >
+//               {isAddedToCartProducts(product.id)
+//                 ? "Already Added"
+//                 : "Add To cart"}
+//             </a>
+//             <a
+//               onClick={() => addToWishlist(product.id)}
+//               className="box-icon wishlist btn-icon-action"
+//             >
+//               <span className="icon icon-heart" />
+//               <span className="tooltip">
+//                 {isAddedtoWishlist(product.id)
+//                   ? "Already Wishlished"
+//                   : "Wishlist"}
+//               </span>
+//             </a>
+//             <a
+//               href="#compare"
+//               data-bs-toggle="offcanvas"
+//               aria-controls="compare"
+//               onClick={() => addToCompareItem(product.id)}
+//               className="box-icon compare btn-icon-action"
+//             >
+//               <span className="icon icon-gitDiff" />
+//               <span className="tooltip">
+//                 {" "}
+//                 {isAddedtoCompareItem(product.id)
+//                   ? "Already compared"
+//                   : "Compare"}
+//               </span>
+//             </a>
+//             <a
+//               href="#quickView"
+//               onClick={() => setQuickViewItem(product)}
+//               data-bs-toggle="modal"
+//               className="box-icon quickview tf-btn-loading"
+//             >
+//               <span className="icon icon-eye" />
+//               <span className="tooltip">Quick View</span>
+//             </a>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+
+
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import CountdownTimer from "../common/Countdown";
-
 import { useContextElement } from "@/context/Context";
-export default function ProductsCards6({ product }) {
-  const [currentImage, setCurrentImage] = useState(product.imgSrc);
 
+export default function ProductsCards6({ product }) {
+  const [currentImage, setCurrentImage] = useState(product.banner_img);
+  const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
   const {
     setQuickAddItem,
     addToWishlist,
@@ -19,30 +171,22 @@ export default function ProductsCards6({ product }) {
   } = useContextElement();
 
   useEffect(() => {
-    setCurrentImage(product.imgSrc);
+    setCurrentImage(`${BASE_URL}${product.banner_img}`);
   }, [product]);
+
+
   return (
-    <div
-      className="card-product style-list"
-      data-availability="In stock"
-      data-brand="gucci"
-    >
+    <div className="card-product style-list" data-availability="In stock" data-brand="gucci">
       <div className="card-product-wrapper">
         <Link to={`/product-detail/${product.id}`} className="product-img">
           <img
             className="lazyload img-product"
-            src={currentImage}
-            alt={product.title}
-            width={600}
-            height={800}
-          />
-          <img
-            className="lazyload img-hover"
-            src={product.imgHover}
-            alt={product.title}
-            width={600}
-            height={800}
-          />
+            data-src={`${BASE_URL}${product.banner_img}`}
+            src={`${BASE_URL}${product.banner_img}`}
+            alt={product.title} width={600} height={800} />
+          <img className="lazyload img-hover"
+            data-src={`${BASE_URL}${product.banner_img}`}
+            src={`${BASE_URL}${product.banner_img}`} alt={product.title} width={600} height={800} />
         </Link>
         {product.isOnSale && (
           <div className="on-sale-wrap">
@@ -54,16 +198,20 @@ export default function ProductsCards6({ product }) {
         <Link to={`/product-detail/${product.id}`} className="title link">
           {product.title}
         </Link>
+        {/* <span className="price current-price">
+          {product.oldPrice && <span className="old-price">${product.oldPrice.toFixed(2)}</span>} ${product?.price?.toFixed(2)}
+        </span> */}
         <span className="price current-price">
-          {product.oldPrice && (
-            <span className="old-price">${product.oldPrice.toFixed(2)}</span>
+          {product.price && (
+            <span className="old-price">
+              ₹{Number(product.price)?.toFixed(2)}
+            </span>
           )}{" "}
-          ${product.price?.toFixed(2)}
+          ₹{product.discount_price ? Number(product.discount_price).toFixed(2) : product.discount_price}
         </span>
+
         <p className="description text-secondary text-line-clamp-2">
-          The garments labelled as Committed are products that have been
-          produced using sustainable fibres or processes, reducing their
-          environmental impact.
+          The garments labelled as Committed are products that have been produced using sustainable fibres or processes, reducing their environmental impact.
         </p>
         <div className="variant-wrap-list">
           {product.colors && (
@@ -71,19 +219,11 @@ export default function ProductsCards6({ product }) {
               {product.colors.map((color, index) => (
                 <li
                   key={index}
-                  className={`list-color-item color-swatch ${
-                    currentImage == color.imgSrc ? "active" : ""
-                  } `}
+                  className={`list-color-item color-swatch ${currentImage === color.imgSrc ? "active" : ""}`}
                   onMouseOver={() => setCurrentImage(color.imgSrc)}
                 >
                   <span className={`swatch-value ${color.bgColor}`} />
-                  <img
-                    className="lazyload"
-                    src={color.imgSrc}
-                    alt="color variant"
-                    width={600}
-                    height={800}
-                  />
+                  <img className="lazyload" src={color.imgSrc} alt="color variant" width={600} height={800} />
                 </li>
               ))}
             </ul>
@@ -98,23 +238,13 @@ export default function ProductsCards6({ product }) {
             </div>
           )}
           <div className="list-product-btn">
-            <a
-              onClick={() => addProductToCart(product.id)}
-              className="btn-main-product"
-            >
-              {isAddedToCartProducts(product.id)
-                ? "Already Added"
-                : "Add To cart"}
+            <a onClick={() => addProductToCart(product.id)} className="btn-main-product">
+              {isAddedToCartProducts(product.id) ? "Already Added" : "Add To cart"}
             </a>
-            <a
-              onClick={() => addToWishlist(product.id)}
-              className="box-icon wishlist btn-icon-action"
-            >
+            <a onClick={() => addToWishlist(product.id)} className="box-icon wishlist btn-icon-action">
               <span className="icon icon-heart" />
               <span className="tooltip">
-                {isAddedtoWishlist(product.id)
-                  ? "Already Wishlished"
-                  : "Wishlist"}
+                {isAddedtoWishlist(product.id) ? "Already Wishlished" : "Wishlist"}
               </span>
             </a>
             <a
@@ -126,10 +256,7 @@ export default function ProductsCards6({ product }) {
             >
               <span className="icon icon-gitDiff" />
               <span className="tooltip">
-                {" "}
-                {isAddedtoCompareItem(product.id)
-                  ? "Already compared"
-                  : "Compare"}
+                {isAddedtoCompareItem(product.id) ? "Already compared" : "Compare"}
               </span>
             </a>
             <a
@@ -147,3 +274,34 @@ export default function ProductsCards6({ product }) {
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -4,11 +4,14 @@ import { images } from "@/data/singleProductSliders";
 
 export default function Grid5({
   activeColor = "gray",
-  setActiveColor = () => {},
+  setActiveColor = () => { },
   firstItem,
 }) {
   const finalItems = [...images];
   images[0].src = firstItem ?? images[0].src;
+  // console.log(finalItems);
+  
+  const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
 
   // itemsFinal2[0].src = products[0].imgSrc;
 
@@ -81,7 +84,9 @@ export default function Grid5({
             <img
               className="lazyload"
               alt={""}
-              src={link.src}
+              // src={link.src}
+              data-src={`${BASE_URL}${link.src}`}
+              src={`${BASE_URL}${link.src}`}
               width={600}
               height={800}
             />
