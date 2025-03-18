@@ -31,7 +31,7 @@
 //   useEffect(() => {
 //     dispatch(fetchProducts(1));
 //   }, [dispatch]);
-  
+
 
 //   useEffect(() => {
 //     const subtotal = cartProducts.reduce((accumulator, product) => {
@@ -160,15 +160,15 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "@/redux/action/product/productAction"; // Ensure this action is defined and imported
-import { 
-  selectProducts, 
-  selectLoading, 
-  selectError, 
-  selectPagination 
+import {
+  selectProducts,
+  selectLoading,
+  selectError,
+  selectPagination
 } from "@/redux/action/product/productSelectors";
 import { openCartModal } from "@/utlis/openCartModal";
 import { openWistlistModal } from "@/utlis/openWishlist";
-import { selectCategories } from "@/redux/action/category/categorySelectors";
+import { selectCategories, selectCategoryLoading, selectCategoryError } from "@/redux/action/category/categorySelectors";
 import { fetchCategory } from "@/redux/action/category/categoryAction";
 
 const dataContext = React.createContext();
@@ -190,6 +190,9 @@ export default function Context({ children }) {
 
   // API-derived state via Redux selectors
   const categories = useSelector(selectCategories);
+  const Categoryloading = useSelector(selectCategoryLoading);
+  const Categoryerror = useSelector(selectCategoryError);
+
   const products = useSelector(selectProducts) || [];
   const loading = useSelector(selectLoading);
   const error = useSelector(selectError);
@@ -316,11 +319,13 @@ export default function Context({ children }) {
     compareItem,
     setCompareItem,
     updateQuantity,
-    products,   // API products from Redux
-    loading,    // Loading status
-    error,      // Error message (if any)
-    pagination, // Pagination info from the API response
-    categories
+    products,   
+    loading,    
+    error,      
+    pagination, 
+    categories,
+    Categoryloading,
+    Categoryerror
   };
 
   return (

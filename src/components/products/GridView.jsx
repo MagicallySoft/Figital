@@ -1,7 +1,7 @@
 import React from "react";
 import ProductCard1 from "../productCards/ProductCard1";
 import Pagination from "../common/Pagination";
-import SkeletonLoader from "./SkeletonLoader";
+import SkeletonLoader from "../SkeletonLoader/SkeletonLoader";
 
 export default function GridView({ loading, products, pagination, onPageChange, currentPage, totalPages }) {
   // Display loader or error if needed

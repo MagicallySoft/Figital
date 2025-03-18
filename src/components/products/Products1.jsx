@@ -1,4 +1,3 @@
-import SkeletonLoader from "./SkeletonLoader.jsx";
 import LayoutHandler from "./LayoutHandler";
 import Sorting from "./Sorting";
 import Listview from "./Listview";
@@ -11,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { fetchProducts } from "@/redux/action/product/productAction";
 import { useContextElement } from "@/context/Context";
 import { Alert, Spinner } from "react-bootstrap";
+import PageNotFoundPage from "@/pages/other-pages/404";
 
 
 
@@ -181,6 +181,8 @@ export default function Products1({ parentClass = "flat-spacing" }) {
             <Alert variant="danger" className="login-alert">
               {error}
             </Alert>
+            <PageNotFoundPage />
+            
           </div>
         </div>
       </section>

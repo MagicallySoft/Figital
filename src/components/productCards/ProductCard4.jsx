@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import { useContextElement } from "@/context/Context";
 import CountdownTimer from "../common/Countdown";
 export default function ProductCard4({ product }) {
-    const [currentImage, setCurrentImage] = useState(product.banner_img);
+  const [currentImage, setCurrentImage] = useState(product.banner_img);
 
-    const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
+  const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
   const {
     setQuickAddItem,
     addToWishlist,
@@ -18,16 +18,15 @@ export default function ProductCard4({ product }) {
     isAddedToCartProducts,
   } = useContextElement();
 
-useEffect(() => {
-  setCurrentImage(`${BASE_URL}${product.banner_img}`);
-}, [product]);
+  useEffect(() => {
+    setCurrentImage(`${BASE_URL}${product.banner_img}`);
+  }, [product]);
 
 
   return (
     <div
-      className={`card-product wow fadeInUp ${
-        product.isOnSale ? "on-sale" : ""
-      } ${product.sizes ? "card-product-size" : ""}`}
+      className={`card-product wow fadeInUp ${product.isOnSale ? "on-sale" : ""
+        } ${product.sizes ? "card-product-size" : ""}`}
     >
       <div className="card-product-wrapper">
         <Link to={`/product-detail/${product.id}`} className="product-img">
@@ -40,7 +39,7 @@ useEffect(() => {
           />
           <img
             className="lazyload img-hover"
-            src={product.imgHover}
+            src={currentImage}
             alt={product.title}
             width={600}
             height={800}
@@ -167,7 +166,7 @@ useEffect(() => {
             </div>
           </div>
         )}
-        {product.oldPrice ? (
+        {product.price ? (
           <div className="on-sale-wrap">
             <span className="on-sale-item">-25%</span>
           </div>
@@ -237,10 +236,11 @@ useEffect(() => {
           <span className="text-caption-1 text-secondary"> (1.234) </span>
         </div>
         <span className="price">
-          {product.oldPrice && (
-            <span className="old-price">${product.oldPrice.toFixed(2)}</span>
+          {product.price && (
+            <span className="old-price">₹{Number(product.price)?.toFixed(2)}</span>
           )}{" "}
-          ${product.price.toFixed(2)}
+          ₹{Number(product.discount_price)?.toFixed(2)}
+
         </span>
       </div>
     </div>

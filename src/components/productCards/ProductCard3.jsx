@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import { useContextElement } from "@/context/Context";
 import CountdownTimer from "../common/Countdown";
 export default function ProductCard3({ product }) {
-    const [currentImage, setCurrentImage] = useState(product.banner_img);
+  const [currentImage, setCurrentImage] = useState(product.banner_img);
 
-    const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
+  const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
   const {
     setQuickAddItem,
     addToWishlist,
@@ -18,15 +18,18 @@ export default function ProductCard3({ product }) {
     isAddedToCartProducts,
   } = useContextElement();
 
-useEffect(() => {
-  setCurrentImage(`${BASE_URL}${product.banner_img}`);
-}, [product]);
+  const truncate = (str, maxLength) => {
+    return str && str.length > maxLength ? str.slice(0, maxLength) + "..." : str;
+  };
+
+  useEffect(() => {
+    setCurrentImage(`${BASE_URL}${product.banner_img}`);
+  }, [product]);
 
   return (
     <div
-      className={`card-product wow fadeInUp ${
-        product.isOnSale ? "on-sale" : ""
-      } ${product.sizes ? "card-product-size" : ""}`}
+      className={`card-product wow fadeInUp ${product.isOnSale ? "on-sale" : ""
+        } ${product.sizes ? "card-product-size" : ""}`}
     >
       <div className="card-product-wrapper">
         <Link to={`/product-detail/${product.id}`} className="product-img">
@@ -39,7 +42,7 @@ useEffect(() => {
           />
           <img
             className="lazyload img-hover"
-            src={product.imgHover}
+            src={currentImage}
             alt={product.title}
             width={600}
             height={800}
@@ -225,7 +228,7 @@ useEffect(() => {
       </div>
       <div className="card-product-info">
         <Link to={`/product-detail/${product.id}`} className="title link">
-          {product.title}
+        {truncate(product.title, 27)}
         </Link>
         <div className="box-rating">
           <ul className="list-star">
@@ -236,10 +239,12 @@ useEffect(() => {
           <span className="text-caption-1 text-secondary"> (1.234) </span>
         </div>
         <span className="price">
-          {product.oldPrice && (
-            <span className="old-price">${product.oldPrice.toFixed(2)}</span>
+          {product.price && (
+            // <span className="old-price">${product.oldPrice.toFixed(2)}</span>
+            <span className="old-price">₹{Number(product.price)?.toFixed(2)}</span>
           )}{" "}
-          ${product.price.toFixed(2)}
+          {/* ${product.discount_price.toFixed(2)} */}
+          ₹{Number(product.discount_price)?.toFixed(2)}
         </span>
         <div className="box-progress-stock">
           <div className="progress">
@@ -255,7 +260,7 @@ useEffect(() => {
           <div className="stock-status d-flex justify-content-between align-items-center">
             <div className="stock-item text-caption-1">
               <span className="stock-label text-secondary-2"> Available: </span>
-              <span className="stock-value">{product.available}</span>
+              <span className="stock-value">{product.sku}</span>
             </div>
             <div className="stock-item text-caption-1">
               <span className="stock-label text-secondary-2"> Sold: </span>

@@ -1,10 +1,68 @@
-import { products31, products32, products33 } from "@/data/products";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useContextElement } from "@/context/Context";
+import SkeletonLoader from "@/components/SkeletonLoader/SkeletonLoader";
+
+
+
 export default function Products3() {
-  const { addProductToCart } = useContextElement();
+  const { products, loading, error, addProductToCart } = useContextElement();
+
+  const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
+
+  const [skeletonCount, setSkeletonCount] = useState(2);
+  useEffect(() => {
+    const updateSkeletonCount = () => {
+      const width = window.innerWidth;
+      if (width >= 1200) {
+        setSkeletonCount(4);
+      } else if (width >= 768) {
+        setSkeletonCount(4);
+      } else if (width >= 480) {
+        setSkeletonCount(3);
+      } else {
+        setSkeletonCount(2);
+      }
+    };
+    updateSkeletonCount();
+    window.addEventListener("resize", updateSkeletonCount);
+    return () => window.removeEventListener("resize", updateSkeletonCount);
+  }, []);
+
+  // Shuffle function
+  const shuffleArray = (array) => {
+    return array.sort(() => Math.random() - 0.5);
+  };
+
+  // Slice the first 3 products from the shuffled array
+  const featuredProducts = shuffleArray([...products]).slice(0, 3);
+  const newArrivals = shuffleArray([...products]).slice(0, 3);
+  const maybeYouWillLove = shuffleArray([...products]).slice(0, 3);
+
+  if (loading) {
+    return (
+      <section className="flat-spacing-4 pt-0">
+        <div className="container">
+          <div className="grid-loader-wrapper d-flex justify-content-between">
+            {Array.from({ length: skeletonCount }).map((_, index) => (
+              <SkeletonLoader key={index} />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    <div className="error">
+      <Alert variant="danger" className="login-alert">
+        {error}
+      </Alert>
+    </div>
+  }
+
+
   return (
     <section className="flat-spacing-4">
       <div className="container">
@@ -12,7 +70,7 @@ export default function Products3() {
           <div className="column-card-product">
             <h5 className="heading wow fadeInUp">Featured products</h5>
             <div className="list-card-product">
-              {products31.map((product, index) => (
+              {featuredProducts.map((product, index) => (
                 <div
                   key={index}
                   className="card-product list-st-2 wow fadeInUp"
@@ -24,9 +82,9 @@ export default function Products3() {
                     >
                       <img
                         className="lazyload img-product"
-                        data-src={product.imgSrc}
-                        alt="image-product"
-                        src={product.imgSrc}
+                        data-src={`${BASE_URL}${product.banner_img}`}
+                        src={`${BASE_URL}${product.banner_img}`}
+                        alt={product.title}
                         width={600}
                         height={800}
                       />
@@ -65,7 +123,7 @@ export default function Products3() {
                           </span>
                         </div>
                         <span className="price py-4">
-                          ${product.price.toFixed(2)}
+                          ₹{Number(product.discount_price)?.toFixed(2)}
                         </span>
                       </div>
                       <a
@@ -97,7 +155,7 @@ export default function Products3() {
           <div className="column-card-product">
             <h5 className="heading wow fadeInUp">New Arrivals</h5>
             <div className="list-card-product">
-              {products32.map((product, index) => (
+              {newArrivals.map((product, index) => (
                 <div
                   key={index}
                   className="card-product list-st-2 wow fadeInUp"
@@ -109,9 +167,9 @@ export default function Products3() {
                     >
                       <img
                         className="lazyload img-product"
-                        data-src={product.imgSrc}
-                        alt="image-product"
-                        src={product.imgSrc}
+                        data-src={`${BASE_URL}${product.banner_img}`}
+                        src={`${BASE_URL}${product.banner_img}`}
+                        alt={product.title}
                         width={600}
                         height={800}
                       />
@@ -150,7 +208,7 @@ export default function Products3() {
                           </span>
                         </div>
                         <span className="price py-4">
-                          ${product.price.toFixed(2)}
+                          ₹{Number(product.discount_price)?.toFixed(2)}
                         </span>
                       </div>
                       <a
@@ -182,7 +240,7 @@ export default function Products3() {
           <div className="column-card-product">
             <h5 className="heading wow fadeInUp">Maybe you will love</h5>
             <div className="list-card-product">
-              {products33.map((product, index) => (
+              {maybeYouWillLove.map((product, index) => (
                 <div
                   key={index}
                   className="card-product list-st-2 wow fadeInUp"
@@ -194,9 +252,9 @@ export default function Products3() {
                     >
                       <img
                         className="lazyload img-product"
-                        data-src={product.imgSrc}
-                        alt="image-product"
-                        src={product.imgSrc}
+                        data-src={`${BASE_URL}${product.banner_img}`}
+                        src={`${BASE_URL}${product.banner_img}`}
+                        alt={product.title}
                         width={600}
                         height={800}
                       />
@@ -235,7 +293,7 @@ export default function Products3() {
                           </span>
                         </div>
                         <span className="price py-4">
-                          ${product.price.toFixed(2)}
+                          ₹{Number(product.discount_price)?.toFixed(2)}
                         </span>
                       </div>
                       <a

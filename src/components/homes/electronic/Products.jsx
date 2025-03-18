@@ -3,25 +3,80 @@ import { products29 } from "@/data/products";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useContextElement } from "@/context/Context";
+import { fetchProducts } from "@/redux/action/product/productAction";
+import SkeletonLoader from "@/components/SkeletonLoader/SkeletonLoader";
 
-const tabItems = ["All Products", "Smart Phone", "Electronic", "Audio"];
 export default function Products() {
-  const [activeItem, setActiveItem] = useState(tabItems[0]); // Default the first item as active
-  const [selectedItems, setSelectedItems] = useState([]);
-  useEffect(() => {
-    document.getElementById("AllProducts").classList.remove("filtered");
-    setTimeout(() => {
-      if (activeItem == "All Products") {
-        setSelectedItems(products29);
-      } else {
-        setSelectedItems(
-          products29.filter((elm) => elm.tabFilterOptions.includes(activeItem))
-        );
-      }
+  const dispatch = useDispatch();
+  const { products, loading, error, categories } = useContextElement();
 
-      document.getElementById("AllProducts").classList.add("filtered");
-    }, 300);
-  }, [activeItem]);
+  const tabItems = ["All Products", ...(categories ? categories.map((cat) => cat.title) : [])];
+
+  const [activeItem, setActiveItem] = useState("All Products");
+  const [selectedItems, setSelectedItems] = useState([]);
+
+  const [skeletonCount, setSkeletonCount] = useState(2);
+  useEffect(() => {
+    const updateSkeletonCount = () => {
+      const width = window.innerWidth;
+      if (width >= 1200) {
+        setSkeletonCount(4);
+      } else if (width >= 768) {
+        setSkeletonCount(4);
+      } else if (width >= 480) {
+        setSkeletonCount(3);
+      } else {
+        setSkeletonCount(2);
+      }
+    };
+    updateSkeletonCount();
+    window.addEventListener("resize", updateSkeletonCount);
+    return () => window.removeEventListener("resize", updateSkeletonCount);
+  }, []);
+
+  useEffect(() => {
+    // When activeItem or products change, filter products accordingly
+    if (activeItem === "All Products") {
+      setSelectedItems(products);
+    } else {
+      setSelectedItems(
+        products.filter(
+          (product) =>
+            product.category &&
+            product.category.title.toLowerCase() === activeItem.toLowerCase()
+        )
+      );
+    }
+  }, [activeItem, products]);
+
+  useEffect(() => {
+    dispatch(fetchProducts(1));
+  }, [dispatch]);
+
+  if (loading) {
+    return (
+      <section className="flat-spacing-4 pt-0">
+        <div className="container">
+          <div className="grid-loader-wrapper d-flex justify-content-between">
+            {Array.from({ length: skeletonCount }).map((_, index) => (
+              <SkeletonLoader key={index} />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    <div className="error">
+      <Alert variant="danger" className="login-alert">
+        {error}
+      </Alert>
+    </div>
+  }
+
 
   return (
     <section className="flat-spacing-4 pt-0">
@@ -36,9 +91,8 @@ export default function Products() {
               <li key={item} className="nav-tab-item" role="presentation">
                 <a
                   href={`#`} // Generate href dynamically
-                  className={`text-caption-1 ${
-                    activeItem === item ? "active" : ""
-                  }`}
+                  className={`text-caption-1 ${activeItem === item ? "active" : ""
+                    }`}
                   onClick={(e) => {
                     e.preventDefault(); // Prevent default anchor behavior
                     setActiveItem(item);

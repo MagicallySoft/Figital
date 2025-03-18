@@ -3,7 +3,56 @@ import { products30 } from "@/data/products";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Link } from "react-router-dom";
 import { Pagination } from "swiper/modules";
+import { useContextElement } from "@/context/Context";
+import SkeletonLoader from "@/components/SkeletonLoader/SkeletonLoader";
+import { useEffect, useState } from "react";
 export default function Products2() {
+  const { products, loading, error, } = useContextElement();
+
+  const reversedProducts = [...products].reverse();
+
+  const [skeletonCount, setSkeletonCount] = useState(2);
+  useEffect(() => {
+    const updateSkeletonCount = () => {
+      const width = window.innerWidth;
+      if (width >= 1200) {
+        setSkeletonCount(4);
+      } else if (width >= 768) {
+        setSkeletonCount(4);
+      } else if (width >= 480) {
+        setSkeletonCount(3);
+      } else {
+        setSkeletonCount(2);
+      }
+    };
+    updateSkeletonCount();
+    window.addEventListener("resize", updateSkeletonCount);
+    return () => window.removeEventListener("resize", updateSkeletonCount);
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="flat-spacing-4 pt-0">
+        <div className="container">
+          <div className="grid-loader-wrapper d-flex justify-content-between">
+            {Array.from({ length: skeletonCount }).map((_, index) => (
+              <SkeletonLoader key={index} />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    <div className="error">
+      <Alert variant="danger" className="login-alert">
+        {error}
+      </Alert>
+    </div>
+  }
+
+
   return (
     <section className="flat-spacing-4 pt-0">
       <div className="container">
@@ -37,7 +86,7 @@ export default function Products2() {
             el: ".spd27",
           }}
         >
-          {products30.map((product, i) => (
+          {reversedProducts.map((product, i) => (
             <SwiperSlide key={i} className="swiper-slide">
               <ProductCard4 product={product} />
             </SwiperSlide>

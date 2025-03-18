@@ -6,6 +6,7 @@ import { Pagination } from "swiper/modules";
 export default function Collections() {
   return (
     <section className="flat-spacing pt-0">
+
       <div className="container">
         <Swiper
           spaceBetween={30}
@@ -31,6 +32,7 @@ export default function Collections() {
             el: ".spd23",
           }}
         >
+          
           {collectionItems6.map((item, index) => (
             <SwiperSlide key={index}>
               <div

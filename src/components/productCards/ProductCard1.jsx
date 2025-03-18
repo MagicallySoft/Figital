@@ -8,6 +8,10 @@ export default function ProductCard1({ product, gridClass = "" }) {
 
   const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
 
+  const truncate = (str, maxLength) => {
+    return str && str.length > maxLength ? str.slice(0, maxLength) + "..." : str;
+  };
+
   const {
     setQuickAddItem,
     addToWishlist,
@@ -243,22 +247,8 @@ export default function ProductCard1({ product, gridClass = "" }) {
       </div>
       <div className="card-product-info">
         <Link to={`/product-detail/${product.id}`} className="title link">
-          {product.title}
+        {truncate(product.title, 30)}
         </Link>
-        {/* <span className="price">
-          {product.price && (
-            <span className="old-price">${product.price.toFixed(2)}</span>
-          )}{" "}
-          ${product.price?.toFixed(2)}
-        </span> */}
-        {/* <span className="price">
-          {product.price && (
-            <span className="old-price">${Number(product.price)?.toFixed(2)}</span>
-          )}
-          ${typeof product.price === "number" && !isNaN(product.price)
-            ? product.price.toFixed(2)
-            : "0.00"}
-        </span> */}
         <span className="price current-price">
           {product.price && (
             <span className="old-price">

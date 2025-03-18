@@ -1,7 +1,7 @@
 import React from "react";
 import ProductsCards6 from "../productCards/ProductsCards6";
 import Pagination from "../common/Pagination";
-import SkeletonLoader from "./SkeletonLoader";
+import SkeletonLoader from "../SkeletonLoader/SkeletonLoader";
 
 export default function Listview({ loading, products, pagination, onPageChange, currentPage, totalPages }) {
   // Display loader or error if needed
