@@ -2,14 +2,25 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useContextElement } from "@/context/Context";
-import { allProducts } from "@/data/products";
+import { useDispatch, useSelector } from "react-redux";
+import { selectProducts, selectLoading, selectError, selectPagination } from '@/redux/action/product/productSelectors';
+import { fetchProducts } from "@/redux/action/product/productAction";
 
 export default function Wishlist() {
+  const dispatch = useDispatch();
+  const products = useSelector(selectProducts);
+  const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
+
   const { removeFromWishlist, wishList } = useContextElement();
   const [items, setItems] = useState([]);
   useEffect(() => {
-    setItems([...allProducts.filter((elm) => wishList.includes(elm.id))]);
+    setItems([...products.filter((elm) => wishList.includes(elm.id))]);
   }, [wishList]);
+  useEffect(() => {
+    dispatch(fetchProducts(1));
+  }, [dispatch]);
+  // console.log("wishList---->", items);
+
   return (
     <div className="modal fullRight fade modal-wishlist" id="wishlist">
       <div className="modal-dialog">
@@ -32,8 +43,9 @@ export default function Wishlist() {
                           <div className="tf-mini-cart-image">
                             <img
                               className="lazyload"
-                              alt=""
-                              src={elm.imgSrc}
+                              data-src={`${BASE_URL}${elm.banner_img}`}
+                              src={`${BASE_URL}${elm.banner_img}`}
+                              alt={elm.title}
                               width={600}
                               height={800}
                             />
@@ -58,7 +70,8 @@ export default function Wishlist() {
                             <div className="d-flex align-items-center justify-content-between flex-wrap gap-12">
                               <div className="text-secondary-2">XL/Blue</div>
                               <div className="text-button">
-                                ${elm.price.toFixed(2)}
+                                {/* ${elm.price.toFixed(2)} */}
+                                ₹{Number(elm.price)?.toFixed(2)}
                               </div>
                             </div>
                           </div>

@@ -4,13 +4,24 @@ import ProductCard1 from "../productCards/ProductCard1";
 import Pagination from "../common/Pagination";
 import { Link } from "react-router-dom";
 import { allProducts } from "@/data/products";
+import { useDispatch, useSelector } from "react-redux";
+import { selectProducts } from "@/redux/action/product/productSelectors";
+import { fetchProducts } from "@/redux/action/product/productAction";
 
 export default function Wishlist() {
   const { removeFromWishlist, wishList } = useContextElement();
+  const dispatch = useDispatch();
+  const products = useSelector(selectProducts);
+  const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
   const [items, setItems] = useState([]);
   useEffect(() => {
-    setItems([...allProducts.filter((elm) => wishList.includes(elm.id))]);
+    dispatch(fetchProducts());
+  }, [dispatch]);
+  useEffect(() => {
+    setItems([...products.filter((elm) => wishList.includes(elm.id))]);
   }, [wishList]);
+  // console.log("Wishllist--->", wishList);
+  
   return (
     <section className="flat-spacing">
       <div className="container">

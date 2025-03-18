@@ -15,7 +15,7 @@ export default function CartModal() {
     addProductToCart,
     isAddedToCartProducts,
   } = useContextElement();
-
+  const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
   const products = useSelector(selectProducts);
   const loading = useSelector(selectLoading);
   const error = useSelector(selectError);
@@ -115,8 +115,9 @@ export default function CartModal() {
                             <div className="tf-mini-cart-image">
                               <img
                                 className="lazyload"
-                                alt=""
-                                src={product.imgSrc}
+                                data-src={`${BASE_URL}${product.banner_img}`}
+                                src={`${BASE_URL}${product.banner_img}`}
+                                alt={product.title}
                                 width={600}
                                 height={800}
                               />
@@ -143,7 +144,7 @@ export default function CartModal() {
                                 <div className="text-button">
                                   {product.quantity} X $
                                   {/* {product.price.toFixed(2)} */}
-                                  ${product?.discount_price ? Number(product?.discount_price).toFixed(2) : product?.discount_price} 
+                                  ${product?.discount_price ? Number(product?.discount_price).toFixed(2) : product?.discount_price}
                                 </div>
                               </div>
                             </div>
@@ -325,9 +326,8 @@ export default function CartModal() {
                   </div>
                 </div>
                 <div
-                  className={`tf-mini-cart-tool-openable ${
-                    currentOpenPopup == "add-note" ? "open" : ""
-                  }`}
+                  className={`tf-mini-cart-tool-openable ${currentOpenPopup == "add-note" ? "open" : ""
+                    }`}
                 >
                   <div className="tf-mini-cart-tool-content">
                     <label
@@ -394,9 +394,8 @@ export default function CartModal() {
                   </div>
                 </div>
                 <div
-                  className={`tf-mini-cart-tool-openable ${
-                    currentOpenPopup == "estimate-shipping" ? "open" : ""
-                  } `}
+                  className={`tf-mini-cart-tool-openable ${currentOpenPopup == "estimate-shipping" ? "open" : ""
+                    } `}
                 >
                   <div className="tf-mini-cart-tool-content">
                     <label className="tf-mini-cart-tool-text">
@@ -624,9 +623,8 @@ export default function CartModal() {
                   </div>
                 </div>
                 <div
-                  className={`tf-mini-cart-tool-openable ${
-                    currentOpenPopup == "add-coupon" ? "open" : ""
-                  } `}
+                  className={`tf-mini-cart-tool-openable ${currentOpenPopup == "add-coupon" ? "open" : ""
+                    } `}
                 >
                   <div className="tf-mini-cart-tool-content">
                     <label className="tf-mini-cart-tool-text">

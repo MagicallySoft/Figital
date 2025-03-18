@@ -4,11 +4,10 @@ import { Link } from "react-router-dom";
 import CountdownTimer from "../common/Countdown";
 import { useContextElement } from "@/context/Context";
 export default function ProductCard1({ product, gridClass = "" }) {
-    const [currentImage, setCurrentImage] = useState(product.banner_img);
+  const [currentImage, setCurrentImage] = useState(product.banner_img);
 
-  // const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
   const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
-  
+
   const {
     setQuickAddItem,
     addToWishlist,
@@ -20,9 +19,9 @@ export default function ProductCard1({ product, gridClass = "" }) {
     isAddedToCartProducts,
   } = useContextElement();
 
-useEffect(() => {
-  setCurrentImage(`${BASE_URL}${product.banner_img}`);
-}, [product]);
+  useEffect(() => {
+    setCurrentImage(`${BASE_URL}${product.banner_img}`);
+  }, [product]);
 
 
   return (
@@ -181,7 +180,12 @@ useEffect(() => {
         )}
         <div className="list-product-btn">
           <a
-            onClick={() => addToWishlist(product.id)}
+            href="#wishlist"
+            data-bs-toggle="modal"
+            onClick={() => {
+              addToWishlist(product.id);
+              // openWishlistModal();
+            }}
             className="box-icon wishlist btn-icon-action"
           >
             <span className="icon icon-heart" />
@@ -258,10 +262,10 @@ useEffect(() => {
         <span className="price current-price">
           {product.price && (
             <span className="old-price">
-              ₹{Number(product.price)?.toFixed(2)} 
+              ₹{Number(product.price)?.toFixed(2)}
             </span>
           )}{" "}
-          ₹{product.discount_price ? Number(product.discount_price).toFixed(2) : product.discount_price} 
+          ₹{product.discount_price ? Number(product.discount_price).toFixed(2) : product.discount_price}
         </span>
 
         {product.colors && (

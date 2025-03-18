@@ -13,39 +13,11 @@ export default function WishListPage() {
   return (
     <>
       <MetaComponent meta={metadata} />
-      <Topbar6  />
+      <Topbar6 />
       <Header11 />
-      {/* <div
-        className="page-title"
-        style={{ backgroundImage: "url(/images/section/page-title.jpg)" }}
-      >
-        <div className="container">
-          <h3 className="heading text-center">Your Wishlist</h3>
-          <ul className="breadcrumbs d-flex align-items-center justify-content-center">
-            <li>
-              <Link className="link" to={`/`}>
-                Homepage
-              </Link>
-            </li>
-            <li>
-              <i className="icon-arrRight" />
-            </li>
-            <li>
-              <Link className="link" to={`/shop-default-grid`}>
-                Shop
-              </Link>
-            </li>
-            <li>
-              <i className="icon-arrRight" />
-            </li>
-            <li>Wishlist</li>
-          </ul>
-        </div>
-      </div> */}
-
       <Wishlist />
 
-      <Footer1 dark/>
+      <Footer1 dark />
     </>
   );
 }

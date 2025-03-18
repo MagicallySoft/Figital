@@ -141,9 +141,18 @@ export default function Login() {
               <div className="button-submit">
                 <button className="tf-btn btn-fill" type="submit" disabled={loading}>
                   {loading ? (
-                    <Spinner animation="border" size="sm" />
-                  ) : (<span className="text text-button">Login</span>) }
-                  
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                      style={{
+                        color: 'red',
+                        zIndex: 9,}}
+                    />
+                  ) : (<span className="text text-button">Login</span>)}
+
                 </button>
               </div>
             </form>

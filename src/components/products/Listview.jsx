@@ -1,34 +1,19 @@
-// import React from "react";
-// import ProductsCards6 from "../productCards/ProductsCards6";
-// import Pagination from "../common/Pagination";
-
-// export default function Listview({ products, pagination = true }) {
-//   return (
-//     <>
-//       {/* card product list 1 */}
-//       {products.map((product, i) => (
-//         <ProductsCards6 product={product} key={i} />
-//       ))}
-//       {/* pagination */}
-//       {pagination ? (
-//         <ul className="wg-pagination ">
-//           <Pagination />
-//         </ul>
-//       ) : (
-//         ""
-//       )}
-//     </>
-//   );
-// }
-
-
 import React from "react";
 import ProductsCards6 from "../productCards/ProductsCards6";
 import Pagination from "../common/Pagination";
+import SkeletonLoader from "./SkeletonLoader";
 
-export default function Listview({ products, pagination, onPageChange, currentPage, totalPages }) {
-
-
+export default function Listview({ loading, products, pagination, onPageChange, currentPage, totalPages }) {
+  // Display loader or error if needed
+  if (loading) {
+    return (
+      <>
+        {Array.from({ length: 8 }).map((_, index) => (
+          <SkeletonLoader key={index}  />
+        ))}
+      </>
+    );
+  }
 
   return (
     <>

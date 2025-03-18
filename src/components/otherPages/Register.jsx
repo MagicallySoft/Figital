@@ -7,13 +7,13 @@ import { Alert, Spinner } from "react-bootstrap";
 import './custom.css'
 
 export default function Register() {
-  const { loading, error } =  useSelector((state) => state.register);
+  const { loading, error } = useSelector((state) => state.register);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // console.log(loading);
   // console.log(error);
-  
+
 
   const [formData, setFormData] = useState({
     full_name: "",
@@ -324,7 +324,17 @@ export default function Register() {
                   disabled={loading}>
 
                   {loading ? (
-                    <Spinner animation="border" size="sm" />
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                      style={{
+                        color: 'red',
+                        zIndex: 9,
+                      }}
+                    />
                   ) : (<span className="text text-button">Register</span>)}
 
                 </button>

@@ -42,6 +42,7 @@ export default function ShopCart() {
   const [activeDiscountIndex, setActiveDiscountIndex] = useState(1);
   const [selectedOption, setSelectedOption] = useState(shippingOptions[0]);
   const { cartProducts, setCartProducts, totalPrice } = useContextElement();
+  const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
   const setQuantity = (id, quantity) => {
     if (quantity >= 1) {
       const item = cartProducts.filter((elm) => elm.id == id)[0];
@@ -95,9 +96,9 @@ export default function ShopCart() {
                 </div>
                 <div className="notification-progress">
                   <div className="text">
-                    Buy
+                    Buy 
                     <span className="fw-semibold text-primary">
-                      $70.00
+                     ₹ 70.00
                     </span>{" "}
                     more to get <span className="fw-semibold">Freeship</span>
                   </div>
@@ -133,8 +134,9 @@ export default function ShopCart() {
                               className="img-box"
                             >
                               <img
-                                alt="product"
-                                src={elm.imgSrc}
+                                data-src={`${BASE_URL}${elm.banner_img}`}
+                                src={`${BASE_URL}${elm.banner_img}`}
+                                alt={elm.title}
                                 width={600}
                                 height={800}
                               />

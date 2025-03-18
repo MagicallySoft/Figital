@@ -196,10 +196,10 @@ export default function Context({ children }) {
   const pagination = useSelector(selectPagination);
 
   // Fetch products when the component mounts
-  useEffect(() => {
-    dispatch(fetchProducts(1));
-    dispatch(fetchCategory())
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchProducts());
+  //   dispatch(fetchCategory())
+  // }, [dispatch]);
 
   // Set initial quick view item once products are loaded
   useEffect(() => {

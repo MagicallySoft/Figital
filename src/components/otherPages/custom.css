@@ -39,3 +39,5 @@
 #other:checked ~ .gender-slider::before {
   left: 200px; /* Adjust based on layout */
 }
+
+
