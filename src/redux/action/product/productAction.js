@@ -45,7 +45,7 @@ export const fetchProducts = (page = 1) => async (dispatch, getState) => {
 
   dispatch({ type: "FETCH_PRODUCT_REQUEST", payload: { page } });
   try {
-    const response = await axiosInstance.get(`/product?page=${page}`);
+    const response = await axiosInstance.get(`/admin/product?page=${page}`);
     if (response.data.code !== 200) {
       dispatch({ 
         type: "FETCH_PRODUCT_FAILURE", 
