@@ -70,7 +70,7 @@ export const loginUser = (credentials, navigate) => async (dispatch) => {
     });
 
     if (navigate) {
-      navigate(-1);
+      navigate("/");
     }
   } catch (error) {
     console.log("EROR!!-->", error);
