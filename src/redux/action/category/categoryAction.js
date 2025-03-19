@@ -11,7 +11,7 @@ export const fetchCategory = () => async (dispatch, getState) => {
   try {
     dispatch({ type: "FETCH_CATEGORY_REQUEST" });
 
-    const response = await axiosInstance.get("/admin/category");
+    const response = await axiosInstance.get("/category");
 
     // Check if the response structure is as expected
     if (response.data?.code !== 200) {

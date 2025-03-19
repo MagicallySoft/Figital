@@ -11,8 +11,10 @@ export const fetchBrands = () => async (dispatch, getState) => {
   try {
     dispatch({ type: "FETCH_BRAND_REQUEST" });
 
-    const response = await axiosInstance.get("/admin/brand/list");
+    const response = await axiosInstance.get("/brand/list");
     // Check for success based on your API's custom code
+    // console.log(response);
+    
     if (response.data.code !== 200) {
       dispatch({
         type: "FETCH_BRAND_FAILURE",
@@ -27,6 +29,8 @@ export const fetchBrands = () => async (dispatch, getState) => {
   } catch (error) {
     const errorPayload =
       error.response && error.response.data ? error.response.data : error.message;
+      console.log(errorPayload);
+      
     dispatch({ type: "FETCH_BRAND_FAILURE", payload: errorPayload });
   }
 };
