@@ -29,7 +29,7 @@ export const fetchBrands = () => async (dispatch, getState) => {
   } catch (error) {
     const errorPayload =
       error.response && error.response.data ? error.response.data : error.message;
-      console.log(errorPayload);
+      // console.log(errorPayload);
       
     dispatch({ type: "FETCH_BRAND_FAILURE", payload: errorPayload });
   }
