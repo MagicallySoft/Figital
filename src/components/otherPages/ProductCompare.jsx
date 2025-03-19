@@ -3,18 +3,24 @@ import { allProducts } from "@/data/products";
 
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { fetchProducts } from "@/redux/action/product/productAction";
+import CompareSkeleton from "../SkeletonLoader/CompareSkeleton";
 
 export default function ProductCompare() {
-  const {
-    compareItem,
+  // const dispatch = useDispatch()
+  const { compareItem, addProductToCart, isAddedToCartProducts, products, loading, error, } = useContextElement();
 
-    addProductToCart,
-    isAddedToCartProducts,
-  } = useContextElement();
+  const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
   const [items, setItems] = useState([]);
   useEffect(() => {
-    setItems([...allProducts.filter((elm) => compareItem.includes(elm.id))]);
-  }, [compareItem]);
+    setItems([...products.filter((elm) => compareItem.includes(elm?.id))]);
+  }, [compareItem, products]);
+  if (loading && compareItem) {
+    return <CompareSkeleton />;
+  }
+  console.log("compareItem--->\n", compareItem);
+  
   return (
     <section className="flat-spacing">
       <div className="container">
@@ -42,8 +48,9 @@ export default function ProductCompare() {
                     >
                       <img
                         className="lazyload"
-                        alt="img-compare"
-                        src={elm.imgSrc}
+                        alt={elm.title}
+                        data-src={`${BASE_URL}${elm.banner_img}`}
+                        src={`${BASE_URL}${elm.banner_img}`}
                         width={600}
                         height={800}
                       />
@@ -51,12 +58,12 @@ export default function ProductCompare() {
                     <div className="tf-compare-content">
                       <Link
                         className="link text-title text-line-clamp-1"
-                        to={`/product-detail/${elm.id}`}
+                        to={`/product-detail/${elm?.id}`}
                       >
-                        {elm.title}
+                        {elm?.title}
                       </Link>
                       <p className="desc text-caption-1">
-                        Clothes, women, T-shirt
+                        {elm?.category?.title}
                       </p>
                     </div>
                   </div>
@@ -94,7 +101,24 @@ export default function ProductCompare() {
                   key={i}
                   className="tf-compare-col tf-compare-field text-center"
                 >
-                  <span className="price">${elm.price.toFixed(2)}</span>
+                  
+                  <span className="price">₹{Number(elm.discount_price)?.toFixed(2)}</span>
+                  {elm?.price ? (
+                      <>
+                        <div className="compare-at-price font-2 text-decoration-line-through text-secondary">
+                          ₹{Number(elm?.price)?.toFixed(2)}
+                        </div>
+                        {/* Calculate discount percentage automatically */}
+                        {/* {elm?.discount_price < elm?.price && (
+                          <div className="badges-on-sale text-btn-uppercase">
+                            -{Math.round(
+                              ((elm?.price - elm?.discount_price) / elm?.price) * 100
+                            )}
+                            %
+                          </div>
+                        )} */}
+                      </>
+                    ) : null}
                 </div>
               ))}
             </div>
@@ -120,7 +144,7 @@ export default function ProductCompare() {
                   key={i}
                   className="tf-compare-col tf-compare-field text-center"
                 >
-                  <span className="brand">Gucci</span>
+                  <span className="brand">{elm?.brand?.title}</span>
                 </div>
               ))}
             </div>
@@ -180,9 +204,9 @@ export default function ProductCompare() {
                 >
                   <a
                     className="btn-view-cart"
-                    onClick={() => addProductToCart(elm.id)}
+                    onClick={() => addProductToCart(elm?.id)}
                   >
-                    {isAddedToCartProducts(elm.id)
+                    {isAddedToCartProducts(elm?.id)
                       ? "Already Added"
                       : "Add to Cart"}
                   </a>

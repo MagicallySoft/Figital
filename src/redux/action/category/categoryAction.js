@@ -1,6 +1,13 @@
 import axiosInstance from "../../../utlis/axiosInstance";
 
-export const fetchCategory = () => async (dispatch) => {
+export const fetchCategory = () => async (dispatch, getState) => {
+
+  const { category } = getState();
+  if (category.categories && category.categories.length > 0) {
+    // Skip fetching if categories are already in Redux store
+    return;
+  }
+
   try {
     dispatch({ type: "FETCH_CATEGORY_REQUEST" });
 

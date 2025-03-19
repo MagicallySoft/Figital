@@ -32,6 +32,7 @@ useEffect(() => {
       data-wow-delay={product.wowDelay}
     >
       <div className="card-product-wrapper">
+        
         <Link to={`/product-detail/${product.id}`} className="product-img">
           <img
             className="lazyload img-product"

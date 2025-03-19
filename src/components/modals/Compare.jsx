@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 import { useContextElement } from "@/context/Context";
-import { allProducts } from "@/data/products";
 export default function Compare() {
-  const { removeFromCompareItem, compareItem, setCompareItem } =
+  const { removeFromCompareItem, compareItem, setCompareItem, products, loading, error } =
     useContextElement();
+  const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
   const [items, setItems] = useState([]);
   useEffect(() => {
-    setItems([...allProducts.filter((elm) => compareItem.includes(elm.id))]);
+    setItems([...products.filter((elm) => compareItem.includes(elm.id))]);
   }, [compareItem]);
 
   return (
@@ -97,8 +97,9 @@ export default function Compare() {
                           >
                             <img
                               className="lazyload"
-                              alt=""
-                              src={elm.imgSrc}
+                              alt={elm.title}
+                              data-src={`${BASE_URL}${elm.banner_img}`}
+                              src={`${BASE_URL}${elm.banner_img}`}
                               width={600}
                               height={800}
                             />
@@ -113,7 +114,7 @@ export default function Compare() {
                               </Link>
                             </div>
                             <div className="text-button">
-                              ${elm.price.toFixed(2)}
+                              ₹{Number(elm.discount_price)?.toFixed(2)}
                             </div>
                           </div>
                         </div>

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import CountdownTimer from "../common/Countdown";
 import { useContextElement } from "@/context/Context";
+import SkeletonLoader from "../SkeletonLoader/SkeletonLoader";
 export default function ProductCard1({ product, gridClass = "" }) {
   const [currentImage, setCurrentImage] = useState(product.banner_img);
 
@@ -28,11 +29,13 @@ export default function ProductCard1({ product, gridClass = "" }) {
   }, [product]);
 
 
+
   return (
     <div
       className={`card-product wow fadeInUp ${gridClass} ${product.isOnSale ? "on-sale" : ""
         } ${product.sizes ? "card-product-size" : ""}`}
     >
+
       <div className="card-product-wrapper">
         <Link to={`/product-detail/${product.id}`} className="product-img">
           <img
@@ -175,9 +178,12 @@ export default function ProductCard1({ product, gridClass = "" }) {
             </div>
           </div>
         )}
-        {product.oldPrice ? (
+        {product.price ? (
           <div className="on-sale-wrap">
-            <span className="on-sale-item">-25%</span>
+            <span className="on-sale-item">-{Math.round(
+              ((product?.price - product?.discount_price) / product?.price) * 100
+            )}
+              %</span>
           </div>
         ) : (
           ""
@@ -247,7 +253,7 @@ export default function ProductCard1({ product, gridClass = "" }) {
       </div>
       <div className="card-product-info">
         <Link to={`/product-detail/${product.id}`} className="title link">
-        {truncate(product.title, 30)}
+          {truncate(product.title, 30)}
         </Link>
         <span className="price current-price">
           {product.price && (

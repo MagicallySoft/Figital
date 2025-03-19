@@ -59,11 +59,33 @@ export default function Products() {
     return (
       <section className="flat-spacing-4 pt-0">
         <div className="container">
-          <div className="grid-loader-wrapper d-flex justify-content-between">
-            {Array.from({ length: skeletonCount }).map((_, index) => (
-              <SkeletonLoader key={index} />
-            ))}
+          <div className="heading-section-2">
+            <div className="skeleton-heading shimmer"></div>
+            <ul className="tab-product-v3 justify-content-sm-center mw-100p-scroll">
+              {[1, 2, 3, 4].map((item) => (
+                <li key={item} className="nav-tab-item">
+                  <div className="skeleton-tab shimmer"></div>
+                </li>
+              ))}
+            </ul>
           </div>
+          <Swiper
+            dir="ltr"
+            className="swiper tf-sw-latest"
+            breakpoints={{
+              1200: { slidesPerView: 5 },
+              768: { slidesPerView: 4 },
+              480: { slidesPerView: 3 },
+              0: { slidesPerView: 2 },
+            }}
+            spaceBetween={15}
+          >
+            {Array.from({ length: 5 }).map((_, index) => (
+              <SwiperSlide key={index}>
+                <SkeletonLoader />
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
       </section>
     );
@@ -79,6 +101,7 @@ export default function Products() {
 
 
   return (
+    <>
     <section className="flat-spacing-4 pt-0">
       <div className="container">
         <div className="heading-section-2 wow fadeInUp">
@@ -148,5 +171,6 @@ export default function Products() {
         </div>
       </div>
     </section>
+    </>
   );
 }

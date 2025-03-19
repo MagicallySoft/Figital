@@ -1,6 +1,13 @@
 import axiosInstance from "../../../utlis/axiosInstance";
 
-export const fetchBrands = () => async (dispatch) => {
+export const fetchBrands = () => async (dispatch, getState) => {
+
+  // const { brand } = getState();
+  // if (brand.brands && brand.brands.length > 0) {
+  //   // Skip fetching if brands are already in Redux store
+  //   return;
+  // }
+
   try {
     dispatch({ type: "FETCH_BRAND_REQUEST" });
 

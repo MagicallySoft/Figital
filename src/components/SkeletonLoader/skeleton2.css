@@ -1,0 +1,107 @@
+/* skeleton.css */
+/* List View Skeleton Styles */
+.skeleton-list-item {
+    background: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .skeleton-list-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      rgba(255,255,255,0) 20%,
+      rgba(255,255,255,0.2) 50%,
+      rgba(255,255,255,0) 80%
+    );
+    animation: shimmer 1.5s infinite;
+  }
+  
+  .skeleton-img {
+    width: 280px;
+    height: 350px;
+    background: #f0f0f0;
+    border-radius: 4px;
+  }
+  
+  .skeleton-title {
+    height: 24px;
+    width: 60%;
+    background: #f0f0f0;
+    margin-bottom: 12px;
+    border-radius: 4px;
+  }
+  
+  .skeleton-price {
+    height: 20px;
+    width: 30%;
+    background: #f0f0f0;
+    margin-bottom: 15px;
+    border-radius: 4px;
+  }
+  
+  .skeleton-description {
+    height: 40px;
+    background: #f0f0f0;
+    margin-bottom: 20px;
+    border-radius: 4px;
+  }
+  
+  .skeleton-colors {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+  }
+  
+  .skeleton-color-swatch {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #f0f0f0;
+  }
+  
+  .skeleton-sizes {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .skeleton-size {
+    width: 32px;
+    height: 32px;
+    background: #f0f0f0;
+    border-radius: 4px;
+  }
+  
+  .skeleton-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .skeleton-button {
+    width: 120px;
+    height: 40px;
+    background: #f0f0f0;
+    border-radius: 20px;
+  }
+  
+  .skeleton-icon {
+    width: 32px;
+    height: 32px;
+    background: #f0f0f0;
+    border-radius: 50%;
+  }
+  
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }

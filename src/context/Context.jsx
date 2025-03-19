@@ -298,6 +298,17 @@ export default function Context({ children }) {
     localStorage.setItem("wishlist", JSON.stringify(wishList));
   }, [wishList]);
 
+  useEffect(() => {
+    const storedCompareItem = JSON.parse(localStorage.getItem("compareItem"));
+    if (storedCompareItem?.length) {
+      setCompareItem(storedCompareItem);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("compareItem", JSON.stringify(compareItem));
+  }, [compareItem]);
+
   // Build the context element
   const contextElement = {
     cartProducts,

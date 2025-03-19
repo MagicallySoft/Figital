@@ -45,6 +45,7 @@ export default function ProductCard4({ product }) {
             height={800}
           />
         </Link>
+        
         {product.hotSale && (
           <div className="marquee-product bg-main">
             <div className="marquee-wrapper">
@@ -223,6 +224,7 @@ export default function ProductCard4({ product }) {
           </a>
         </div>
       </div>
+      
       <div className="card-product-info">
         <Link to={`/product-detail/${product.id}`} className="title link">
           {product.title}

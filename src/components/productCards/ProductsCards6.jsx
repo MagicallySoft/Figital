@@ -25,6 +25,7 @@ export default function ProductsCards6({ product }) {
   return (
     <div className="card-product style-list" data-availability="In stock" data-brand="gucci">
       <div className="card-product-wrapper">
+        
         <Link to={`/product-detail/${product.id}`} className="product-img">
           <img
             className="lazyload img-product"

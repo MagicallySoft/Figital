@@ -28,6 +28,7 @@ export default function ProductCard12({ product, gridClass = "" }) {
       className={`card-product style-7 wow fadeInUp ${gridClass} ${product.isOnSale ? "on-sale" : ""
         } ${product.sizes ? "card-product-size" : ""}`}
     >
+      
       <div className="card-product-wrapper">
         <Link to={`/product-detail/${product.id}`} className="product-img">
           <img

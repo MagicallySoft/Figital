@@ -61,13 +61,13 @@ export default function Categories() {
           >
             {/* 1) Loading State with Skeleton */}
             {Categoryloading && (
-              Array.from({ length: skeletonCount }).map((_, i) => (
-                <SwiperSlide key={i}>
+              Array.from({ length: 7 }).map((_, i) => (
+                <SwiperSlide key={`skeleton-${i}`}>
                   <CategorySkeletonLoader />
                 </SwiperSlide>
               ))
             )}
-            
+
 
             {/* 2) Error State */}
             {Categoryerror && (
@@ -103,6 +103,14 @@ export default function Categories() {
                 </div>
               </SwiperSlide>
             ))}
+
+            {Categoryloading && (
+              <div className="d-flex d-lg-none sw-pagination-categories sw-dots type-circle justify-content-center spd22">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <span key={i} className="skeleton-pagination-dot shimmer" />
+                ))}
+              </div>
+            )}
 
             <div className="d-flex d-lg-none sw-pagination-categories sw-dots type-circle justify-content-center spd22" />
           </Swiper>

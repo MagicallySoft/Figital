@@ -14,9 +14,12 @@ export default function ProductStikyBottom({ product, loading }) {
     updateQuantity,
   } = useContextElement();
   // console.log("Product--->", product);
-
+  
   const [quantity, setQuantity] = useState(1); // Initial quantity is 1
   const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
+  if (loading){
+    return <></>;
+  }
 
   return (
     <div className="tf-sticky-btn-atc">
@@ -77,15 +80,15 @@ export default function ProductStikyBottom({ product, loading }) {
                   <QuantitySelect
                     styleClass="style-1"
                     quantity={
-                      isAddedToCartProducts(product.id)
+                      isAddedToCartProducts(product?.id)
                         ? cartProducts.filter(
-                          (elm) => elm.id == product.id
+                          (elm) => elm.id == product?.id
                         )[0].quantity
                         : quantity
                     }
                     setQuantity={(qty) => {
-                      if (isAddedToCartProducts(product.id)) {
-                        updateQuantity(product.id, qty);
+                      if (isAddedToCartProducts(product?.id)) {
+                        updateQuantity(product?.id, qty);
                       } else {
                         setQuantity(qty);
                       }
@@ -94,25 +97,25 @@ export default function ProductStikyBottom({ product, loading }) {
                 </div>
                 <div className="tf-sticky-atc-btns">
                   <a
-                    onClick={() => addProductToCart(product.id, quantity)}
+                    onClick={() => addProductToCart(product?.id, quantity)}
                     className="tf-btn w-100 btn-reset radius-4 btn-add-to-cart"
                   >
                     <span className="text text-btn-uppercase">
                       {" "}
-                      {isAddedToCartProducts(product.id)
+                      {isAddedToCartProducts(product?.id)
                         ? "Already Added"
                         : "Add to cart -"}
                     </span>
                     <span className="tf-qty-price total-price">
                     ₹
-                      {isAddedToCartProducts(product.id)
+                      {isAddedToCartProducts(product?.id)
                         ? (
                           product.discount_price *
                           cartProducts.filter(
-                            (elm) => elm.id == product.id
+                            (elm) => elm.id == product?.id
                           )[0].quantity
                         ).toFixed(2)
-                        : (product.discount_price * quantity).toFixed(2)}
+                        : (product?.discount_price * quantity).toFixed(2)}
                     </span>
                   </a>
                 </div>
