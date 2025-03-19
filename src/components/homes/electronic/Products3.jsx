@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 import { useContextElement } from "@/context/Context";
 import SkeletonLoader from "@/components/SkeletonLoader/SkeletonLoader";
+import { Alert, Spinner } from "react-bootstrap";
+
 
 
 
@@ -40,7 +42,7 @@ export default function Products3() {
   const newArrivals = shuffleArray([...products]).slice(0, 3);
   const maybeYouWillLove = shuffleArray([...products]).slice(0, 3);
 
-  if (loading) {
+  if (loading || !products) {
     return (
       <section className="flat-spacing-4 pt-0">
         <div className="container">

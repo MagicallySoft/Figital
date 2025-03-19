@@ -4,7 +4,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import { fetchCategory } from "@/redux/action/category/categoryAction";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { Alert } from "react-bootstrap";
+import { Alert, Spinner } from "react-bootstrap";
 import { useContextElement } from "@/context/Context";
 import CategorySkeletonLoader from "@/components/SkeletonLoader/CategorySkeletonLoader";
 
@@ -60,7 +60,7 @@ export default function Categories() {
             navigation={{ prevEl: ".snbp8", nextEl: ".snbn8" }}
           >
             {/* 1) Loading State with Skeleton */}
-            {Categoryloading && (
+            {(Categoryloading || !categories) && (
               Array.from({ length: 7 }).map((_, i) => (
                 <SwiperSlide key={`skeleton-${i}`}>
                   <CategorySkeletonLoader />
@@ -104,7 +104,7 @@ export default function Categories() {
               </SwiperSlide>
             ))}
 
-            {Categoryloading && (
+            {(Categoryloading || !categories) && (
               <div className="d-flex d-lg-none sw-pagination-categories sw-dots type-circle justify-content-center spd22">
                 {Array.from({ length: 4 }).map((_, i) => (
                   <span key={i} className="skeleton-pagination-dot shimmer" />

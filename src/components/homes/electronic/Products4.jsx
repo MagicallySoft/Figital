@@ -6,6 +6,7 @@ import { Pagination } from "swiper/modules";
 import SkeletonLoader from "@/components/SkeletonLoader/SkeletonLoader";
 import { useEffect, useState } from "react";
 import { useContextElement } from "@/context/Context";
+import { Alert, Spinner } from "react-bootstrap";
 export default function Products4() {
 
   const { products, loading, error, } = useContextElement();
@@ -42,7 +43,7 @@ export default function Products4() {
     return () => window.removeEventListener("resize", updateSkeletonCount);
   }, []);
 
-  if (loading) {
+  if (loading || !products) {
     return (
       <section className="flat-spacing-4 pt-0">
         <div className="container">

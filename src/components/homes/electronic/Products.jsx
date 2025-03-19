@@ -7,6 +7,8 @@ import { useDispatch } from "react-redux";
 import { useContextElement } from "@/context/Context";
 import { fetchProducts } from "@/redux/action/product/productAction";
 import SkeletonLoader from "@/components/SkeletonLoader/SkeletonLoader";
+import { Alert, Spinner } from "react-bootstrap";
+
 
 export default function Products() {
   const dispatch = useDispatch();
@@ -55,7 +57,7 @@ export default function Products() {
     dispatch(fetchProducts(1));
   }, [dispatch]);
 
-  if (loading) {
+  if (loading || !products) {
     return (
       <section className="flat-spacing-4 pt-0">
         <div className="container">

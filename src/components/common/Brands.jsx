@@ -14,7 +14,7 @@ export default function Brands({ parentClass = "flat-spacing-5 line-top" }) {
   }, [dispatch])
   // console.log(brands);
 
-  if (loading) {
+  if (loading || !brands) {
     return (
       <section className={parentClass}>
         <Swiper
