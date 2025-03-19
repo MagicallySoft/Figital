@@ -60,8 +60,9 @@ export default function Products() {
       <section className="flat-spacing-4 pt-0">
         <div className="container">
           <div className="heading-section-2">
-            <div className="skeleton-heading shimmer"></div>
-            <ul className="tab-product-v3 justify-content-sm-center mw-100p-scroll">
+          <h4>Deal of the day</h4>
+            {/* <div className="skeleton-heading shimmer"></div> */}
+            <ul className="tab-product-v3 justify-content-sm-center mw-100p-scroll overflow-hidden">
               {[1, 2, 3, 4].map((item) => (
                 <li key={item} className="nav-tab-item">
                   <div className="skeleton-tab shimmer"></div>
