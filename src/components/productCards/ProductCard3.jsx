@@ -228,7 +228,7 @@ export default function ProductCard3({ product }) {
       </div>
       <div className="card-product-info">
         <Link to={`/product-detail/${product.id}`} className="title link">
-        {truncate(product.title, 27)}
+        {truncate(product.title, 20)}
         </Link>
         <div className="box-rating">
           <ul className="list-star">

@@ -6,9 +6,14 @@ import QuantitySelect from "../QuantitySelect";
 
 import { useContextElement } from "@/context/Context";
 import ProductStikyBottom from "../ProductStikyBottom";
-export default function Details1({ product }) {
+import ProductDetailSkeleton from "@/components/SkeletonLoader/ProductDetailSkeleton";
+export default function Details1({ product, loading }) {
+
   const [activeColor, setActiveColor] = useState("gray");
   const [quantity, setQuantity] = useState(1);
+
+  const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
+
   const {
     addProductToCart,
     isAddedToCartProducts,
@@ -20,8 +25,13 @@ export default function Details1({ product }) {
     updateQuantity,
   } = useContextElement();
 
+  if (loading) {
+    return <ProductDetailSkeleton />;
+  }
+
   return (
     <section className="flat-spacing">
+      {/* <ProductDetailSkeleton /> */}
       <div className="tf-main-product section-image-zoom">
         <div className="container">
           <div className="row">
@@ -31,7 +41,7 @@ export default function Details1({ product }) {
                 <Slider1
                   setActiveColor={setActiveColor}
                   activeColor={activeColor}
-                  firstItem={product.imgSrc}
+                  firstItem={`${BASE_URL}${product?.banner_img}`}
                 />
               </div>
             </div>
@@ -43,8 +53,8 @@ export default function Details1({ product }) {
                 <div className="tf-product-info-list other-image-zoom">
                   <div className="tf-product-info-heading">
                     <div className="tf-product-info-name">
-                      <div className="text text-btn-uppercase">Clothing</div>
-                      <h3 className="name">{product.title}</h3>
+                      <div className="text text-btn-uppercase">{product?.category?.title}</div>
+                      <h3 className="name">{product?.title}</h3>
                       <div className="sub">
                         <div className="tf-product-info-rate">
                           <div className="list-star">
@@ -69,27 +79,28 @@ export default function Details1({ product }) {
                     <div className="tf-product-info-desc">
                       <div className="tf-product-info-price">
                         <h5 className="price-on-sale font-2">
-                          {" "}
-                          ${product.price.toFixed(2)}
+                          ₹{Number(product?.discount_price)?.toFixed(2)}
                         </h5>
-                        {product.oldPrice ? (
+                        {product?.price ? (
                           <>
                             <div className="compare-at-price font-2">
-                              {" "}
-                              ${product.oldPrice.toFixed(2)}
+                              ₹{Number(product?.price)?.toFixed(2)}
                             </div>
-                            <div className="badges-on-sale text-btn-uppercase">
-                              -25%
-                            </div>
+                            {/* Calculate discount percentage automatically */}
+                            {product?.discount_price < product?.price && (
+                              <div className="badges-on-sale text-btn-uppercase">
+                                -{Math.round(
+                                  ((product?.price - product?.discount_price) / product?.price) * 100
+                                )}
+                                %
+                              </div>
+                            )}
                           </>
-                        ) : (
-                          ""
-                        )}
+                        ) : null}
                       </div>
+
                       <p>
-                        The garments labelled as Committed are products that
-                        have been produced using sustainable fibres or
-                        processes, reducing their environmental impact.
+                        {product?.description}
                       </p>
                       <div className="tf-product-info-liveview">
                         <i className="icon icon-eye" />
@@ -110,15 +121,15 @@ export default function Details1({ product }) {
                       <div className="title mb_12">Quantity:</div>
                       <QuantitySelect
                         quantity={
-                          isAddedToCartProducts(product.id)
+                          isAddedToCartProducts(product?.id)
                             ? cartProducts.filter(
-                                (elm) => elm.id == product.id
-                              )[0].quantity
+                              (elm) => elm.id == product?.id
+                            )[0].quantity
                             : quantity
                         }
                         setQuantity={(qty) => {
-                          if (isAddedToCartProducts(product.id)) {
-                            updateQuantity(product.id, qty);
+                          if (isAddedToCartProducts(product?.id)) {
+                            updateQuantity(product?.id, qty);
                           } else {
                             setQuantity(qty);
                           }
@@ -128,47 +139,47 @@ export default function Details1({ product }) {
                     <div>
                       <div className="tf-product-info-by-btn mb_10">
                         <a
-                          onClick={() => addProductToCart(product.id, quantity)}
+                          onClick={() => addProductToCart(product?.id, quantity)}
                           className="btn-style-2 flex-grow-1 text-btn-uppercase fw-6 btn-add-to-cart"
                         >
                           <span>
-                            {isAddedToCartProducts(product.id)
+                            {isAddedToCartProducts(product?.id)
                               ? "Already Added"
-                              : "Add to cart -"}
+                              : "Add to cart "}
                           </span>
-                          <span className="tf-qty-price total-price">
-                            $
+                          {/* <span className="tf-qty-price total-price">
+                          &nbsp;&nbsp;₹
                             {isAddedToCartProducts(product.id)
                               ? (
-                                  product.price *
-                                  cartProducts.filter(
-                                    (elm) => elm.id == product.id
-                                  )[0].quantity
-                                ).toFixed(2)
-                              : (product.price * quantity).toFixed(2)}{" "}
-                          </span>
+                                product.discount_price *
+                                cartProducts.filter(
+                                  (elm) => elm.id == product.id
+                                )[0].quantity
+                              ).toFixed(2)
+                              : (product.discount_price * quantity).toFixed(2)}{" "}
+                          </span> */}
                         </a>
                         <a
                           href="#compare"
                           data-bs-toggle="offcanvas"
                           aria-controls="compare"
-                          onClick={() => addToCompareItem(product.id)}
+                          onClick={() => addToCompareItem(product?.id)}
                           className="box-icon hover-tooltip compare btn-icon-action"
                         >
                           <span className="icon icon-gitDiff" />
                           <span className="tooltip text-caption-2">
-                            {isAddedtoCompareItem(product.id)
+                            {isAddedtoCompareItem(product?.id)
                               ? "Already compared"
                               : "Compare"}
                           </span>
                         </a>
                         <a
-                          onClick={() => addToWishlist(product.id)}
+                          onClick={() => addToWishlist(product?.id)}
                           className="box-icon hover-tooltip text-caption-2 wishlist btn-icon-action"
                         >
                           <span className="icon icon-heart" />
                           <span className="tooltip text-caption-2">
-                            {isAddedtoWishlist(product.id)
+                            {isAddedtoWishlist(product?.id)
                               ? "Already Wishlished"
                               : "Wishlist"}
                           </span>
@@ -219,7 +230,7 @@ export default function Details1({ product }) {
                         </div>
                         <p className="text-caption-1">
                           Estimated Delivery:&nbsp;&nbsp;<span>12-26 days</span>
-                          (International), <span>3-6 days</span> (United States)
+                          (International), <span>3-6 days</span> (India)
                         </p>
                       </div>
                       <div className="tf-product-info-return">
@@ -266,7 +277,7 @@ export default function Details1({ product }) {
                     <ul className="tf-product-info-sku">
                       <li>
                         <p className="text-caption-1">SKU:</p>
-                        <p className="text-caption-1 text-1">53453412</p>
+                        <p className="text-caption-1 text-1">{product?.sku}</p>
                       </li>
                       <li>
                         <p className="text-caption-1">Vendor:</p>
@@ -280,15 +291,7 @@ export default function Details1({ product }) {
                         <p className="text-caption-1">Categories:</p>
                         <p className="text-caption-1">
                           <a href="#" className="text-1 link">
-                            Clothes
-                          </a>
-                          ,
-                          <a href="#" className="text-1 link">
-                            women
-                          </a>
-                          ,
-                          <a href="#" className="text-1 link">
-                            T-shirt
+                            {product?.category.title}
                           </a>
                         </p>
                       </li>
@@ -354,7 +357,7 @@ export default function Details1({ product }) {
           </div>
         </div>
       </div>
-      <ProductStikyBottom />
+      <ProductStikyBottom  product={product} loading={loading}/>
     </section>
   );
 }

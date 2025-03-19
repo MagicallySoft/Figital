@@ -1,11 +1,11 @@
 import { useContextElement } from "@/context/Context";
-import { products41 } from "@/data/products";
+// import { product } from "@/data/products";
 
 import React, { useState } from "react";
 import QuantitySelect from "./QuantitySelect";
 import SizeSelect2 from "./SideSelect2";
 
-export default function ProductStikyBottom() {
+export default function ProductStikyBottom({ product, loading }) {
   const {
     addProductToCart,
     isAddedToCartProducts,
@@ -13,7 +13,10 @@ export default function ProductStikyBottom() {
     cartProducts,
     updateQuantity,
   } = useContextElement();
+  // console.log("Product--->", product);
+
   const [quantity, setQuantity] = useState(1); // Initial quantity is 1
+  const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
 
   return (
     <div className="tf-sticky-btn-atc">
@@ -28,19 +31,40 @@ export default function ProductStikyBottom() {
                 <div className="image">
                   <img
                     className="lazyload"
-                    alt=""
-                    src={products41[2].imgSrc}
+                    alt={product?.title}
+                    src={`${BASE_URL}${product?.banner_img}`}
                     width={600}
                     height={800}
                   />
                 </div>
                 <div className="content">
-                  <div className="text-title">{products41[2].title}</div>
+                  <div className="text-title">{product?.title}</div>
                   <div className="text-caption-1 text-secondary-2">
-                    Green, XS, Cotton
+                    {product?.category?.title}
                   </div>
-                  <div className="text-title">
-                    ${products41[2].price.toFixed(2)}
+                  {/* <div className="text-title">
+                    ₹{Number(product?.discount_price)?.toFixed(2)}
+                  </div> */}
+                  <div className="tf-product-info-price">
+                    <h6 className="price-on-sale font-2">
+                      ₹{Number(product?.discount_price)?.toFixed(2)}
+                    </h6>
+                    {product?.price ? (
+                      <>
+                        <div className="compare-at-price font-2">
+                          ₹{Number(product?.price)?.toFixed(2)}
+                        </div>
+                        {/* Calculate discount percentage automatically */}
+                        {product?.discount_price < product?.price && (
+                          <div className="badges-on-sale text-btn-uppercase">
+                            -{Math.round(
+                              ((product?.price - product?.discount_price) / product?.price) * 100
+                            )}
+                            %
+                          </div>
+                        )}
+                      </>
+                    ) : null}
                   </div>
                 </div>
               </div>
@@ -53,15 +77,15 @@ export default function ProductStikyBottom() {
                   <QuantitySelect
                     styleClass="style-1"
                     quantity={
-                      isAddedToCartProducts(products41[2].id)
+                      isAddedToCartProducts(product.id)
                         ? cartProducts.filter(
-                            (elm) => elm.id == products41[2].id
-                          )[0].quantity
+                          (elm) => elm.id == product.id
+                        )[0].quantity
                         : quantity
                     }
                     setQuantity={(qty) => {
-                      if (isAddedToCartProducts(products41[2].id)) {
-                        updateQuantity(products41[2].id, qty);
+                      if (isAddedToCartProducts(product.id)) {
+                        updateQuantity(product.id, qty);
                       } else {
                         setQuantity(qty);
                       }
@@ -70,25 +94,25 @@ export default function ProductStikyBottom() {
                 </div>
                 <div className="tf-sticky-atc-btns">
                   <a
-                    onClick={() => addProductToCart(products41[2].id, quantity)}
+                    onClick={() => addProductToCart(product.id, quantity)}
                     className="tf-btn w-100 btn-reset radius-4 btn-add-to-cart"
                   >
                     <span className="text text-btn-uppercase">
                       {" "}
-                      {isAddedToCartProducts(products41[2].id)
+                      {isAddedToCartProducts(product.id)
                         ? "Already Added"
                         : "Add to cart -"}
                     </span>
                     <span className="tf-qty-price total-price">
-                      $
-                      {isAddedToCartProducts(products41[2].id)
+                    ₹
+                      {isAddedToCartProducts(product.id)
                         ? (
-                            products41[2].price *
-                            cartProducts.filter(
-                              (elm) => elm.id == products41[2].id
-                            )[0].quantity
-                          ).toFixed(2)
-                        : (products41[2].price * quantity).toFixed(2)}
+                          product.discount_price *
+                          cartProducts.filter(
+                            (elm) => elm.id == product.id
+                          )[0].quantity
+                        ).toFixed(2)
+                        : (product.discount_price * quantity).toFixed(2)}
                     </span>
                   </a>
                 </div>

@@ -61,7 +61,7 @@ export default function QuickView() {
           />
           <div className="wrap mw-100p-hidden">
             <div className="header">
-              <h5 className="title">Quick View...</h5>
+              <h5 className="title">Quick View</h5>
               <span
                 className="icon-close icon-close-popup"
                 data-bs-dismiss="modal"
@@ -95,17 +95,20 @@ export default function QuickView() {
                   <div className="tf-product-info-price">
                     <h5 className="price-on-sale font-2">
                       {/* ${quickViewItem?.discount_price.toFixed(2)} */}
-                      ${quickViewItem?.discount_price ? Number(quickViewItem?.discount_price).toFixed(2) : quickViewItem?.discount_price}
+                      ₹{quickViewItem?.discount_price ? Number(quickViewItem?.discount_price).toFixed(2) : quickViewItem?.discount_price}
                     </h5>
                     {quickViewItem?.price ? (
                       <>
                         <div className="compare-at-price font-2">
                           {" "}
                           {/* ${quickViewItem?.price.toFixed(2)} */}
-                          ${quickViewItem?.discount_price ? Number(quickViewItem?.discount_price).toFixed(2) : quickViewItem?.discount_price}
+                          ₹{quickViewItem?.discount_price ? Number(quickViewItem?.discount_price).toFixed(2) : quickViewItem?.discount_price}
                         </div>
                         <div className="badges-on-sale text-btn-uppercase">
-                          -25%
+                        -{Math.round(
+                                  ((quickViewItem?.price - quickViewItem?.discount_price) / quickViewItem?.price) * 100
+                                )}
+                                %
                         </div>
                       </>
                     ) : (
@@ -113,9 +116,7 @@ export default function QuickView() {
                     )}
                   </div>
                   <p>
-                    The garments labelled as Committed are products that have
-                    been produced using sustainable fibres or processes,
-                    reducing their environmental impact.
+                    {quickViewItem?.description}
                   </p>
                   <div className="tf-product-info-liveview">
                     <i className="icon icon-eye" />
@@ -164,7 +165,7 @@ export default function QuickView() {
                           ? "Already Added"
                           : "Add to cart -"}
                       </span>
-                      <span className="tf-qty-price total-price">
+                      {/* <span className="tf-qty-price total-price">
                         $
                         {isAddedToCartProducts(quickViewItem?.id)
                           ? (
@@ -174,7 +175,7 @@ export default function QuickView() {
                             )[0].quantity
                           ).toFixed(2)
                           : (quickViewItem?.discount_price * quantity).toFixed(2)}
-                      </span>
+                      </span> */}
                     </a>
                     <a
                       href="#compare"

@@ -14,12 +14,13 @@ export default function CartModal() {
     totalPrice,
     addProductToCart,
     isAddedToCartProducts,
+    products
   } = useContextElement();
   const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
-  const products = useSelector(selectProducts);
-  const loading = useSelector(selectLoading);
-  const error = useSelector(selectError);
-  const pagination = useSelector(selectPagination);
+  // const products = useSelector(selectProducts);
+  // const loading = useSelector(selectLoading);
+  // const error = useSelector(selectError);
+  // const pagination = useSelector(selectPagination);
 
   useEffect(() => {
     dispatch(fetchProducts(1));
@@ -39,14 +40,14 @@ export default function CartModal() {
             <h6 className="title">You May Also Like</h6>
             <div className="wrap-recommendations">
               <div className="list-cart">
-                {products41.map((product, index) => (
+                {products.map((product, index) => (
                   <div className="list-cart-item" key={index}>
                     <div className="image">
                       <img
                         className="lazyload"
-                        data-src={product.imgSrc}
-                        alt={product.alt}
-                        src={product.imgSrc}
+                        data-src={`${BASE_URL}${product.banner_img}`}
+                        src={`${BASE_URL}${product.banner_img}`}
+                        alt={product.title}
                         width={600}
                         height={800}
                       />
@@ -62,7 +63,7 @@ export default function CartModal() {
                       </div>
                       <div className="cart-item-bot">
                         <div className="text-button price">
-                          ${product.price.toFixed(2)}
+                        ₹{Number(product?.discount_price)?.toFixed(2)}
                         </div>
                         <a
                           className="link text-button"
@@ -142,9 +143,9 @@ export default function CartModal() {
                               <div className="d-flex align-items-center justify-content-between flex-wrap gap-12">
                                 <div className="text-secondary-2">XL/Blue</div>
                                 <div className="text-button">
-                                  {product.quantity} X $
+                                  {product.quantity} X
                                   {/* {product.price.toFixed(2)} */}
-                                  ${product?.discount_price ? Number(product?.discount_price).toFixed(2) : product?.discount_price}
+                                  ₹{product?.discount_price ? Number(product?.discount_price).toFixed(2) : product?.discount_price}
                                 </div>
                               </div>
                             </div>
@@ -279,7 +280,7 @@ export default function CartModal() {
                     <div className="tf-cart-totals-discounts">
                       <h5>Subtotal</h5>
                       <h5 className="tf-totals-total-value">
-                        ${totalPrice.toFixed(2)}
+                      ₹{totalPrice.toFixed(2)}
                       </h5>
                     </div>
                     <div className="tf-cart-checkbox">

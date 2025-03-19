@@ -30,7 +30,8 @@ export default function ProductsCards6({ product }) {
             className="lazyload img-product"
             data-src={`${BASE_URL}${product.banner_img}`}
             src={`${BASE_URL}${product.banner_img}`}
-            alt={product.title} width={600} height={800} />
+            alt={product.title} 
+            width={600} height={800} />
           <img className="lazyload img-hover"
             data-src={`${BASE_URL}${product.banner_img}`}
             src={`${BASE_URL}${product.banner_img}`}

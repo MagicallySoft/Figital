@@ -10,6 +10,9 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import MetaComponent from "@/components/common/MetaComponent";
+import { useContextElement } from "@/context/Context";
+import { fetchProducts } from "@/redux/action/product/productAction";
+import { useDispatch } from "react-redux";
 const metadata = {
   title: "Product Detail || Modave  ",
   description: "Modave  ",
@@ -18,6 +21,8 @@ const metadata = {
 
 
 export default function ProductDetailPage() {
+  const dispatch = useDispatch()
+  const { products, loading, error, pagination, } = useContextElement();
   let params = useParams();
   const id = params.id;
 
@@ -30,7 +35,9 @@ export default function ProductDetailPage() {
       setIsLargeScreen(false);
     }
   };
-
+  // useEffect(() => {
+  //   dispatch(fetchProducts(1))
+  // })
   useEffect(() => {
     handleResize(); // Check screen size on initial load
     window.addEventListener('resize', handleResize); // Add resize event listener
@@ -39,17 +46,19 @@ export default function ProductDetailPage() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const product = allProducts.filter((p) => p.id == id)[0] || allProducts[0];
+
+
+  const product = products.filter((p) => p.id == id)[0] || products[0];
   return (
     <>
       <MetaComponent meta={metadata} />
       {isLargeScreen && <Topbar6 />}
       <Header11 />
       <Breadcumb product={product} />
-      <Details1 product={product} />
+      <Details1 product={product} loading={loading}/>
       <Descriptions1 />
       <RelatedProducts />
-      <Footer1 hasPaddingBottom />
+      <Footer1 dark />
     </>
   );
 }

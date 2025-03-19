@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
-import { products } from "@/data/products";
+// import { products } from "@/data/products";
 import ProductCard1 from "../productCards/ProductCard1";
+import { useContextElement } from "@/context/Context";
 export default function RelatedProducts() {
+  const { products, loading, error, pagination, } = useContextElement();
   return (
     <section className="flat-spacing">
       <div className="container flat-animate-tab">

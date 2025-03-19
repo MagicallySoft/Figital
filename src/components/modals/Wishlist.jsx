@@ -71,7 +71,7 @@ export default function Wishlist() {
                               <div className="text-secondary-2">XL/Blue</div>
                               <div className="text-button">
                                 {/* ${elm.price.toFixed(2)} */}
-                                ₹{Number(elm.price)?.toFixed(2)}
+                                ₹{Number(elm.discount_price)?.toFixed(2)}
                               </div>
                             </div>
                           </div>
