@@ -18,6 +18,8 @@ export default function ProductCard3({ product }) {
     isAddedToCartProducts,
   } = useContextElement();
 
+
+
   const truncate = (str, maxLength) => {
     return str && str.length > maxLength ? str.slice(0, maxLength) + "..." : str;
   };

@@ -1,3 +1,33 @@
+.shimmer {
+  background: linear-gradient(90deg, #f4f4f4 25%, #ececec 37%, #f4f4f4 63%);
+  background-size: 400% 100%;
+  position: relative;
+
+}
+
+.shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0) 20%,
+    rgba(255, 255, 255, 0.579) 50%,
+    rgba(255,255,255,0) 80%
+  );
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* /////////////////////// */
+
+
 .skeleton-card {
   background: #fff;
   border-radius: 8px;
@@ -100,15 +130,18 @@
   background: linear-gradient(
     90deg,
     rgba(255,255,255,0) 20%,
-    rgba(255,255,255,0.2) 50%,
+    rgba(255, 255, 255, 0.486) 50%,
     rgba(255,255,255,0) 80%
   );
-  animation: shimmer 1.5s infinite;
+  animation: shimmer-cat 1.5s infinite;
 }
 
-@keyframes shimmer {
+@keyframes shimmer-cat {
+  0% {
+    background-position: 100% 50%;
+  }
   100% {
-    transform: translateX(100%);
+    background-position: 0 50%;
   }
 }
 
@@ -150,22 +183,6 @@
   /* You can add spacing or layout styles as needed */
 }
 
-/* Shimmer animation for placeholders */
-.shimmer {
-  background: linear-gradient(90deg, #f4f4f4 25%, #ececec 37%, #f4f4f4 63%);
-  background-size: 400% 100%;
-  animation: shimmer 1.4s ease infinite;
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0 50%;
-  }
-}
-
 /* Large image placeholder */
 .skeleton-img-block {
   /* width: 100%; */
@@ -195,22 +212,6 @@
 /* \\\\\\\\\\\\\\\\\\\\\\\\\\ */
 /* \\\\\\\\---Compare--\\\\\\\
 /* \\\\\\\\\\\\\\\\\\\\\\\\\\\ */
-
-/* Basic shimmer animation */
-.shimmer {
-  background: linear-gradient(90deg, #f4f4f4 25%, #eaeaea 37%, #f4f4f4 63%);
-  background-size: 400% 100%;
-  animation: shimmer 1.4s ease infinite;
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0 50%;
-  }
-}
 
 /* Container for skeleton compare */
 .skeleton-compare-section {

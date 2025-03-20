@@ -1,3 +1,4 @@
+import axios from "axios";
 import axiosInstance from "../../../utlis/axiosInstance";
 
 export const fetchBrands = () => async (dispatch, getState) => {
@@ -10,8 +11,14 @@ export const fetchBrands = () => async (dispatch, getState) => {
 
   try {
     dispatch({ type: "FETCH_BRAND_REQUEST" });
-
-    const response = await axiosInstance.get("/admin/brand/list");
+    const token = "23|rYUdSGlPKeUagp9j2STX0glktsnWg4RfnQoENzWJeeec0370"
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    // const response = await axiosInstance.get("/admin/brand/list");
+    const response = await axios.get("https://ecomapi.tallytdls.in/api/v1/admin/brand/list", config);
     // Check for success based on your API's custom code
     if (response.data.code !== 200) {
       dispatch({

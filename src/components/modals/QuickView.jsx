@@ -140,7 +140,7 @@ export default function QuickView() {
                       isAddedToCartProducts(quickViewItem?.id)
                         ? cartProducts?.filter(
                           (elm) => elm.id == quickViewItem?.id
-                        )[0].quantity
+                        )[0]?.quantity
                         : quantity
                     }
                     setQuantity={(qty) => {

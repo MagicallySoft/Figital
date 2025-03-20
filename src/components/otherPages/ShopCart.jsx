@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import CountdownTimer from "../common/Countdown";
 import { useContextElement } from "@/context/Context";
+import { useDispatch } from "react-redux";
+import { removeFromCart, updateCart } from "@/redux/action/cart/cartAction";
 const discounts = [
   {
     discount: "10% OFF",
@@ -39,21 +41,33 @@ const shippingOptions = [
 ];
 
 export default function ShopCart() {
+  const dispatch = useDispatch()
   const [activeDiscountIndex, setActiveDiscountIndex] = useState(1);
   const [selectedOption, setSelectedOption] = useState(shippingOptions[0]);
   const { cartProducts, setCartProducts, totalPrice } = useContextElement();
   const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
-  const setQuantity = (id, quantity) => {
+  const setQuantity = (id, quantity, Cid) => {
+    console.log(quantity);
+    console.log(Cid);
     if (quantity >= 1) {
+      console.log("1");
+      dispatch(updateCart(Cid, quantity))
+      console.log(2);
+      
       const item = cartProducts.filter((elm) => elm.id == id)[0];
       const items = [...cartProducts];
       const itemIndex = items.indexOf(item);
       item.quantity = quantity;
       items[itemIndex] = item;
+      // console.log("items", quantity);
+
+      
       setCartProducts(items);
+      
     }
   };
-  const removeItem = (id) => {
+  const removeItem = (id, Cid) => {
+    dispatch(removeFromCart(Cid));
     setCartProducts((pre) => [...pre.filter((elm) => elm.id != id)]);
   };
   const handleOptionChange = (elm) => {
@@ -203,7 +217,7 @@ export default function ShopCart() {
                               <span
                                 className="btn-quantity btn-decrease"
                                 onClick={() =>
-                                  setQuantity(elm.id, elm.quantity - 1)
+                                  setQuantity(elm.id, elm.quantity - 1, elm.cartId)
                                 }
                               >
                                 -
@@ -218,7 +232,7 @@ export default function ShopCart() {
                               <span
                                 className="btn-quantity btn-increase"
                                 onClick={() =>
-                                  setQuantity(elm.id, elm.quantity + 1)
+                                  setQuantity(elm.id, elm.quantity + 1, elm.cartId)
                                 }
                               >
                                 +
@@ -236,7 +250,7 @@ export default function ShopCart() {
                           <td
                             data-cart-title="Remove"
                             className="remove-cart"
-                            onClick={() => removeItem(elm.id)}
+                            onClick={() => removeItem(elm.id, elm.cartId)}
                           >
                             <span className="remove icon icon-close" />
                           </td>

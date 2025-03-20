@@ -46,8 +46,8 @@ export const loginUser = (credentials, navigate) => async (dispatch) => {
   try {
     dispatch({ type: "LOGIN_REQUEST",  });
     const contact_number = { contact_number: "8866116731" };
-    // const response = await axiosInstance.post("/login", contact_number, {
-    const response = await axiosInstance.post("/access", credentials, {
+    const response = await axiosInstance.post("/login", contact_number, {
+    // const response = await axiosInstance.post("/access", credentials, {
       headers: {
         Authorization: "uOddiZliFen9pZyBMLBaGZhhXG2J3ENpeB6HOovzvhQ",
       },

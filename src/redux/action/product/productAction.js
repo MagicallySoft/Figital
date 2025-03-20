@@ -32,6 +32,7 @@
 
 
 
+import axios from "axios";
 import axiosInstance from "../../../utlis/axiosInstance";
 
 export const fetchProducts = (page = 1) => async (dispatch, getState) => {
@@ -45,7 +46,16 @@ export const fetchProducts = (page = 1) => async (dispatch, getState) => {
 
   dispatch({ type: "FETCH_PRODUCT_REQUEST", payload: { page } });
   try {
-    const response = await axiosInstance.get(`/admin/product?page=${page}`);
+
+    const token = "77|Gk0gIkfCFGK44SV2MC3HWgPF8fo2DBZjoSY1gFZK6168eb9c"
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    // const response = await axiosInstance.get(`/product?page=${page}`);
+    const response = await axios.get(`https://ecomapi.tallytdls.in/api/v1/product?page=${page}`, config);
     if (response.data.code !== 200) {
       dispatch({ 
         type: "FETCH_PRODUCT_FAILURE", 

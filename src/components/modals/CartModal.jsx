@@ -6,6 +6,7 @@ import { products41 } from "@/data/products";
 import { selectProducts, selectLoading, selectError, selectPagination } from '@/redux/action/product/productSelectors';
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "@/redux/action/product/productAction";
+import { removeFromCart } from "@/redux/action/cart/cartAction";
 export default function CartModal() {
   const dispatch = useDispatch();
   const {
@@ -26,7 +27,8 @@ export default function CartModal() {
     dispatch(fetchProducts(1));
   }, [dispatch]);
 
-  const removeItem = (id) => {
+  const removeItem = (id, Cid) => {
+    dispatch(removeFromCart(Cid));
     setCartProducts((pre) => [...pre.filter((elm) => elm.id != id)]);
   };
 
@@ -135,7 +137,7 @@ export default function CartModal() {
                                 </div>
                                 <div
                                   className="text-button tf-btn-remove remove"
-                                  onClick={() => removeItem(product.id)}
+                                  onClick={() => removeItem(product.id, product.cartId)}
                                 >
                                   Remove
                                 </div>

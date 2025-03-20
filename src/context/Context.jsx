@@ -170,6 +170,7 @@ import { openCartModal } from "@/utlis/openCartModal";
 import { openWistlistModal } from "@/utlis/openWishlist";
 import { selectCategories, selectCategoryLoading, selectCategoryError } from "@/redux/action/category/categorySelectors";
 import { fetchCategory } from "@/redux/action/category/categoryAction";
+import { getCart, addToCart, removeFromCart } from "@/redux/action/cart/cartAction"
 
 const dataContext = React.createContext();
 
@@ -179,6 +180,13 @@ export const useContextElement = () => {
 
 export default function Context({ children }) {
   const dispatch = useDispatch();
+
+  const { items } = useSelector((state) => state.cart)
+
+  // console.log(items);
+
+
+
 
   // Local state
   const [cartProducts, setCartProducts] = useState([]);
@@ -198,11 +206,41 @@ export default function Context({ children }) {
   const error = useSelector(selectError);
   const pagination = useSelector(selectPagination);
 
+
+  useEffect(() => {
+    dispatch(getCart());
+  }, [dispatch]);
+
+  // Set cartProducts whenever items change
+  useEffect(() => {
+    if (items && products) {
+      // Find product details and add qty from items
+      const updatedCartProducts = items.map((item) => {
+        // Find the product matching the current item id
+        const product = products.find((product) => product.id === item.product_id);
+        // console.log("product", product);
+        
+        if (product) {
+          return {
+            ...product,   
+            cartId: item.id,     
+            quantity: item.qty      
+          };
+        }
+        return null; 
+      }).filter(Boolean); 
+
+      setCartProducts(updatedCartProducts); 
+    }
+  }, [items, products]); 
+
+  // console.log("Cart Products--->\n", cartProducts);
+
   // Fetch products when the component mounts
-  // useEffect(() => {
-  //   dispatch(fetchProducts());
-  //   dispatch(fetchCategory())
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(fetchProducts());
+    dispatch(fetchCategory())
+  }, [dispatch]);
 
   // Set initial quick view item once products are loaded
   useEffect(() => {
@@ -221,7 +259,7 @@ export default function Context({ children }) {
 
   // Check if a product is already added to the cart
   const isAddedToCartProducts = (id) => {
-    return cartProducts.some((elm) => elm.id === id);
+    return cartProducts?.some((elm) => elm.id === id);
   };
 
   // Add a product to the cart using product data from the API response
@@ -330,10 +368,10 @@ export default function Context({ children }) {
     compareItem,
     setCompareItem,
     updateQuantity,
-    products,   
-    loading,    
-    error,      
-    pagination, 
+    products,
+    loading,
+    error,
+    pagination,
     categories,
     Categoryloading,
     Categoryerror
@@ -345,3 +383,192 @@ export default function Context({ children }) {
     </dataContext.Provider>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// //context.jsx
+// import React, { useEffect, useState, useContext } from "react";
+// import { useDispatch, useSelector } from "react-redux";
+// import { fetchProducts } from "@/redux/action/product/productAction";
+// import { getCart, addToCart, updateCart } from "@/redux/action/cart/cartAction";
+// import {
+//   selectProducts,
+//   selectLoading,
+//   selectError,
+//   selectPagination
+// } from "@/redux/action/product/productSelectors";
+// import { openCartModal } from "@/utlis/openCartModal";
+// import { openWistlistModal } from "@/utlis/openWishlist";
+// import { selectCategories, selectCategoryLoading, selectCategoryError } from "@/redux/action/category/categorySelectors";
+// import { fetchCategory } from "@/redux/action/category/categoryAction";
+
+// const dataContext = React.createContext();
+
+// export const useContextElement = () => {
+//   return useContext(dataContext);
+// };
+
+// export default function Context({ children }) {
+//   const dispatch = useDispatch();
+
+//   // Use Redux state for cart products instead of local state/localStorage
+//   // const cartProducts = useSelector((state) => state.cart.items);
+
+
+
+//   const [wishList, setWishList] = useState([]);
+//   const [compareItem, setCompareItem] = useState([]);
+//   const [quickViewItem, setQuickViewItem] = useState(null);
+//   const [quickAddItem, setQuickAddItem] = useState(1);
+//   const [totalPrice, setTotalPrice] = useState(0);
+
+//   const categories = useSelector(selectCategories);
+//   const Categoryloading = useSelector(selectCategoryLoading);
+//   const Categoryerror = useSelector(selectCategoryError);
+
+//   const products = useSelector(selectProducts) || [];
+//   const loading = useSelector(selectLoading);
+//   const error = useSelector(selectError);
+//   const pagination = useSelector(selectPagination);
+
+//   // Fetch products, categories, and cart from API when the component mounts
+//   useEffect(() => {
+//     dispatch(fetchProducts());
+//     dispatch(fetchCategory());
+//     dispatch(getCart());
+//   }, [dispatch]);
+
+//   useEffect(() => {
+//     if (products.length > 0 && !quickViewItem) {
+//       setQuickViewItem(products[0]);
+//     }
+//   }, [products, quickViewItem]);
+
+//   // Calculate total price using cartProducts from Redux
+//   useEffect(() => {
+//     const subtotal = cartProducts.reduce((acc, product) => {
+//       // Using qty from API response; fallback to 1 if not available
+//       const quantity = product.qty || product.quantity || 1;
+//       return acc + quantity * Number(product.discount_price);
+//     }, 0);
+//     setTotalPrice(subtotal);
+//   }, [cartProducts]);
+
+//   // Check if a product is already added to the cart
+//   const isAddedToCartProducts = (id) => {
+//     return cartProducts?.some((elm) => elm.id === id || elm.product_id === id);
+//   };
+
+//   // Add a product to the cart using the API action
+//   const addProductToCart = (id, qty, isModal = true) => {
+//     if (!isAddedToCartProducts(id)) {
+//       dispatch(addToCart(id, qty ? qty : 1));
+//       if (isModal) {
+//         openCartModal();
+//       }
+//     }
+//   };
+
+//   // Update the quantity of a product in the cart via API
+//   const updateQuantity = (id, qty) => {
+//     if (isAddedToCartProducts(id)) {
+//       dispatch(updateCart(id, qty));
+//     }
+//   };
+
+//   // Wishlist functions
+//   const addToWishlist = (id) => {
+//     if (!wishList.includes(id)) {
+//       setWishList((prev) => [...prev, id]);
+//       openWistlistModal();
+//     }
+//   };
+
+//   const removeFromWishlist = (id) => {
+//     setWishList((prev) => prev.filter((elm) => elm !== id));
+//   };
+
+//   const isAddedtoWishlist = (id) => wishList.includes(id);
+
+//   // Compare item functions
+//   const addToCompareItem = (id) => {
+//     if (!compareItem.includes(id)) {
+//       setCompareItem((prev) => [...prev, id]);
+//     }
+//   };
+
+//   const removeFromCompareItem = (id) => {
+//     setCompareItem((prev) => prev.filter((elm) => elm !== id));
+//   };
+
+//   const isAddedtoCompareItem = (id) => compareItem.includes(id);
+
+//   // Retain wishlist and compare items in localStorage
+//   useEffect(() => {
+//     const storedWishlist = JSON.parse(localStorage.getItem("wishlist"));
+//     if (storedWishlist?.length) {
+//       setWishList(storedWishlist);
+//     }
+//   }, []);
+
+//   useEffect(() => {
+//     localStorage.setItem("wishlist", JSON.stringify(wishList));
+//   }, [wishList]);
+
+//   useEffect(() => {
+//     const storedCompareItem = JSON.parse(localStorage.getItem("compareItem"));
+//     if (storedCompareItem?.length) {
+//       setCompareItem(storedCompareItem);
+//     }
+//   }, []);
+
+//   useEffect(() => {
+//     localStorage.setItem("compareItem", JSON.stringify(compareItem));
+//   }, [compareItem]);
+
+//   // Build the context element
+//   const contextElement = {
+//     cartProducts,
+//     totalPrice,
+//     addProductToCart,
+//     isAddedToCartProducts,
+//     removeFromWishlist,
+//     addToWishlist,
+//     isAddedtoWishlist,
+//     quickViewItem,
+//     wishList,
+//     setQuickViewItem,
+//     quickAddItem,
+//     setQuickAddItem,
+//     addToCompareItem,
+//     isAddedtoCompareItem,
+//     removeFromCompareItem,
+//     compareItem,
+//     setCompareItem,
+//     updateQuantity,
+//     products,
+//     loading,
+//     error,
+//     pagination,
+//     categories,
+//     Categoryloading,
+//     Categoryerror
+//   };
+
+//   return (
+//     <dataContext.Provider value={contextElement}>
+//       {children}
+//     </dataContext.Provider>
+//   );
+// }
