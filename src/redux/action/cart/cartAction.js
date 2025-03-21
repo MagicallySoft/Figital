@@ -1,4 +1,5 @@
 import axiosInstance from "../../../utlis/axiosInstance";
+import { getLocalCart, setLocalCart, removeLocalCart } from "@/utlis/localStorageHelper";
 
 // Action Types
 export const FETCH_CART_REQUEST = "FETCH_CART_REQUEST";
@@ -19,17 +20,20 @@ export const REMOVE_FROM_CART_FAILURE = "REMOVE_FROM_CART_FAILURE";
 
 export const MERGE_LOCAL_CART = "MERGE_LOCAL_CART";
 
+// Helper to extract error payload
+const getErrorPayload = (error, defaultMsg = "Operation failed") => {
+  return error.response?.data?.message || error.message || defaultMsg;
+};
+
 /**
  * getCart - Fetch cart from API
  */
-export const getCart = () => async (dispatch, getState) => {
+export const getCart = () => async (dispatch) => {
+  dispatch({ type: FETCH_CART_REQUEST });
   try {
-    dispatch({ type: FETCH_CART_REQUEST });
-
-    // Attempt to fetch cart from server
     const response = await axiosInstance.get("/cart");
-    // Check your API's success code
-    if (response.data.code !== 200) {
+    // Prefer HTTP status code if available
+    if (response.status !== 200 && response.data.code !== 200) {
       dispatch({
         type: FETCH_CART_FAILURE,
         payload: response.data.message || "Failed to fetch cart",
@@ -41,20 +45,18 @@ export const getCart = () => async (dispatch, getState) => {
       });
     }
   } catch (error) {
-    const errorPayload =
-      error.response?.data || error.message || "Failed to fetch cart";
-    dispatch({ type: FETCH_CART_FAILURE, payload: errorPayload });
+    dispatch({ type: FETCH_CART_FAILURE, payload: getErrorPayload(error, "Failed to fetch cart") });
   }
 };
 
 /**
- * addToCart - Add item to cart via API
- * fallback to local storage if offline or no token
+ * addToCart - Add item to cart via API.
+ * Fallback to local storage if offline or no token.
  */
-export const addToCart = (product_id, qty = 1) => async (dispatch, getState) => {
+export const addToCart = (product_id, qty = 1) => async (dispatch) => {
   const token = localStorage.getItem("userToken");
   if (!token) {
-    // If user not logged in, store in local storage
+    // If no token, update local cart
     dispatch({
       type: MERGE_LOCAL_CART,
       payload: { product_id, qty },
@@ -62,13 +64,11 @@ export const addToCart = (product_id, qty = 1) => async (dispatch, getState) => 
     return;
   }
 
+  dispatch({ type: ADD_TO_CART_REQUEST });
   try {
-    dispatch({ type: ADD_TO_CART_REQUEST });
-
     const requestBody = { product_id, qty, status: "active" };
     const response = await axiosInstance.post("/cart", requestBody);
-
-    if (response.data.code !== 200) {
+    if (response.status !== 200 && response.data.code !== 200) {
       dispatch({
         type: ADD_TO_CART_FAILURE,
         payload: response.data.message || "Failed to add item to cart",
@@ -80,23 +80,17 @@ export const addToCart = (product_id, qty = 1) => async (dispatch, getState) => 
       });
     }
   } catch (error) {
-    const errorPayload = error.response?.data || error.message;
-    console.log("errorPayload----->\n", errorPayload);
-    
-    dispatch({ type: ADD_TO_CART_FAILURE, payload: errorPayload });
+    dispatch({ type: ADD_TO_CART_FAILURE, payload: getErrorPayload(error, "Failed to add item to cart") });
   }
 };
 
 /**
- * updateCart - Update cart item via API
- * fallback to local storage if offline or no token
+ * updateCart - Update cart item via API.
+ * Fallback to local storage if offline or no token.
  */
-export const updateCart = (cartItemId, qty) => async (dispatch, getState) => {
-  console.log(cartItemId, qty);
-  
+export const updateCart = (cartItemId, qty) => async (dispatch) => {
   const token = localStorage.getItem("userToken");
   if (!token) {
-    // Update local storage if user is offline
     dispatch({
       type: MERGE_LOCAL_CART,
       payload: { cartItemId, qty },
@@ -104,16 +98,11 @@ export const updateCart = (cartItemId, qty) => async (dispatch, getState) => {
     return;
   }
 
+  dispatch({ type: UPDATE_CART_REQUEST });
   try {
-    dispatch({ type: UPDATE_CART_REQUEST });
-
     const requestBody = { qty, status: "active" };
-    console.log(requestBody);
-    
     const response = await axiosInstance.put(`/cart/${cartItemId}`, requestBody);
-    console.log(response);
-    
-    if (response.data.code !== 200) {
+    if (response.status !== 200 && response.data.code !== 200) {
       dispatch({
         type: UPDATE_CART_FAILURE,
         payload: response.data.message || "Failed to update cart",
@@ -125,19 +114,20 @@ export const updateCart = (cartItemId, qty) => async (dispatch, getState) => {
       });
     }
   } catch (error) {
-    const errorPayload = error.response?.data || error.message;
-    dispatch({ type: UPDATE_CART_FAILURE, payload: errorPayload });
+    // console.log("ERROR--->", error);
+    // console.log("Error Payload--->", getErrorPayload(error, "Failed to update cart"));
+        
+    dispatch({ type: UPDATE_CART_FAILURE, payload: getErrorPayload(error, "Failed to update cart") });
   }
 };
 
 /**
- * removeFromCart - Remove item from cart via API
- * fallback to local storage if offline or no token
+ * removeFromCart - Remove item from cart via API.
+ * Fallback to local storage if offline or no token.
  */
-export const removeFromCart = (cartItemId) => async (dispatch, getState) => {
+export const removeFromCart = (cartItemId) => async (dispatch) => {
   const token = localStorage.getItem("userToken");
   if (!token) {
-    // remove from local storage
     dispatch({
       type: MERGE_LOCAL_CART,
       payload: { remove: true, cartItemId },
@@ -145,13 +135,10 @@ export const removeFromCart = (cartItemId) => async (dispatch, getState) => {
     return;
   }
 
+  dispatch({ type: REMOVE_FROM_CART_REQUEST });
   try {
-    dispatch({ type: REMOVE_FROM_CART_REQUEST });
-    console.log("cartItemId------>", cartItemId);
-    
     const response = await axiosInstance.delete(`/cart/${cartItemId}`);
-
-    if (response.data.code !== 200) {
+    if (response.status !== 200 && response.data.code !== 200) {
       dispatch({
         type: REMOVE_FROM_CART_FAILURE,
         payload: response.data.message || "Failed to remove from cart",
@@ -159,33 +146,28 @@ export const removeFromCart = (cartItemId) => async (dispatch, getState) => {
     } else {
       dispatch({
         type: REMOVE_FROM_CART_SUCCESS,
-        payload: cartItemId, // the ID of the removed item
+        payload: cartItemId,
       });
     }
   } catch (error) {
-    const errorPayload = error.response?.data || error.message;
-    console.log("errorPayload---->\n", errorPayload);
-    
-    dispatch({ type: REMOVE_FROM_CART_FAILURE, payload: errorPayload });
+    dispatch({ type: REMOVE_FROM_CART_FAILURE, payload: getErrorPayload(error, "Failed to remove from cart") });
   }
 };
 
 /**
- * mergeLocalCart - merges local storage cart items with the server cart
- * after user logs in or is back online
+ * mergeLocalCart - Merge local cart items with the server cart.
+ * Optionally, consider batching these requests.
  */
-export const mergeLocalCart = () => async (dispatch, getState) => {
-  // read local storage cart items
-  const localCart = JSON.parse(localStorage.getItem("cartList")) || [];
+export const mergeLocalCart = () => async (dispatch) => {
+  const localCart = getLocalCart();
   if (!localCart.length) return;
 
   try {
-    // attempt to sync each item
+    // For each local item, attempt to sync with the server
     for (let item of localCart) {
       await dispatch(addToCart(item.product_id, item.qty));
     }
-    // if successful, clear local cart
-    localStorage.removeItem("cartList");
+    removeLocalCart();
   } catch (error) {
     console.error("Failed to merge local cart:", error);
   }

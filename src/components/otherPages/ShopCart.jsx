@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
-
+import React, { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import CountdownTimer from "../common/Countdown";
 import { useContextElement } from "@/context/Context";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { removeFromCart, updateCart } from "@/redux/action/cart/cartAction";
+import { Alert, Spinner } from "react-bootstrap";
+import { ClipLoader } from "react-spinners";
+
 const discounts = [
   {
     discount: "10% OFF",
@@ -22,6 +24,7 @@ const discounts = [
     code: "Mo234231",
   },
 ];
+
 const shippingOptions = [
   {
     id: "free",
@@ -41,41 +44,58 @@ const shippingOptions = [
 ];
 
 export default function ShopCart() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.cart);
   const [activeDiscountIndex, setActiveDiscountIndex] = useState(1);
   const [selectedOption, setSelectedOption] = useState(shippingOptions[0]);
   const { cartProducts, setCartProducts, totalPrice } = useContextElement();
   const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
-  const setQuantity = (id, quantity, Cid) => {
-    console.log(quantity);
-    console.log(Cid);
-    if (quantity >= 1) {
-      console.log("1");
-      dispatch(updateCart(Cid, quantity))
-      console.log(2);
-      
-      const item = cartProducts.filter((elm) => elm.id == id)[0];
-      const items = [...cartProducts];
-      const itemIndex = items.indexOf(item);
-      item.quantity = quantity;
-      items[itemIndex] = item;
-      // console.log("items", quantity);
 
-      
-      setCartProducts(items);
-      
-    }
-  };
-  const removeItem = (id, Cid) => {
-    dispatch(removeFromCart(Cid));
-    setCartProducts((pre) => [...pre.filter((elm) => elm.id != id)]);
-  };
-  const handleOptionChange = (elm) => {
-    setSelectedOption(elm);
-  };
+  // Item-specific loading state
+  const [loadingItems, setLoadingItems] = useState({});
+
+  // Update quantity with per-item loading
+  const setQuantity = useCallback(
+    (id, quantity, Cid) => {
+      if (quantity < 1) return;
+
+      // Set loading for only the affected item
+      setLoadingItems((prev) => ({ ...prev, [id]: true }));
+      return dispatch(updateCart(Cid, quantity))
+        .then(() => {
+          const updatedItems = cartProducts.map((item) =>
+            item.id === id ? { ...item, quantity } : item
+          );
+          setCartProducts(updatedItems);
+        })
+        .finally(() =>
+          setLoadingItems((prev) => ({ ...prev, [id]: false }))
+        );
+    },
+    [dispatch, cartProducts, setCartProducts]
+  );
+
+  // Remove item with item-specific loading
+  const removeItem = useCallback(
+    (id, Cid) => {
+      setLoadingItems((prev) => ({ ...prev, [id]: true }));
+      dispatch(removeFromCart(Cid))
+        .then(() => {
+          setCartProducts((prev) => prev.filter((elm) => elm.id !== id));
+        })
+        .finally(() =>
+          setLoadingItems((prev) => ({ ...prev, [id]: false }))
+        );
+    },
+    [dispatch, setCartProducts]
+  );
+
+  const handleOptionChange = useCallback((option) => {
+    setSelectedOption(option);
+  }, []);
 
   useEffect(() => {
-    document.querySelector(".progress-cart .value").style.width = "70%";
+    document.querySelector(".progress-cart .value").style.width = "20%";
   }, []);
 
   return (
@@ -110,9 +130,9 @@ export default function ShopCart() {
                 </div>
                 <div className="notification-progress">
                   <div className="text">
-                    Buy 
+                    Buy
                     <span className="fw-semibold text-primary">
-                     ₹ 70.00
+                      ₹ 70.00
                     </span>{" "}
                     more to get <span className="fw-semibold">Freeship</span>
                   </div>
@@ -142,118 +162,137 @@ export default function ShopCart() {
                     <tbody>
                       {cartProducts.map((elm, i) => (
                         <tr key={i} className="tf-cart-item file-delete">
-                          <td className="tf-cart-item_product">
-                            <Link
-                              to={`/product-detail/${elm.id}`}
-                              className="img-box"
-                            >
-                              <img
-                                data-src={`${BASE_URL}${elm.banner_img}`}
-                                src={`${BASE_URL}${elm.banner_img}`}
-                                alt={elm.title}
-                                width={600}
-                                height={800}
-                              />
-                            </Link>
-                            <div className="cart-info">
-                              <Link
-                                to={`/product-detail/${elm.id}`}
-                                className="cart-title link"
-                              >
-                                {elm.title}
-                              </Link>
-                              <div className="variant-box">
-                                <div className="tf-select">
-                                  <select>
-                                    <option>Blue</option>
-                                    <option>Black</option>
-                                    <option>White</option>
-                                    <option>Red</option>
-                                    <option>Beige</option>
-                                    <option>Pink</option>
-                                  </select>
+                          {loadingItems[elm.id] ? (
+                            <td colSpan="5" style={{ textAlign: "center", padding: "20px" }}>
+                              <ClipLoader size={30} />
+                            </td>
+                          ) : (
+                            <>
+                              <td className="tf-cart-item_product">
+                                <Link
+                                  to={`/product-detail/${elm.id}`}
+                                  className="img-box"
+                                >
+                                  <img
+                                    data-src={`${BASE_URL}${elm.banner_img}`}
+                                    src={`${BASE_URL}${elm.banner_img}`}
+                                    alt={elm.title}
+                                    width={600}
+                                    height={800}
+                                  />
+                                </Link>
+                                <div className="cart-info">
+                                  <Link
+                                    to={`/product-detail/${elm.id}`}
+                                    className="cart-title link"
+                                  >
+                                    {elm.title}
+                                  </Link>
+                                  <div className="variant-box">
+                                    <div className="tf-select">
+                                      <select>
+                                        <option>Blue</option>
+                                        <option>Black</option>
+                                        <option>White</option>
+                                        <option>Red</option>
+                                        <option>Beige</option>
+                                        <option>Pink</option>
+                                      </select>
+                                    </div>
+                                    <div className="tf-select">
+                                      <select>
+                                        <option>XL</option>
+                                        <option>XS</option>
+                                        <option>S</option>
+                                        <option>M</option>
+                                        <option>L</option>
+                                        <option>XL</option>
+                                        <option>2XL</option>
+                                      </select>
+                                    </div>
+                                  </div>
                                 </div>
-                                <div className="tf-select">
-                                  <select>
-                                    <option>XL</option>
-                                    <option>XS</option>
-                                    <option>S</option>
-                                    <option>M</option>
-                                    <option>L</option>
-                                    <option>XL</option>
-                                    <option>2XL</option>
-                                  </select>
+                              </td>
+                              <td
+                                data-cart-title="Price"
+                                className="tf-cart-item_price text-center"
+                              >
+                                <div className="cart-price text-button price-on-sale">
+                                  {elm.price && (
+                                    <span className="old-price text-decoration-line-through">
+                                      ₹{Number(elm.price)?.toFixed(2)}
+                                    </span>
+                                  )}{" "}
+                                  ₹{elm.discount_price ? Number(elm.discount_price).toFixed(2) : elm.discount_price}
                                 </div>
-                              </div>
-                            </div>
-                          </td>
-                          <td
-                            data-cart-title="Price"
-                            className="tf-cart-item_price text-center"
-                          >
-                            <div className="cart-price text-button price-on-sale">
-                              {/* ${elm.price.toFixed(2)} */}
-                              {elm.price && (
-                                <span className="old-price text-decoration-line-through">
-                                  ₹{Number(elm.price)?.toFixed(2)}
-                                </span>
-                              )}{" "}
-                              ₹{elm.discount_price ? Number(elm.discount_price).toFixed(2) : elm.discount_price}
-                            </div>
-                            {/* <span className="price current-price">
-                              {elm.price && (
-                                <span className="old-price">
-                                  ${Number(elm.price)?.toFixed(2)}
-                                </span>
-                              )}{" "}
-                              ${elm.discount_price ? Number(elm.discount_price).toFixed(2) : elm.discount_price}
-                            </span> */}
-                          </td>
-                          <td
-                            data-cart-title="Quantity"
-                            className="tf-cart-item_quantity"
-                          >
-                            <div className="wg-quantity mx-md-auto">
-                              <span
-                                className="btn-quantity btn-decrease"
-                                onClick={() =>
-                                  setQuantity(elm.id, elm.quantity - 1, elm.cartId)
-                                }
+                              </td>
+                              <td className="tf-cart-item_quantity">
+                                <div className="wg-quantity mx-md-auto">
+                                  <span
+                                    className="btn-quantity btn-decrease"
+                                    onClick={() =>
+                                      !loadingItems[elm.id] &&
+                                      setQuantity(elm.id, elm.quantity - 1, elm.cartId)
+                                    }
+                                  >
+                                    {loadingItems[elm.id] ? (
+                                      <ClipLoader
+                                        cssOverride={{}}
+                                        loading
+                                        size={20}
+                                        speedMultiplier={1}
+                                      />
+                                    ) : (
+                                      "-"
+                                    )}
+                                  </span>
+                                  <input
+                                    type="text"
+                                    className="quantity-product"
+                                    value={elm.quantity}
+                                    readOnly
+                                  />
+                                  <span
+                                    className="btn-quantity btn-increase"
+                                    onClick={() =>
+                                      !loadingItems[elm.id] &&
+                                      setQuantity(elm.id, elm.quantity + 1, elm.cartId)
+                                    }
+                                  >
+                                    {loadingItems[elm.id] ? (
+                                      <>
+
+                                        <ClipLoader
+                                          cssOverride={{}}
+                                          loading
+                                          size={20}
+                                          speedMultiplier={1}
+                                        />
+                                      </>
+                                    ) : (
+                                      "+"
+                                    )}
+                                  </span>
+                                </div>
+                              </td>
+                              <td
+                                data-cart-title="Total"
+                                className="tf-cart-item_total text-center"
                               >
-                                -
-                              </span>
-                              <input
-                                type="text"
-                                className="quantity-product"
-                                name="number"
-                                value={elm.quantity}
-                                readOnly
-                              />
-                              <span
-                                className="btn-quantity btn-increase"
-                                onClick={() =>
-                                  setQuantity(elm.id, elm.quantity + 1, elm.cartId)
-                                }
+                                <div className="cart-total text-button total-price">
+                                  ₹{(elm.discount_price * elm.quantity).toFixed(2)}
+                                </div>
+                              </td>
+                              <td
+                                data-cart-title="Remove"
+                                className="remove-cart"
+                                onClick={() => removeItem(elm.id, elm.cartId)}
                               >
-                                +
-                              </span>
-                            </div>
-                          </td>
-                          <td
-                            data-cart-title="Total"
-                            className="tf-cart-item_total text-center"
-                          >
-                            <div className="cart-total text-button total-price">
-                              ₹{(elm.discount_price * elm.quantity).toFixed(2)}
-                            </div>
-                          </td>
-                          <td
-                            data-cart-title="Remove"
-                            className="remove-cart"
-                            onClick={() => removeItem(elm.id, elm.cartId)}
-                          >
-                            <span className="remove icon icon-close" />
-                          </td>
+                                <span className="remove icon icon-close" />
+                              </td>
+                            </>
+                          )
+                        }
                         </tr>
                       ))}
                     </tbody>
@@ -268,8 +307,7 @@ export default function ShopCart() {
                     {discounts.map((item, index) => (
                       <div
                         key={index}
-                        className={`box-discount ${activeDiscountIndex === index ? "active" : ""
-                          }`}
+                        className={`box-discount ${activeDiscountIndex === index ? "active" : ""}`}
                         onClick={() => setActiveDiscountIndex(index)}
                       >
                         <div className="discount-top">
@@ -299,7 +337,7 @@ export default function ShopCart() {
                 <div>
                   Your wishlist is empty. Start adding your favorite products to
                   save them for later!{" "}
-                  <Link className="btn-line" href="/shop-default-grid">
+                  <Link className="btn-line" to="/shop-default-grid">
                     Explore Products
                   </Link>
                 </div>
@@ -333,7 +371,6 @@ export default function ShopCart() {
                           <label htmlFor={option.id}>
                             <span>{option.label}</span>
                             <span className="price">
-                              {/* ${option.discount_price.toFixed(2)} */}
                               ₹ {option.price ? Number(option.price).toFixed(2) : option.price}
                             </span>
                           </label>
@@ -348,8 +385,6 @@ export default function ShopCart() {
                       {totalPrice
                         ? (selectedOption.price + totalPrice).toFixed(2)
                         : 0}
-
-                      {/* ${elm.discount_price ? Number(elm.discount_price).toFixed(2) : elm.discount_price} */}
                     </span>
                   </h5>
                   <div className="box-progress-checkout">

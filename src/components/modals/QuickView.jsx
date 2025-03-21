@@ -51,7 +51,7 @@ export default function QuickView() {
     }
   };
   return (
-    <div className="modal fullRight fade modal-quick-view" id="quickView">
+    <div className="modal fullRight fade modal-quick-view" id="quickView" inert>
       <div className="modal-dialog">
         <div className="modal-content">
           <Grid5

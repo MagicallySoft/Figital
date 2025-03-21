@@ -26,7 +26,7 @@ export default function MobileMenu() {
 
   const { pathname } = useLocation();
   return (
-    <div className="offcanvas offcanvas-start canvas-mb" id="mobileMenu">
+    <div className="offcanvas offcanvas-start canvas-mb" id="mobileMenu" inert>
       <span
         className="icon-close icon-close-popup"
         data-bs-dismiss="offcanvas"

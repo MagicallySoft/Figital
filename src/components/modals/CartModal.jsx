@@ -18,10 +18,6 @@ export default function CartModal() {
     products
   } = useContextElement();
   const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
-  // const products = useSelector(selectProducts);
-  // const loading = useSelector(selectLoading);
-  // const error = useSelector(selectError);
-  // const pagination = useSelector(selectPagination);
 
   useEffect(() => {
     dispatch(fetchProducts(1));
@@ -35,7 +31,7 @@ export default function CartModal() {
   const [currentOpenPopup, setCurrentOpenPopup] = useState("");
 
   return (
-    <div className="modal fullRight fade modal-shopping-cart" id="shoppingCart">
+    <div className="modal fullRight fade modal-shopping-cart" id="shoppingCart" inert>
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="tf-minicart-recommendations">

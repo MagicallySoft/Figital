@@ -1,171 +1,7 @@
-// import { allProducts } from "@/data/products";
-// import { openCartModal } from "@/utlis/openCartModal";
-// import { openWistlistModal } from "@/utlis/openWishlist";
-
-// import React, { useEffect } from "react";
-// import { useContext, useState } from "react";
-// const dataContext = React.createContext();
-
-// import { selectProducts, selectLoading, selectError, selectPagination } from '@/redux/action/product/productSelectors';
-// import { useDispatch, useSelector } from "react-redux";
-// import { fetchProducts } from "@/redux/action/product/productAction";
-
-// export const useContextElement = () => {
-//   return useContext(dataContext);
-// };
-
-// export default function Context({ children }) {
-//   const dispatch = useDispatch();
-//   const [cartProducts, setCartProducts] = useState([]);
-//   const [wishList, setWishList] = useState([1, 2, 3]);
-//   const [compareItem, setCompareItem] = useState([1, 2, 3]);
-//   const [quickViewItem, setQuickViewItem] = useState(allProducts[0]);
-//   const [quickAddItem, setQuickAddItem] = useState(1);
-//   const [totalPrice, setTotalPrice] = useState(0);
-
-//   const products = useSelector(selectProducts);
-//   const loading = useSelector(selectLoading);
-//   const error = useSelector(selectError);
-//   const pagination = useSelector(selectPagination);
-
-//   useEffect(() => {
-//     dispatch(fetchProducts(1));
-//   }, [dispatch]);
-
-
-//   useEffect(() => {
-//     const subtotal = cartProducts.reduce((accumulator, product) => {
-//       return accumulator + product.quantity * product.price;
-//     }, 0);
-//     setTotalPrice(subtotal);
-//   }, [cartProducts]);
-
-//   const isAddedToCartProducts = (id) => {
-//     if (cartProducts.filter((elm) => elm.id == id)[0]) {
-//       return true;
-//     }
-//     return false;
-//   };
-//   const addProductToCart = (id, qty, isModal = true) => {
-//     if (!isAddedToCartProducts(id)) {
-//       const item = {
-//         ...allProducts.filter((elm) => elm.id == id)[0],
-//         quantity: qty ? qty : 1,
-//       };
-//       setCartProducts((pre) => [...pre, item]);
-//       if (isModal) {
-//         openCartModal();
-//       }
-//     }
-//   };
-
-//   const updateQuantity = (id, qty) => {
-//     if (isAddedToCartProducts(id)) {
-//       let item = cartProducts.filter((elm) => elm.id == id)[0];
-//       let items = [...cartProducts];
-//       const itemIndex = items.indexOf(item);
-
-//       item.quantity = qty / 1;
-//       items[itemIndex] = item;
-//       setCartProducts(items);
-//     }
-//   };
-
-//   const addToWishlist = (id) => {
-//     if (!wishList.includes(id)) {
-//       setWishList((pre) => [...pre, id]);
-//       openWistlistModal();
-//     }
-//   };
-
-//   const removeFromWishlist = (id) => {
-//     if (wishList.includes(id)) {
-//       setWishList((pre) => [...pre.filter((elm) => elm != id)]);
-//     }
-//   };
-//   const addToCompareItem = (id) => {
-//     if (!compareItem.includes(id)) {
-//       setCompareItem((pre) => [...pre, id]);
-//     }
-//   };
-//   const removeFromCompareItem = (id) => {
-//     if (compareItem.includes(id)) {
-//       setCompareItem((pre) => [...pre.filter((elm) => elm != id)]);
-//     }
-//   };
-//   const isAddedtoWishlist = (id) => {
-//     if (wishList.includes(id)) {
-//       return true;
-//     }
-//     return false;
-//   };
-//   const isAddedtoCompareItem = (id) => {
-//     if (compareItem.includes(id)) {
-//       return true;
-//     }
-//     return false;
-//   };
-//   useEffect(() => {
-//     const items = JSON.parse(localStorage.getItem("cartList"));
-//     if (items?.length) {
-//       setCartProducts(items);
-//     }
-//   }, []);
-
-//   useEffect(() => {
-//     localStorage.setItem("cartList", JSON.stringify(cartProducts));
-//   }, [cartProducts]);
-//   useEffect(() => {
-//     const items = JSON.parse(localStorage.getItem("wishlist"));
-//     if (items?.length) {
-//       setWishList(items);
-//     }
-//   }, []);
-
-//   useEffect(() => {
-//     localStorage.setItem("wishlist", JSON.stringify(wishList));
-//   }, [wishList]);
-
-//   const contextElement = {
-//     cartProducts,
-//     setCartProducts,
-//     totalPrice,
-//     addProductToCart,
-//     isAddedToCartProducts,
-//     removeFromWishlist,
-//     addToWishlist,
-//     isAddedtoWishlist,
-//     quickViewItem,
-//     wishList,
-//     setQuickViewItem,
-//     quickAddItem,
-//     setQuickAddItem,
-//     addToCompareItem,
-//     isAddedtoCompareItem,
-//     removeFromCompareItem,
-//     compareItem,
-//     setCompareItem,
-//     updateQuantity,
-//   };
-//   return (
-//     <dataContext.Provider value={contextElement}>
-//       {children}
-//     </dataContext.Provider>
-//   );
-// }
-
-
-
-
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "@/redux/action/product/productAction"; // Ensure this action is defined and imported
-import {
-  selectProducts,
-  selectLoading,
-  selectError,
-  selectPagination
-} from "@/redux/action/product/productSelectors";
+import { selectProducts, selectLoading, selectError, selectPagination } from "@/redux/action/product/productSelectors";
 import { openCartModal } from "@/utlis/openCartModal";
 import { openWistlistModal } from "@/utlis/openWishlist";
 import { selectCategories, selectCategoryLoading, selectCategoryError } from "@/redux/action/category/categorySelectors";
@@ -181,12 +17,7 @@ export const useContextElement = () => {
 export default function Context({ children }) {
   const dispatch = useDispatch();
 
-  const { items } = useSelector((state) => state.cart)
-
-  // console.log(items);
-
-
-
+  const { items } = useSelector((state) => state.cart) || {};
 
   // Local state
   const [cartProducts, setCartProducts] = useState([]);
@@ -209,38 +40,31 @@ export default function Context({ children }) {
 
   useEffect(() => {
     dispatch(getCart());
-  }, [dispatch]);
-
-  // Set cartProducts whenever items change
-  useEffect(() => {
-    if (items && products) {
-      // Find product details and add qty from items
-      const updatedCartProducts = items.map((item) => {
-        // Find the product matching the current item id
-        const product = products.find((product) => product.id === item.product_id);
-        // console.log("product", product);
-        
-        if (product) {
-          return {
-            ...product,   
-            cartId: item.id,     
-            quantity: item.qty      
-          };
-        }
-        return null; 
-      }).filter(Boolean); 
-
-      setCartProducts(updatedCartProducts); 
-    }
-  }, [items, products]); 
-
-  // console.log("Cart Products--->\n", cartProducts);
-
-  // Fetch products when the component mounts
-  useEffect(() => {
     dispatch(fetchProducts());
-    dispatch(fetchCategory())
+    dispatch(fetchCategory());
   }, [dispatch]);
+
+  // Sync cartProducts from Redux items and products details
+  useEffect(() => {
+    // Ensure items is an array; if not, default to an empty array
+    const cartItems = Array.isArray(items) ? items : [];
+    if (cartItems.length && products.length) {
+      const updatedCartProducts = cartItems
+        .map((item) => {
+          const product = products.find((prod) => prod.id === item.product_id);
+          if (product) {
+            return {
+              ...product,
+              cartId: item.id,
+              quantity: item.qty,
+            };
+          }
+          return null;
+        })
+        .filter(Boolean);
+      setCartProducts(updatedCartProducts);
+    }
+  }, [items, products]);
 
   // Set initial quick view item once products are loaded
   useEffect(() => {
@@ -258,60 +82,90 @@ export default function Context({ children }) {
   }, [cartProducts]);
 
   // Check if a product is already added to the cart
-  const isAddedToCartProducts = (id) => {
-    return cartProducts?.some((elm) => elm.id === id);
-  };
+  const isAddedToCartProducts = useCallback(
+    (id) => {
+      if (cartProducts) {
+        return cartProducts?.some((elm) => elm.id === id);
+      }
+    },
+    [cartProducts]
+  );
 
   // Add a product to the cart using product data from the API response
-  const addProductToCart = (id, qty, isModal = true) => {
-    if (!isAddedToCartProducts(id)) {
-      const product = products.find((elm) => elm.id === id);
-      if (product) {
-        const item = { ...product, quantity: qty ? qty : 1 };
-        setCartProducts((prev) => [...prev, item]);
-        if (isModal) {
-          openCartModal();
+  const addProductToCart = useCallback(
+    (id, qty = 1, isModal = true) => {
+      if (!isAddedToCartProducts(id)) {
+        dispatch(addToCart(id, qty));
+        const product = products.find((elm) => elm.id === id);
+        if (product) {
+          const item = { ...product, quantity: qty };
+          setCartProducts((prev) => [...prev, item]);
+          if (isModal) {
+            openCartModal();
+          }
         }
       }
-    }
-  };
+    },
+    [isAddedToCartProducts, dispatch, products]
+  );
 
   // Update the quantity of a product in the cart
-  const updateQuantity = (id, qty) => {
-    if (isAddedToCartProducts(id)) {
-      const updatedItems = cartProducts.map((item) =>
-        item.id === id ? { ...item, quantity: Number(qty) } : item
-      );
-      setCartProducts(updatedItems);
-    }
-  };
+  const updateQuantity = useCallback(
+    (id, qty) => {
+      if (isAddedToCartProducts(id)) {
+        const updatedItems = cartProducts.map((item) =>
+          item.id === id ? { ...item, quantity: Number(qty) } : item
+        );
+        setCartProducts(updatedItems);
+      }
+    },
+    [isAddedToCartProducts, cartProducts]
+  );
 
   // Wishlist functions
-  const addToWishlist = (id) => {
-    if (!wishList.includes(id)) {
-      setWishList((prev) => [...prev, id]);
-      openWistlistModal();
-    }
-  };
+  const addToWishlist = useCallback(
+    (id) => {
+      if (!wishList.includes(id)) {
+        setWishList((prev) => [...prev, id]);
+        openWishlistModal();
+      }
+    },
+    [wishList]
+  );
 
-  const removeFromWishlist = (id) => {
-    setWishList((prev) => prev.filter((elm) => elm !== id));
-  };
+  const removeFromWishlist = useCallback(
+    (id) => {
+      setWishList((prev) => prev.filter((elm) => elm !== id));
+    },
+    []
+  );
 
-  const isAddedtoWishlist = (id) => wishList.includes(id);
+  const isAddedtoWishlist = useCallback(
+    (id) => wishList.includes(id),
+    [wishList]
+  );
 
   // Compare item functions
-  const addToCompareItem = (id) => {
-    if (!compareItem.includes(id)) {
-      setCompareItem((prev) => [...prev, id]);
-    }
-  };
+  const addToCompareItem = useCallback(
+    (id) => {
+      if (!compareItem.includes(id)) {
+        setCompareItem((prev) => [...prev, id]);
+      }
+    },
+    [compareItem]
+  );
 
-  const removeFromCompareItem = (id) => {
-    setCompareItem((prev) => prev.filter((elm) => elm !== id));
-  };
+  const removeFromCompareItem = useCallback(
+    (id) => {
+      setCompareItem((prev) => prev.filter((elm) => elm !== id));
+    },
+    []
+  );
 
-  const isAddedtoCompareItem = (id) => compareItem.includes(id);
+  const isAddedtoCompareItem = useCallback(
+    (id) => compareItem.includes(id),
+    [compareItem]
+  );
 
   // Persist cart and wishlist in localStorage
   useEffect(() => {
@@ -348,7 +202,7 @@ export default function Context({ children }) {
   }, [compareItem]);
 
   // Build the context element
-  const contextElement = {
+  const contextValue = useMemo(() => ({
     cartProducts,
     setCartProducts,
     totalPrice,
@@ -375,200 +229,40 @@ export default function Context({ children }) {
     categories,
     Categoryloading,
     Categoryerror
-  };
+  }), [
+    cartProducts,
+    setCartProducts,
+    totalPrice,
+    addProductToCart,
+    isAddedToCartProducts,
+    removeFromWishlist,
+    addToWishlist,
+    isAddedtoWishlist,
+    quickViewItem,
+    wishList,
+    setQuickViewItem,
+    quickAddItem,
+    setQuickAddItem,
+    addToCompareItem,
+    isAddedtoCompareItem,
+    removeFromCompareItem,
+    compareItem,
+    setCompareItem,
+    updateQuantity,
+    products,
+    loading,
+    error,
+    pagination,
+    categories,
+    Categoryloading,
+    Categoryerror
+  ]);
+
 
   return (
-    <dataContext.Provider value={contextElement}>
+    <dataContext.Provider value={contextValue}>
       {children}
     </dataContext.Provider>
   );
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-// //context.jsx
-// import React, { useEffect, useState, useContext } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { fetchProducts } from "@/redux/action/product/productAction";
-// import { getCart, addToCart, updateCart } from "@/redux/action/cart/cartAction";
-// import {
-//   selectProducts,
-//   selectLoading,
-//   selectError,
-//   selectPagination
-// } from "@/redux/action/product/productSelectors";
-// import { openCartModal } from "@/utlis/openCartModal";
-// import { openWistlistModal } from "@/utlis/openWishlist";
-// import { selectCategories, selectCategoryLoading, selectCategoryError } from "@/redux/action/category/categorySelectors";
-// import { fetchCategory } from "@/redux/action/category/categoryAction";
-
-// const dataContext = React.createContext();
-
-// export const useContextElement = () => {
-//   return useContext(dataContext);
-// };
-
-// export default function Context({ children }) {
-//   const dispatch = useDispatch();
-
-//   // Use Redux state for cart products instead of local state/localStorage
-//   // const cartProducts = useSelector((state) => state.cart.items);
-
-
-
-//   const [wishList, setWishList] = useState([]);
-//   const [compareItem, setCompareItem] = useState([]);
-//   const [quickViewItem, setQuickViewItem] = useState(null);
-//   const [quickAddItem, setQuickAddItem] = useState(1);
-//   const [totalPrice, setTotalPrice] = useState(0);
-
-//   const categories = useSelector(selectCategories);
-//   const Categoryloading = useSelector(selectCategoryLoading);
-//   const Categoryerror = useSelector(selectCategoryError);
-
-//   const products = useSelector(selectProducts) || [];
-//   const loading = useSelector(selectLoading);
-//   const error = useSelector(selectError);
-//   const pagination = useSelector(selectPagination);
-
-//   // Fetch products, categories, and cart from API when the component mounts
-//   useEffect(() => {
-//     dispatch(fetchProducts());
-//     dispatch(fetchCategory());
-//     dispatch(getCart());
-//   }, [dispatch]);
-
-//   useEffect(() => {
-//     if (products.length > 0 && !quickViewItem) {
-//       setQuickViewItem(products[0]);
-//     }
-//   }, [products, quickViewItem]);
-
-//   // Calculate total price using cartProducts from Redux
-//   useEffect(() => {
-//     const subtotal = cartProducts.reduce((acc, product) => {
-//       // Using qty from API response; fallback to 1 if not available
-//       const quantity = product.qty || product.quantity || 1;
-//       return acc + quantity * Number(product.discount_price);
-//     }, 0);
-//     setTotalPrice(subtotal);
-//   }, [cartProducts]);
-
-//   // Check if a product is already added to the cart
-//   const isAddedToCartProducts = (id) => {
-//     return cartProducts?.some((elm) => elm.id === id || elm.product_id === id);
-//   };
-
-//   // Add a product to the cart using the API action
-//   const addProductToCart = (id, qty, isModal = true) => {
-//     if (!isAddedToCartProducts(id)) {
-//       dispatch(addToCart(id, qty ? qty : 1));
-//       if (isModal) {
-//         openCartModal();
-//       }
-//     }
-//   };
-
-//   // Update the quantity of a product in the cart via API
-//   const updateQuantity = (id, qty) => {
-//     if (isAddedToCartProducts(id)) {
-//       dispatch(updateCart(id, qty));
-//     }
-//   };
-
-//   // Wishlist functions
-//   const addToWishlist = (id) => {
-//     if (!wishList.includes(id)) {
-//       setWishList((prev) => [...prev, id]);
-//       openWistlistModal();
-//     }
-//   };
-
-//   const removeFromWishlist = (id) => {
-//     setWishList((prev) => prev.filter((elm) => elm !== id));
-//   };
-
-//   const isAddedtoWishlist = (id) => wishList.includes(id);
-
-//   // Compare item functions
-//   const addToCompareItem = (id) => {
-//     if (!compareItem.includes(id)) {
-//       setCompareItem((prev) => [...prev, id]);
-//     }
-//   };
-
-//   const removeFromCompareItem = (id) => {
-//     setCompareItem((prev) => prev.filter((elm) => elm !== id));
-//   };
-
-//   const isAddedtoCompareItem = (id) => compareItem.includes(id);
-
-//   // Retain wishlist and compare items in localStorage
-//   useEffect(() => {
-//     const storedWishlist = JSON.parse(localStorage.getItem("wishlist"));
-//     if (storedWishlist?.length) {
-//       setWishList(storedWishlist);
-//     }
-//   }, []);
-
-//   useEffect(() => {
-//     localStorage.setItem("wishlist", JSON.stringify(wishList));
-//   }, [wishList]);
-
-//   useEffect(() => {
-//     const storedCompareItem = JSON.parse(localStorage.getItem("compareItem"));
-//     if (storedCompareItem?.length) {
-//       setCompareItem(storedCompareItem);
-//     }
-//   }, []);
-
-//   useEffect(() => {
-//     localStorage.setItem("compareItem", JSON.stringify(compareItem));
-//   }, [compareItem]);
-
-//   // Build the context element
-//   const contextElement = {
-//     cartProducts,
-//     totalPrice,
-//     addProductToCart,
-//     isAddedToCartProducts,
-//     removeFromWishlist,
-//     addToWishlist,
-//     isAddedtoWishlist,
-//     quickViewItem,
-//     wishList,
-//     setQuickViewItem,
-//     quickAddItem,
-//     setQuickAddItem,
-//     addToCompareItem,
-//     isAddedtoCompareItem,
-//     removeFromCompareItem,
-//     compareItem,
-//     setCompareItem,
-//     updateQuantity,
-//     products,
-//     loading,
-//     error,
-//     pagination,
-//     categories,
-//     Categoryloading,
-//     Categoryerror
-//   };
-
-//   return (
-//     <dataContext.Provider value={contextElement}>
-//       {children}
-//     </dataContext.Provider>
-//   );
-// }
