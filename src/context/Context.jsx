@@ -18,6 +18,8 @@ export default function Context({ children }) {
   const dispatch = useDispatch();
 
   const { items } = useSelector((state) => state.cart) || {};
+  // console.log("1] ITEMs----\v\n", items);
+  
 
   // Local state
   const [cartProducts, setCartProducts] = useState([]);
@@ -47,7 +49,9 @@ export default function Context({ children }) {
   // Sync cartProducts from Redux items and products details
   useEffect(() => {
     // Ensure items is an array; if not, default to an empty array
-    const cartItems = Array.isArray(items) ? items : [];
+    const cartItems = Array.isArray(items) ? items : [items];
+    // console.log("2] cartItems----\v\n", cartItems);
+    
     if (cartItems.length && products.length) {
       const updatedCartProducts = cartItems
         .map((item) => {
@@ -62,8 +66,12 @@ export default function Context({ children }) {
           return null;
         })
         .filter(Boolean);
+      // console.log("[2.1 updatedCartProducts----\v\n", updatedCartProducts);
+      
       setCartProducts(updatedCartProducts);
     }
+    // console.log("3] cartProducts----\v\n", cartProducts);
+    
   }, [items, products]);
 
   // Set initial quick view item once products are loaded

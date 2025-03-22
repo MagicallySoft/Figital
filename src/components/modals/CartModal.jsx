@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
-import { useContextElement } from "@/context/Context";
-import { products41 } from "@/data/products";
-import { selectProducts, selectLoading, selectError, selectPagination } from '@/redux/action/product/productSelectors';
+import { useContextElement } from "@/context/Context";;
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "@/redux/action/product/productAction";
 import { removeFromCart } from "@/redux/action/cart/cartAction";
+
 export default function CartModal() {
   const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.cart);
+  const [loadingItems, setLoadingItems] = useState({});
   const {
     cartProducts,
     setCartProducts,
@@ -19,19 +20,49 @@ export default function CartModal() {
   } = useContextElement();
   const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   useEffect(() => {
     dispatch(fetchProducts(1));
   }, [dispatch]);
 
-  const removeItem = (id, Cid) => {
+  const removeItem = useCallback((id, Cid) => {
     dispatch(removeFromCart(Cid));
-    setCartProducts((pre) => [...pre.filter((elm) => elm.id != id)]);
-  };
+    setCartProducts(prev => prev.filter(elm => elm.id !== id));
+  }, [dispatch, setCartProducts]);
+
+  useEffect(() => {
+    const shoppingCartModal = document.getElementById("shoppingCart");
+
+    const handleShown = () => {
+      setIsModalOpen(true);
+      // Remove inert so that the modal and its children become focusable
+      shoppingCartModal && shoppingCartModal.removeAttribute("inert");
+    };
+
+    const handleHidden = () => {
+      setIsModalOpen(false);
+      // Optionally, reapply inert when the modal is hidden
+      shoppingCartModal && shoppingCartModal.setAttribute("inert", "true");
+    };
+
+    if (shoppingCartModal) {
+      shoppingCartModal.addEventListener("shown.bs.modal", handleShown);
+      shoppingCartModal.addEventListener("hidden.bs.modal", handleHidden);
+    }
+
+    return () => {
+      if (shoppingCartModal) {
+        shoppingCartModal.removeEventListener("shown.bs.modal", handleShown);
+        shoppingCartModal.removeEventListener("hidden.bs.modal", handleHidden);
+      }
+    };
+  }, []);
 
   const [currentOpenPopup, setCurrentOpenPopup] = useState("");
-
+  const disabledRowStyle = { opacity: 0.5, pointerEvents: "none" };
   return (
-    <div className="modal fullRight fade modal-shopping-cart" id="shoppingCart" inert>
+    <div className="modal fullRight fade modal-shopping-cart" id="shoppingCart"  {...(isModalOpen ? {} : { inert: "true" })}>
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="tf-minicart-recommendations">
@@ -110,6 +141,9 @@ export default function CartModal() {
                           <div
                             key={i}
                             className="tf-mini-cart-item file-delete"
+                            style={
+                              loadingItems[product.id] ? disabledRowStyle : undefined
+                            }
                           >
                             <div className="tf-mini-cart-image">
                               <img

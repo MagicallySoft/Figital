@@ -4,7 +4,6 @@ import CountdownTimer from "../common/Countdown";
 import { useContextElement } from "@/context/Context";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFromCart, updateCart } from "@/redux/action/cart/cartAction";
-import { Alert, Spinner } from "react-bootstrap";
 import { ClipLoader } from "react-spinners";
 
 const discounts = [
@@ -49,7 +48,8 @@ export default function ShopCart() {
   const [activeDiscountIndex, setActiveDiscountIndex] = useState(1);
   const [selectedOption, setSelectedOption] = useState(shippingOptions[0]);
   const { cartProducts, setCartProducts, totalPrice } = useContextElement();
-  const BASE_URL = import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
+  const BASE_URL =
+    import.meta.env.REACT_APP_IMAGE_BASE_URL || "https://ecomapi.tallytdls.in/";
 
   // Item-specific loading state
   const [loadingItems, setLoadingItems] = useState({});
@@ -61,6 +61,8 @@ export default function ShopCart() {
 
       // Set loading for only the affected item
       setLoadingItems((prev) => ({ ...prev, [id]: true }));
+      // console.log("CART ID",Cid, "\N", "QUANTITY", quantity);
+      
       return dispatch(updateCart(Cid, quantity))
         .then(() => {
           const updatedItems = cartProducts.map((item) =>
@@ -68,9 +70,7 @@ export default function ShopCart() {
           );
           setCartProducts(updatedItems);
         })
-        .finally(() =>
-          setLoadingItems((prev) => ({ ...prev, [id]: false }))
-        );
+        .finally(() => setLoadingItems((prev) => ({ ...prev, [id]: false })));
     },
     [dispatch, cartProducts, setCartProducts]
   );
@@ -83,9 +83,7 @@ export default function ShopCart() {
         .then(() => {
           setCartProducts((prev) => prev.filter((elm) => elm.id !== id));
         })
-        .finally(() =>
-          setLoadingItems((prev) => ({ ...prev, [id]: false }))
-        );
+        .finally(() => setLoadingItems((prev) => ({ ...prev, [id]: false })));
     },
     [dispatch, setCartProducts]
   );
@@ -95,323 +93,320 @@ export default function ShopCart() {
   }, []);
 
   useEffect(() => {
-    document.querySelector(".progress-cart .value").style.width = "20%";
+    const progressElement = document.querySelector(".progress-cart .value");
+    if (progressElement) {
+      progressElement.style.width = "20%";
+    }
   }, []);
 
+  // Inline style for disabled appearance on a row
+  const disabledRowStyle = { opacity: 0.5, pointerEvents: "none" };
+
   return (
-    <>
-      <section className="flat-spacing">
-        <div className="container">
-          <div className="row">
-            <div className="col-xl-8">
-              <div className="tf-cart-sold">
-                <div className="notification-sold bg-surface">
-                  <img
-                    className="icon"
-                    alt="img"
-                    src="/images/logo/icon-fire.png"
-                    width={48}
-                    height={49}
-                  />
-                  <div className="count-text">
-                    Your cart will expire in
-                    <div
-                      className="js-countdown time-count"
-                      data-timer={600}
-                      data-labels=":,:,:,"
-                    >
-                      <CountdownTimer
-                        style={4}
-                        targetDate={new Date(new Date().getTime() - 30 * 60000)}
-                      />
-                    </div>
-                    minutes! Please checkout now before your items sell out!
+    <section className="flat-spacing">
+      <div className="container">
+        <div className="row">
+          <div className="col-xl-8">
+            <div className="tf-cart-sold">
+              <div className="notification-sold bg-surface">
+                <img
+                  className="icon"
+                  alt="img"
+                  src="/images/logo/icon-fire.png"
+                  width={48}
+                  height={49}
+                />
+                <div className="count-text">
+                  Your cart will expire in
+                  <div
+                    className="js-countdown time-count"
+                    data-timer={600}
+                    data-labels=":,:,:,"
+                  >
+                    <CountdownTimer
+                      style={4}
+                      targetDate={new Date(
+                        new Date().getTime() - 30 * 60000
+                      )}
+                    />
                   </div>
+                  minutes! Please checkout now before your items sell out!
                 </div>
-                <div className="notification-progress">
-                  <div className="text">
-                    Buy
-                    <span className="fw-semibold text-primary">
-                      ₹ 70.00
-                    </span>{" "}
-                    more to get <span className="fw-semibold">Freeship</span>
-                  </div>
-                  <div className="progress-cart">
-                    <div
-                      className="value"
-                      style={{ width: "0%" }}
-                      data-progress={50}
-                    >
-                      <span className="round" />
-                    </div>
+              </div>
+              <div className="notification-progress">
+                <div className="text">
+                  Buy{" "}
+                  <span className="fw-semibold text-primary">₹ 70.00</span>{" "}
+                  more to get <span className="fw-semibold">Freeship</span>
+                </div>
+                <div className="progress-cart">
+                  <div
+                    className="value"
+                    style={{ width: "0%" }}
+                    data-progress={50}
+                  >
+                    <span className="round" />
                   </div>
                 </div>
               </div>
-              {cartProducts.length ? (
-                <form onSubmit={(e) => e.preventDefault()}>
-                  <table className="tf-table-page-cart">
-                    <thead>
-                      <tr>
-                        <th>Products</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total Price</th>
-                        <th />
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {cartProducts.map((elm, i) => (
-                        <tr key={i} className="tf-cart-item file-delete">
-                          {loadingItems[elm.id] ? (
-                            <td colSpan="5" style={{ textAlign: "center", padding: "20px" }}>
-                              <ClipLoader size={30} />
-                            </td>
-                          ) : (
-                            <>
-                              <td className="tf-cart-item_product">
-                                <Link
-                                  to={`/product-detail/${elm.id}`}
-                                  className="img-box"
-                                >
-                                  <img
-                                    data-src={`${BASE_URL}${elm.banner_img}`}
-                                    src={`${BASE_URL}${elm.banner_img}`}
-                                    alt={elm.title}
-                                    width={600}
-                                    height={800}
-                                  />
-                                </Link>
-                                <div className="cart-info">
-                                  <Link
-                                    to={`/product-detail/${elm.id}`}
-                                    className="cart-title link"
-                                  >
-                                    {elm.title}
-                                  </Link>
-                                  <div className="variant-box">
-                                    <div className="tf-select">
-                                      <select>
-                                        <option>Blue</option>
-                                        <option>Black</option>
-                                        <option>White</option>
-                                        <option>Red</option>
-                                        <option>Beige</option>
-                                        <option>Pink</option>
-                                      </select>
-                                    </div>
-                                    <div className="tf-select">
-                                      <select>
-                                        <option>XL</option>
-                                        <option>XS</option>
-                                        <option>S</option>
-                                        <option>M</option>
-                                        <option>L</option>
-                                        <option>XL</option>
-                                        <option>2XL</option>
-                                      </select>
-                                    </div>
-                                  </div>
-                                </div>
-                              </td>
-                              <td
-                                data-cart-title="Price"
-                                className="tf-cart-item_price text-center"
-                              >
-                                <div className="cart-price text-button price-on-sale">
-                                  {elm.price && (
-                                    <span className="old-price text-decoration-line-through">
-                                      ₹{Number(elm.price)?.toFixed(2)}
-                                    </span>
-                                  )}{" "}
-                                  ₹{elm.discount_price ? Number(elm.discount_price).toFixed(2) : elm.discount_price}
-                                </div>
-                              </td>
-                              <td className="tf-cart-item_quantity">
-                                <div className="wg-quantity mx-md-auto">
-                                  <span
-                                    className="btn-quantity btn-decrease"
-                                    onClick={() =>
-                                      !loadingItems[elm.id] &&
-                                      setQuantity(elm.id, elm.quantity - 1, elm.cartId)
-                                    }
-                                  >
-                                    {loadingItems[elm.id] ? (
-                                      <ClipLoader
-                                        cssOverride={{}}
-                                        loading
-                                        size={20}
-                                        speedMultiplier={1}
-                                      />
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </span>
-                                  <input
-                                    type="text"
-                                    className="quantity-product"
-                                    value={elm.quantity}
-                                    readOnly
-                                  />
-                                  <span
-                                    className="btn-quantity btn-increase"
-                                    onClick={() =>
-                                      !loadingItems[elm.id] &&
-                                      setQuantity(elm.id, elm.quantity + 1, elm.cartId)
-                                    }
-                                  >
-                                    {loadingItems[elm.id] ? (
-                                      <>
-
-                                        <ClipLoader
-                                          cssOverride={{}}
-                                          loading
-                                          size={20}
-                                          speedMultiplier={1}
-                                        />
-                                      </>
-                                    ) : (
-                                      "+"
-                                    )}
-                                  </span>
-                                </div>
-                              </td>
-                              <td
-                                data-cart-title="Total"
-                                className="tf-cart-item_total text-center"
-                              >
-                                <div className="cart-total text-button total-price">
-                                  ₹{(elm.discount_price * elm.quantity).toFixed(2)}
-                                </div>
-                              </td>
-                              <td
-                                data-cart-title="Remove"
-                                className="remove-cart"
-                                onClick={() => removeItem(elm.id, elm.cartId)}
-                              >
-                                <span className="remove icon icon-close" />
-                              </td>
-                            </>
-                          )
+            </div>
+            {cartProducts.length ? (
+              <form onSubmit={(e) => e.preventDefault()}>
+                <table className="tf-table-page-cart">
+                  <thead>
+                    <tr>
+                      <th>Products</th>
+                      <th>Price</th>
+                      <th>Quantity</th>
+                      <th>Total Price</th>
+                      <th />
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {cartProducts.map((elm, i) => (
+                      <tr
+                        key={i}
+                        className="tf-cart-item file-delete"
+                        style={
+                          loadingItems[elm.id] ? disabledRowStyle : undefined
                         }
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                  <div className="ip-discount-code">
-                    <input type="text" placeholder="Add voucher discount" />
-                    <button className="tf-btn">
-                      <span className="text">Apply Code</span>
-                    </button>
-                  </div>
-                  <div className="group-discount">
-                    {discounts.map((item, index) => (
-                      <div
-                        key={index}
-                        className={`box-discount ${activeDiscountIndex === index ? "active" : ""}`}
-                        onClick={() => setActiveDiscountIndex(index)}
                       >
-                        <div className="discount-top">
-                          <div className="discount-off">
-                            <div className="text-caption-1">Discount</div>
-                            <span className="sale-off text-btn-uppercase">
-                              {item.discount}
+                        <td className="tf-cart-item_product">
+                          <Link
+                            to={`/product-detail/${elm.id}`}
+                            className="img-box"
+                          >
+                            <img
+                              data-src={`${BASE_URL}${elm.banner_img}`}
+                              src={`${BASE_URL}${elm.banner_img}`}
+                              alt={elm.title}
+                              width={600}
+                              height={800}
+                            />
+                          </Link>
+                          <div className="cart-info">
+                            <Link
+                              to={`/product-detail/${elm.id}`}
+                              className="cart-title link"
+                            >
+                              {elm.title}
+                            </Link>
+                            <div className="variant-box">
+                              <div className="tf-select">
+                                <select>
+                                  <option>Blue</option>
+                                  <option>Black</option>
+                                  <option>White</option>
+                                  <option>Red</option>
+                                  <option>Beige</option>
+                                  <option>Pink</option>
+                                </select>
+                              </div>
+                              <div className="tf-select">
+                                <select>
+                                  <option>XL</option>
+                                  <option>XS</option>
+                                  <option>S</option>
+                                  <option>M</option>
+                                  <option>L</option>
+                                  <option>XL</option>
+                                  <option>2XL</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td
+                          data-cart-title="Price"
+                          className="tf-cart-item_price text-center"
+                        >
+                          <div className="cart-price text-button price-on-sale">
+                            {elm.price && (
+                              <span className="old-price text-decoration-line-through">
+                                ₹{Number(elm.price)?.toFixed(2)}
+                              </span>
+                            )}{" "}
+                            ₹
+                            {elm.discount_price
+                              ? Number(elm.discount_price).toFixed(2)
+                              : elm.discount_price}
+                          </div>
+                        </td>
+                        <td className="tf-cart-item_quantity">
+                          <div className="wg-quantity mx-md-auto">
+                            <span
+                              className="btn-quantity btn-decrease"
+                              onClick={() =>
+                                !loadingItems[elm.id] &&
+                                setQuantity(elm.id, elm.quantity - 1, elm.cartId)
+                              }
+                            >
+                              {loadingItems[elm.id] ? (
+                                // <ClipLoader size={20} />
+                                "-"
+                              ) : (
+                                "-"
+                              )}
+                            </span>
+                            <input
+                              type="text"
+                              className="quantity-product"
+                              value={elm.quantity}
+                              readOnly
+                            />
+                            <span
+                              className="btn-quantity btn-increase"
+                              onClick={() =>
+                                !loadingItems[elm.id] &&
+                                setQuantity(elm.id, elm.quantity + 1, elm.cartId)
+                              }
+                            >
+                              {loadingItems[elm.id] ? (
+                                // <ClipLoader size={20} />
+                                "+"
+                              ) : (
+                                "+"
+                              )}
                             </span>
                           </div>
-                          <div className="discount-from">
-                            <p className="text-caption-1">{item.details}</p>
+                        </td>
+                        <td
+                          data-cart-title="Total"
+                          className="tf-cart-item_total text-center"
+                        >
+                          <div className="cart-total text-button total-price">
+                            ₹
+                            {(elm.discount_price * elm.quantity).toFixed(2)}
                           </div>
-                        </div>
-                        <div className="discount-bot">
-                          <span className="text-btn-uppercase">
-                            {item.code}
+                        </td>
+                        <td
+                          data-cart-title="Remove"
+                          className="remove-cart"
+                          onClick={() => removeItem(elm.id, elm.cartId)}
+                        >
+                          <span className="remove icon icon-close" />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <div className="ip-discount-code">
+                  <input type="text" placeholder="Add voucher discount" />
+                  <button className="tf-btn">
+                    <span className="text">Apply Code</span>
+                  </button>
+                </div>
+                <div className="group-discount">
+                  {discounts.map((item, index) => (
+                    <div
+                      key={index}
+                      className={`box-discount ${
+                        activeDiscountIndex === index ? "active" : ""
+                      }`}
+                      onClick={() => setActiveDiscountIndex(index)}
+                    >
+                      <div className="discount-top">
+                        <div className="discount-off">
+                          <div className="text-caption-1">Discount</div>
+                          <span className="sale-off text-btn-uppercase">
+                            {item.discount}
                           </span>
-                          <button className="tf-btn">
-                            <span className="text">Apply Code</span>
-                          </button>
+                        </div>
+                        <div className="discount-from">
+                          <p className="text-caption-1">{item.details}</p>
                         </div>
                       </div>
+                      <div className="discount-bot">
+                        <span className="text-btn-uppercase">{item.code}</span>
+                        <button className="tf-btn">
+                          <span className="text">Apply Code</span>
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </form>
+            ) : (
+              <div>
+                Your wishlist is empty. Start adding your favorite products to save
+                them for later!{" "}
+                <Link className="btn-line" to="/shop-default-grid">
+                  Explore Products
+                </Link>
+              </div>
+            )}
+          </div>
+          <div className="col-xl-4">
+            <div className="fl-sidebar-cart">
+              <div className="box-order bg-surface">
+                <h5 className="title">Order Summary</h5>
+                <div className="subtotal text-button d-flex justify-content-between align-items-center">
+                  <span>Subtotal</span>
+                  <span className="total">₹ {totalPrice.toFixed(2)}</span>
+                </div>
+                <div className="discount text-button d-flex justify-content-between align-items-center">
+                  <span>Discounts</span>
+                  <span className="total">₹ {totalPrice ? "20" : 0}</span>
+                </div>
+                <div className="ship">
+                  <span className="text-button">Shipping</span>
+                  <div className="flex-grow-1">
+                    {shippingOptions.map((option) => (
+                      <fieldset key={option.id} className="ship-item">
+                        <input
+                          type="radio"
+                          name="ship-check"
+                          className="tf-check-rounded"
+                          id={option.id}
+                          checked={selectedOption === option}
+                          onChange={() => handleOptionChange(option)}
+                        />
+                        <label htmlFor={option.id}>
+                          <span>{option.label}</span>
+                          <span className="price">
+                            ₹{" "}
+                            {option.price
+                              ? Number(option.price).toFixed(2)
+                              : option.price}
+                          </span>
+                        </label>
+                      </fieldset>
                     ))}
                   </div>
-                </form>
-              ) : (
-                <div>
-                  Your wishlist is empty. Start adding your favorite products to
-                  save them for later!{" "}
-                  <Link className="btn-line" to="/shop-default-grid">
-                    Explore Products
-                  </Link>
                 </div>
-              )}
-            </div>
-            <div className="col-xl-4">
-              <div className="fl-sidebar-cart">
-                <div className="box-order bg-surface">
-                  <h5 className="title">Order Summary</h5>
-                  <div className="subtotal text-button d-flex justify-content-between align-items-center">
-                    <span>Subtotal</span>
-                    <span className="total">₹ {totalPrice.toFixed(2)}</span>
-                  </div>
-                  <div className="discount text-button d-flex justify-content-between align-items-center">
-                    <span>Discounts</span>
-                    <span className="total">₹ {totalPrice ? "20" : 0}</span>
-                  </div>
-                  <div className="ship">
-                    <span className="text-button">Shipping</span>
-                    <div className="flex-grow-1">
-                      {shippingOptions.map((option) => (
-                        <fieldset key={option.id} className="ship-item">
-                          <input
-                            type="radio"
-                            name="ship-check"
-                            className="tf-check-rounded"
-                            id={option.id}
-                            checked={selectedOption === option}
-                            onChange={() => handleOptionChange(option)}
-                          />
-                          <label htmlFor={option.id}>
-                            <span>{option.label}</span>
-                            <span className="price">
-                              ₹ {option.price ? Number(option.price).toFixed(2) : option.price}
-                            </span>
-                          </label>
-                        </fieldset>
-                      ))}
-                    </div>
-                  </div>
-                  <h5 className="total-order d-flex justify-content-between align-items-center">
-                    <span>Total</span>
-                    <span className="total">
-                      ₹
-                      {totalPrice
-                        ? (selectedOption.price + totalPrice).toFixed(2)
-                        : 0}
-                    </span>
-                  </h5>
-                  <div className="box-progress-checkout">
-                    <fieldset className="check-agree">
-                      <input
-                        type="checkbox"
-                        id="check-agree"
-                        className="tf-check-rounded"
-                      />
-                      <label htmlFor="check-agree">
-                        I agree with the
-                        <Link to={`/term-of-use`}>terms and conditions</Link>
-                      </label>
-                    </fieldset>
-                    <Link to={`/checkout`} className="tf-btn btn-reset">
-                      Process To Checkout
-                    </Link>
-                    <p className="text-button text-center">
-                      Or continue shopping
-                    </p>
-                  </div>
+                <h5 className="total-order d-flex justify-content-between align-items-center">
+                  <span>Total</span>
+                  <span className="total">
+                    ₹
+                    {totalPrice
+                      ? (selectedOption.price + totalPrice).toFixed(2)
+                      : 0}
+                  </span>
+                </h5>
+                <div className="box-progress-checkout">
+                  <fieldset className="check-agree">
+                    <input
+                      type="checkbox"
+                      id="check-agree"
+                      className="tf-check-rounded"
+                    />
+                    <label htmlFor="check-agree">
+                      I agree with the{" "}
+                      <Link to={`/term-of-use`}>terms and conditions</Link>
+                    </label>
+                  </fieldset>
+                  <Link to={`/checkout`} className="tf-btn btn-reset">
+                    Process To Checkout
+                  </Link>
+                  <p className="text-button text-center">
+                    Or continue shopping
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }

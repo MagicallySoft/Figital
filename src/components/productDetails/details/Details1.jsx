@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Slider1 from "../sliders/Slider1";
 import ColorSelect from "../ColorSelect";
 import SizeSelect from "../SizeSelect";
@@ -7,8 +7,9 @@ import QuantitySelect from "../QuantitySelect";
 import { useContextElement } from "@/context/Context";
 import ProductStikyBottom from "../ProductStikyBottom";
 import ProductDetailSkeleton from "@/components/SkeletonLoader/ProductDetailSkeleton";
-export default function Details1({ product, loading }) {
-
+import { useDispatch } from "react-redux";
+export default function Details1({ product, loading, error }) {
+  const dispatch = useDispatch();
   const [activeColor, setActiveColor] = useState("gray");
   const [quantity, setQuantity] = useState(1);
 
@@ -25,7 +26,22 @@ export default function Details1({ product, loading }) {
     updateQuantity,
   } = useContextElement();
 
+  // Memoized computations
+  const discountPercentage = useMemo(() => {
+    if (product?.price && product?.discount_price < product?.price) {
+      return Math.round(
+        ((product.price - product.discount_price) / product.price) * 100
+      );
+    }
+    return null;
+  }, [product?.price, product?.discount_price]);
+
+
+  // Handle loading and error states
   if (loading) {
+    return <ProductDetailSkeleton />;
+  }
+  if (error) {
     return <ProductDetailSkeleton />;
   }
 
@@ -86,15 +102,20 @@ export default function Details1({ product, loading }) {
                             <div className="compare-at-price font-2">
                               ₹{Number(product?.price)?.toFixed(2)}
                             </div>
+                            {discountPercentage !== null && (
+                              <div className="badges-on-sale text-btn-uppercase">
+                                -{discountPercentage}%
+                              </div>
+                            )}
                             {/* Calculate discount percentage automatically */}
-                            {product?.discount_price < product?.price && (
+                            {/* {product?.discount_price < product?.price && (
                               <div className="badges-on-sale text-btn-uppercase">
                                 -{Math.round(
                                   ((product?.price - product?.discount_price) / product?.price) * 100
                                 )}
                                 %
                               </div>
-                            )}
+                            )} */}
                           </>
                         ) : null}
                       </div>
@@ -357,7 +378,7 @@ export default function Details1({ product, loading }) {
           </div>
         </div>
       </div>
-      <ProductStikyBottom  product={product} loading={loading}/>
+      <ProductStikyBottom product={product} loading={loading} />
     </section>
   );
 }
