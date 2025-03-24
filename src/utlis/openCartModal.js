@@ -62,22 +62,35 @@ export const openCartModal = () => {
 
       // Show the shopping cart modal
       const shoppingCartModal = document.getElementById("shoppingCart");
-      if (shoppingCartModal) {
-        // Remove aria-hidden and inert so that focused elements inside are accessible
-        shoppingCartModal.removeAttribute("aria-hidden");
-        shoppingCartModal.removeAttribute("inert");
+      // if (shoppingCartModal) {
+      //   // Remove aria-hidden and inert so that focused elements inside are accessible
+      //   shoppingCartModal.removeAttribute("aria-hidden");
+      //   shoppingCartModal.removeAttribute("inert");
 
-        const myModal = new bootstrap.Modal(shoppingCartModal, {
-          keyboard: false,
-        });
-        myModal.show();
+      //   const myModal = new bootstrap.Modal(shoppingCartModal, {
+      //     keyboard: false,
+      //   });
+      //   myModal.show();
 
-        shoppingCartModal.addEventListener("hidden.bs.modal", () => {
-          myModal.hide();
-          // Optionally reapply inert when the modal is hidden
-          shoppingCartModal.setAttribute("inert", "true");
-        });
-      }
+      //   shoppingCartModal.addEventListener("hidden.bs.modal", () => {
+      //     myModal.hide();
+      //     // Optionally reapply inert when the modal is hidden
+      //     shoppingCartModal.setAttribute("inert", "true");
+      //   });
+      // }
+
+      // Example: In the modal's hidden event handler
+      shoppingCartModal.addEventListener("hidden.bs.modal", () => {
+        // If a descendant has focus, remove it
+        if (
+          document.activeElement &&
+          shoppingCartModal.contains(document.activeElement)
+        ) {
+          document.activeElement.blur();
+        }
+        // Reapply inert after ensuring no descendant is focused
+        shoppingCartModal.setAttribute("inert", "true");
+      });
     })
     .catch((error) => {
       console.error("Error loading Bootstrap:", error);

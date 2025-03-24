@@ -112,6 +112,7 @@ export const updateCart = (cartItemId, qty) => async (dispatch) => {
         type: UPDATE_CART_SUCCESS,
         payload: response.data.data,
       });
+      dispatch(getCart());
     }
   } catch (error) {
     // console.log("ERROR--->", error);

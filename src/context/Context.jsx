@@ -74,6 +74,9 @@ export default function Context({ children }) {
     
   }, [items, products]);
 
+  // console.log("cartProducts-->", cartProducts);
+  
+
   // Set initial quick view item once products are loaded
   useEffect(() => {
     if (products.length > 0 && !quickViewItem) {
@@ -135,7 +138,7 @@ export default function Context({ children }) {
     (id) => {
       if (!wishList.includes(id)) {
         setWishList((prev) => [...prev, id]);
-        openWishlistModal();
+        openWistlistModal();
       }
     },
     [wishList]

@@ -50,8 +50,38 @@ export default function QuickView() {
       lastBackdrop.style.zIndex = "1057";
     }
   };
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+  
+    useEffect(() => {
+      const shoppingCartModal = document.getElementById("quickView");
+  
+      const handleShown = () => {
+        setIsModalOpen(true);
+        // Remove inert so that the modal and its children become focusable
+        shoppingCartModal && shoppingCartModal.removeAttribute("inert");
+      };
+  
+      const handleHidden = () => {
+        setIsModalOpen(false);
+        // Optionally, reapply inert when the modal is hidden
+        shoppingCartModal && shoppingCartModal.setAttribute("inert", "true");
+      };
+  
+      if (shoppingCartModal) {
+        shoppingCartModal.addEventListener("shown.bs.modal", handleShown);
+        shoppingCartModal.addEventListener("hidden.bs.modal", handleHidden);
+      }
+  
+      return () => {
+        if (shoppingCartModal) {
+          shoppingCartModal.removeEventListener("shown.bs.modal", handleShown);
+          shoppingCartModal.removeEventListener("hidden.bs.modal", handleHidden);
+        }
+      };
+    }, []);
   return (
-    <div className="modal fullRight fade modal-quick-view" id="quickView" inert>
+    <div className="modal fullRight fade modal-quick-view" id="quickView" {...(isModalOpen ? {} : { inert: "true" })}>
       <div className="modal-dialog">
         <div className="modal-content">
           <Grid5

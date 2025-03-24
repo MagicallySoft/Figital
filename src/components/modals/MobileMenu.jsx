@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import LanguageSelect from "../common/LanguageSelect";
@@ -23,10 +23,39 @@ import { logoutUser } from "@/redux/action/auth/authActions";
 export default function MobileMenu() {
   const { user, isAuthenticated } = useAuth();
   const dispatch = useDispatch();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    const shoppingCartModal = document.getElementById("mobileMenu");
+
+    const handleShown = () => {
+      setIsModalOpen(true);
+      // Remove inert so that the modal and its children become focusable
+      shoppingCartModal && shoppingCartModal.removeAttribute("inert");
+    };
+
+    const handleHidden = () => {
+      setIsModalOpen(false);
+      // Optionally, reapply inert when the modal is hidden
+      shoppingCartModal && shoppingCartModal.setAttribute("inert", "true");
+    };
+
+    if (shoppingCartModal) {
+      shoppingCartModal.addEventListener("shown.bs.modal", handleShown);
+      shoppingCartModal.addEventListener("hidden.bs.modal", handleHidden);
+    }
+
+    return () => {
+      if (shoppingCartModal) {
+        shoppingCartModal.removeEventListener("shown.bs.modal", handleShown);
+        shoppingCartModal.removeEventListener("hidden.bs.modal", handleHidden);
+      }
+    };
+  }, []);
 
   const { pathname } = useLocation();
   return (
-    <div className="offcanvas offcanvas-start canvas-mb" id="mobileMenu" inert>
+    <div className="offcanvas offcanvas-start canvas-mb" id="mobileMenu" {...(isModalOpen ? {} : { inert: "true" })}>
       <span
         className="icon-close icon-close-popup"
         data-bs-dismiss="offcanvas"
@@ -559,7 +588,7 @@ export default function MobileMenu() {
                 </svg>
                 Logout
               </Link>) : null}
-              
+
               <Link to={isAuthenticated ? '/my-account' : '/login'} className="site-nav-icon">
                 <svg
                   className="icon"
