@@ -13,8 +13,8 @@ import Testimonials from "@/components/common/Testimonials";
 
 import MetaComponent from "@/components/common/MetaComponent";
 const metadata = {
-  title: "Home || Modave  ",
-  description: "Modave  ",
+  title: "Home || Assuredcart  ",
+  description: "Assuredcart  ",
 };
 
 export default function HomePage() {

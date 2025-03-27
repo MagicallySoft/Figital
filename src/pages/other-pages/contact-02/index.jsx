@@ -8,8 +8,8 @@ import { Link } from "react-router-dom";
 
 import MetaComponent from "@/components/common/MetaComponent";
 const metadata = {
-  title: "Countact 02 || Modave  ",
-  description: "Modave  ",
+  title: "Countact 02 || Assuredcart  ",
+  description: "Assuredcart  ",
 };
 
 export default function ContactPage2() {

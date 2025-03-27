@@ -11,8 +11,8 @@ import Address from "@/components/my-account/Address";
 import OrderDetails from "@/components/my-account/OrderDetails";
 import Orers from "@/components/my-account/Orers";
 const metadata = {
-  title: "My Account || Modave  ",
-  description: "Modave  ",
+  title: "My Account || Assuredcart  ",
+  description: "Assuredcart  ",
 };
 
 export default function MyAccountPage() {

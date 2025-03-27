@@ -7,8 +7,8 @@ import { Link } from "react-router-dom";
 import React from "react";
 import MetaComponent from "@/components/common/MetaComponent";
 const metadata = {
-  title: "Shop Load Button || Modave  ",
-  description: "Modave  ",
+  title: "Shop Load Button || Assuredcart  ",
+  description: "Assuredcart  ",
 };
 export default function ShopLoadButtonPage() {
   return (

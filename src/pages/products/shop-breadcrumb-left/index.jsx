@@ -7,8 +7,8 @@ import React from "react";
 import MetaComponent from "@/components/common/MetaComponent";
 const metadata = {
   title:
-    "Shop Breadcumb Left || Modave  ",
-  description: "Modave  ",
+    "Shop Breadcumb Left || Assuredcart  ",
+  description: "Assuredcart  ",
 };
 export default function ShopBreadcumbLeftPage() {
   return (

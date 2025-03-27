@@ -12,8 +12,8 @@ import { useParams } from "react-router-dom";
 import MetaComponent from "@/components/common/MetaComponent";
 const metadata = {
   title:
-    "Product Description List || Modave  ",
-  description: "Modave  ",
+    "Product Description List || Assuredcart  ",
+  description: "Assuredcart  ",
 };
 
 export default function ProductDescriptionListPage() {

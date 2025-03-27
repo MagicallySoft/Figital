@@ -9,8 +9,8 @@ import React from "react";
 import MetaComponent from "@/components/common/MetaComponent";
 const metadata = {
   title:
-    "My Account Order Details || Modave  ",
-  description: "Modave  ",
+    "My Account Order Details || Assuredcart  ",
+  description: "Assuredcart  ",
 };
 
 export default function MyAccountOrdersDetailsPage() {

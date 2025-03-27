@@ -7,8 +7,8 @@ import React from "react";
 import MetaComponent from "@/components/common/MetaComponent";
 const metadata = {
   title:
-    "Shop Filter Dropdown || Modave  ",
-  description: "Modave  ",
+    "Shop Filter Dropdown || Assuredcart  ",
+  description: "Assuredcart  ",
 };
 export default function ShopFilterDropdownPage() {
   return (

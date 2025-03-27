@@ -10,7 +10,7 @@ export default function ProductSearch() {
   return (
     <form onSubmit={(e) => e.preventDefault()}>
       <div className="form-search-select">
-        <div className="tf-dropdown-sort" data-bs-toggle="dropdown">
+        {/* <div className="tf-dropdown-sort" data-bs-toggle="dropdown">
           <div className="btn-select">
             <span className="text-sort-value">{selectedOption}</span>
             <span className="icon icon-arrow-down" />
@@ -37,7 +37,7 @@ export default function ProductSearch() {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
         <input type="text" placeholder="What are you looking for today?" />
         <button className="tf-btn">
           <span className="text">Search</span>

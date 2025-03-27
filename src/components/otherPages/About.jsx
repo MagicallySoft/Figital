@@ -21,7 +21,7 @@ export default function About() {
           <div className="col-md-6">
             <div className="about-us-content">
               <h3 className="title wow fadeInUp">
-                Modave – Offering rare and beautiful items worldwide
+                Assuredcart – Offering rare and beautiful items worldwide
               </h3>
               <div className="widget-tabs style-3">
                 <ul className="widget-menu-tab wow fadeInUp">

@@ -10,10 +10,12 @@ import { logoutUser } from "@/redux/action/auth/authActions";
 import { useAuth } from "@/context/AuthProvider";
 import CategoryList from "./CategoryList";
 import ProductSorting from "./ProductSorting";
+import { useContextElement } from "@/context/Context";
 
 export default function Header11() {
   const dispatch = useDispatch();
   const { user, isAuthenticated } = useAuth();
+  const { products, loading, error, } = useContextElement();
   // console.log(user.user);
   // console.log(isAuthenticated);
 
@@ -272,7 +274,7 @@ export default function Header11() {
 
               <nav className="box-navigation">
                 <ul className="box-nav-ul d-flex align-items-center">
-                  <Nav />
+                  <Nav products={products}/>
                 </ul>
               </nav>
             </div>

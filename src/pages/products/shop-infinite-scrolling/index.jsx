@@ -7,8 +7,8 @@ import React from "react";
 import MetaComponent from "@/components/common/MetaComponent";
 const metadata = {
   title:
-    "Shop Infinite Scroll || Modave  ",
-  description: "Modave  ",
+    "Shop Infinite Scroll || Assuredcart  ",
+  description: "Assuredcart  ",
 };
 export default function ShopInfinateScrollingPage() {
   return (

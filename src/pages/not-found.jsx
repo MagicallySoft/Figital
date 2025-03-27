@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 import MetaComponent from "@/components/common/MetaComponent";
 const metadata = {
-  title: "Page Not Found || Modave  ",
-  description: "Modave  ",
+  title: "Page Not Found || Assuredcart  ",
+  description: "Assuredcart  ",
 };
 
 export default function PageNotFoundPage() {

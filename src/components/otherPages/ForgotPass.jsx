@@ -33,7 +33,7 @@ export default function ForgotPass() {
             </form>
           </div>
           <div className="right">
-            <h4 className="mb_8">Welcome to Modave</h4>
+            <h4 className="mb_8">Welcome to Assuredcart</h4>
             <p className="text-secondary">
               Discover the best in electronic products. Experience unmatched innovation, lightning-fast delivery, and excellent customer service.
             </p>

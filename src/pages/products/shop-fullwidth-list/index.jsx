@@ -7,8 +7,8 @@ import React from "react";
 import MetaComponent from "@/components/common/MetaComponent";
 const metadata = {
   title:
-    "Shop Fullwidth List|| Modave  ",
-  description: "Modave  ",
+    "Shop Fullwidth List|| Assuredcart  ",
+  description: "Assuredcart  ",
 };
 export default function ShopFullwidthListPage() {
   return (

@@ -13,8 +13,8 @@ import { useContextElement } from "@/context/Context";
 import { fetchProducts } from "@/redux/action/product/productAction";
 
 const metadata = {
-  title: "Product Detail || Modave",
-  description: "Modave",
+  title: "Product Detail || Assuredcart",
+  description: "Assuredcart",
 };
 
 const ProductDetailPage = () => {

@@ -12,8 +12,8 @@ import { useParams } from "react-router-dom";
 import MetaComponent from "@/components/common/MetaComponent";
 const metadata = {
   title:
-    "Product Right Thumbnail || Modave  ",
-  description: "Modave  ",
+    "Product Right Thumbnail || Assuredcart  ",
+  description: "Assuredcart  ",
 };
 
 export default function ProductRighrThumbnailPage() {

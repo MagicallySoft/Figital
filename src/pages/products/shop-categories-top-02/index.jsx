@@ -9,8 +9,8 @@ import React from "react";
 import MetaComponent from "@/components/common/MetaComponent";
 const metadata = {
   title:
-    "Shop Categories Top 02 || Modave  ",
-  description: "Modave  ",
+    "Shop Categories Top 02 || Assuredcart  ",
+  description: "Assuredcart  ",
 };
 export default function ShopCategoriesTopPag2() {
   return (

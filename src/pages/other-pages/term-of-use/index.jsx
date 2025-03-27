@@ -7,8 +7,8 @@ import { Link } from "react-router-dom";
 
 import MetaComponent from "@/components/common/MetaComponent";
 const metadata = {
-  title: "Terms of Use || Modave  ",
-  description: "Modave  ",
+  title: "Terms of Use || Assuredcart  ",
+  description: "Assuredcart  ",
 };
 
 export default function TermsOfUsePage() {

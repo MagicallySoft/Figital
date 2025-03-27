@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import React from "react";
 
-import { products } from "@/data/products";
+// import { products } from "@/data/products";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ProductCard1 from "../productCards/ProductCard1";
 import {
@@ -18,58 +18,39 @@ import {
   categories
 } from "@/data/menu";
 
-export default function Nav() {
+export default function Nav(products) {
+  // console.log("products", products.products);
+  
   const { pathname } = useLocation();
   return (
     <React.Fragment>
       {/* {" "} */}
       {
         categories.map((category, index) => {
-          index++
           return (
-            <>
-              <li key={index}
-                className={`menu-item ${[...categories].some(
-                  (elm) => elm.href.split("/")[1] === pathname.split("/")[1]
-                )
-                  ? "active"
-                  : ""
-                  }`}
-              >
-                <Link to={'/'} className="item-link">
-                  {category.name}
-                </Link>
-                <div className="sub-menu mega-menu">
-                  <div className="container">
-                    <div className="row">
-                      <div className="col-lg-2">
-                        <div className="mega-menu-item">
-                          <div className="menu-heading">Shop Layout</div>
-                          <ul className="menu-list">
-                            {category.children?.map((link, index) => {
-                              index++
-                              return (
-                                <li
-                                key={index}
-                                className={`menu-item-li ${pathname.split("/")[1] == link.href.split("/")[1]
-                                  ? "active"
-                                  : ""
-                                  } `}
-                              >
-                                <Link to={link.href} className="menu-link-text">
-                                  {link.name}
-                                </Link>
-                              </li>
-                              )
-                            })}
-                          </ul>
-                        </div>
-                      </div>
-                      <div className="col-lg-2">
-                        <div className="mega-menu-item">
-                          <div className="menu-heading">Shop Features</div>
-                          <ul className="menu-list">
-                            {shopFeatures.map((link, index) => (
+
+            <li
+              key={index}
+              className={`menu-item ${[...categories].some(
+                (elm) => elm.href.split("/")[1] === pathname.split("/")[1]
+              )
+                ? "active"
+                : ""
+                }`}
+            >
+              <Link to={'/'} className="item-link" key={index + 1}>
+                {category.name}
+              </Link>
+              <div className="sub-menu mega-menu">
+                <div className="container">
+                  <div className="row">
+                    <div className="col-lg-2">
+                      <div className="mega-menu-item">
+                        <div className="menu-heading">Shop Layout</div>
+                        <ul className="menu-list">
+                          {category.children?.map((link, index) => {
+                            index++
+                            return (
                               <li
                                 key={index}
                                 className={`menu-item-li ${pathname.split("/")[1] == link.href.split("/")[1]
@@ -81,79 +62,100 @@ export default function Nav() {
                                   {link.name}
                                 </Link>
                               </li>
-                            ))}
-                          </ul>
-                        </div>
+                            )
+                          })}
+                        </ul>
                       </div>
-                      <div className="col-lg-2">
-                        <div className="mega-menu-item">
-                          <div className="menu-heading">Products Hover</div>
-                          <ul className="menu-list">
-                            {productStyles.map((style, index) => (
-                              <li
-                                key={index}
-                                className={`menu-item-li ${pathname.split("/")[1] == style.href.split("/")[1]
-                                  ? "active"
-                                  : ""
-                                  } `}
-                              >
-                                <Link to={style.href} className="menu-link-text">
-                                  {style.name}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
+                    </div>
+                    <div className="col-lg-2">
+                      <div className="mega-menu-item">
+                        <div className="menu-heading">Shop Features</div>
+                        <ul className="menu-list">
+                          {shopFeatures.map((link, index) => (
+                            <li
+                              key={index}
+                              className={`menu-item-li ${pathname.split("/")[1] == link.href.split("/")[1]
+                                ? "active"
+                                : ""
+                                } `}
+                            >
+                              <Link to={link.href} className="menu-link-text">
+                                {link.name}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
-                      <div className="col-lg-2">
-                        <div className="mega-menu-item">
-                          <div className="menu-heading">My Pages</div>
-                          <ul className="menu-list">
-                            {otherShopMenus.map((link, index) => (
-                              <li
-                                key={index}
-                                className={`menu-item-li ${pathname.split("/")[1] == link.href.split("/")[1]
-                                  ? "active"
-                                  : ""
-                                  } `}
-                              >
-                                <Link to={link.href} className="menu-link-text">
-                                  {link.name}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
+                    </div>
+                    <div className="col-lg-2">
+                      <div className="mega-menu-item">
+                        <div className="menu-heading">Products Hover</div>
+                        <ul className="menu-list">
+                          {productStyles.map((style, index) => (
+                            <li
+                              key={index}
+                              className={`menu-item-li ${pathname.split("/")[1] == style.href.split("/")[1]
+                                ? "active"
+                                : ""
+                                } `}
+                            >
+                              <Link to={style.href} className="menu-link-text">
+                                {style.name}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
-                      <div className="col-lg-4">
-                        <div className="wrapper-sub-shop">
-                          <div className="menu-heading">Recent Products</div>
-                          <Swiper
-                            dir="ltr"
-                            className="swiper tf-product-header"
-                            slidesPerView={2}
-                            spaceBetween={20}
-                          >
-                            {products
-                              .slice(0, 4)
-                              .map((elm) => ({
-                                ...elm,
-                                colors: null,
-                              }))
-                              .map((elm, i) => (
-                                <SwiperSlide key={i} className="swiper-slide">
-                                  <ProductCard1 product={elm} />
-                                </SwiperSlide>
-                              ))}
-                          </Swiper>
-                        </div>
+                    </div>
+                    <div className="col-lg-2">
+                      <div className="mega-menu-item">
+                        <div className="menu-heading">My Pages</div>
+                        <ul className="menu-list">
+                          {otherShopMenus.map((link, index) => (
+                            <li
+                              key={index}
+                              className={`menu-item-li ${pathname.split("/")[1] == link.href.split("/")[1]
+                                ? "active"
+                                : ""
+                                } `}
+                            >
+                              <Link to={link.href} className="menu-link-text">
+                                {link.name}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                    <div className="col-lg-4">
+                      <div className="wrapper-sub-shop">
+                        <div className="menu-heading">Recent Products</div>
+                        <Swiper
+                          dir="ltr"
+                          className="swiper tf-product-header"
+                          slidesPerView={2}
+                          spaceBetween={20}
+                        >
+                          {products.products
+                            // .slice(0, 4)
+                            .map((elm) => ({
+                              ...elm,
+                              colors: null,
+                            }))
+                            .map((elm, i) => (
+                              <SwiperSlide key={i} className="swiper-slide">
+                                <ProductCard1 product={elm} />
+                              </SwiperSlide>
+                            ))}
+                        </Swiper>
                       </div>
                     </div>
                   </div>
                 </div>
-              </li>
+              </div>
+            </li>
 
-            </>
+
           )
         })
       }

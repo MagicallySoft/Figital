@@ -13,8 +13,8 @@ import { useParams } from "react-router-dom";
 import MetaComponent from "@/components/common/MetaComponent";
 const metadata = {
   title:
-    "Product Detail Description fullwidth || Modave  ",
-  description: "Modave  ",
+    "Product Detail Description fullwidth || Assuredcart  ",
+  description: "Assuredcart  ",
 };
 
 export default function ProductDescriptionFullwidthPage() {

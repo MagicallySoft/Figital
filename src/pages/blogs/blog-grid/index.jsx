@@ -7,8 +7,8 @@ import { Link } from "react-router-dom";
 import React from "react";
 import MetaComponent from "@/components/common/MetaComponent";
 const metadata = {
-  title: "Blog Grid || Modave  ",
-  description: "Modave  ",
+  title: "Blog Grid || Assuredcart  ",
+  description: "Assuredcart  ",
 };
 export default function BlogGridPage() {
   return (

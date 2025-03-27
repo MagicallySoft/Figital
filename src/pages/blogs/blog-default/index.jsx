@@ -7,8 +7,8 @@ import React from "react";
 import MetaComponent from "@/components/common/MetaComponent";
 
 const metadata = {
-  title: "Blog Default || Modave  ",
-  description: "Modave  ",
+  title: "Blog Default || Assuredcart  ",
+  description: "Assuredcart  ",
 };
 export default function BlogDefaultPage() {
   return (

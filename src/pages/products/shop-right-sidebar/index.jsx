@@ -9,8 +9,8 @@ import React from "react";
 import MetaComponent from "@/components/common/MetaComponent";
 const metadata = {
   title:
-    "Shop Right Sidebar || Modave  ",
-  description: "Modave  ",
+    "Shop Right Sidebar || Assuredcart  ",
+  description: "Assuredcart  ",
 };
 export default function ShopRightSidebarPage() {
   return (

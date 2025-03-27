@@ -12,8 +12,8 @@ import { useParams } from "react-router-dom";
 
 import MetaComponent from "@/components/common/MetaComponent";
 const metadata = {
-  title: "Product Stacked || Modave  ",
-  description: "Modave  ",
+  title: "Product Stacked || Assuredcart  ",
+  description: "Assuredcart  ",
 };
 
 export default function ProductStackedPage() {

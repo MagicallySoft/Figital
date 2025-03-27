@@ -5,8 +5,8 @@ import SearchProducts from "@/components/products/SearchProducts";
 import React from "react";
 import MetaComponent from "@/components/common/MetaComponent";
 const metadata = {
-  title: "Search Result || Modave  ",
-  description: "Modave  ",
+  title: "Search Result || Assuredcart  ",
+  description: "Assuredcart  ",
 };
 export default function SearchResultPage() {
   return (

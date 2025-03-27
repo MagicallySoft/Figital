@@ -7,8 +7,8 @@ import React from "react";
 import MetaComponent from "@/components/common/MetaComponent";
 const metadata = {
   title:
-    "Shop Breadcumb Img || Modave  ",
-  description: "Modave  ",
+    "Shop Breadcumb Img || Assuredcart  ",
+  description: "Assuredcart  ",
 };
 export default function ShopBreadcumbImgPage() {
   return (

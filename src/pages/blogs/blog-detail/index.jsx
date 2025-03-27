@@ -10,8 +10,8 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import MetaComponent from "@/components/common/MetaComponent";
 const metadata = {
-  title: "Blog Detail || Modave  ",
-  description: "Modave  ",
+  title: "Blog Detail || Assuredcart  ",
+  description: "Assuredcart  ",
 };
 export default function BlogDetailsPage1() {
   let params = useParams();

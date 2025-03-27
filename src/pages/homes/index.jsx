@@ -16,8 +16,8 @@ import React, { useState, useEffect } from 'react';
 
 import MetaComponent from "@/components/common/MetaComponent";
 const metadata = {
-  title: "Home Electronics || Modave  ",
-  description: "Modave  ",
+  title: "Assuredcart  ",
+  description: "Assuredcart  ",
 };
 
 export default function HomeElectronicPage() {

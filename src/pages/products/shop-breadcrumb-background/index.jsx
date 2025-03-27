@@ -7,8 +7,8 @@ import React from "react";
 import MetaComponent from "@/components/common/MetaComponent";
 const metadata = {
   title:
-    "Shop Breadcumb Background || Modave  ",
-  description: "Modave  ",
+    "Shop Breadcumb Background || Assuredcart  ",
+  description: "Assuredcart  ",
 };
 export default function ShopBreadcumbBackgroundPage() {
   return (
