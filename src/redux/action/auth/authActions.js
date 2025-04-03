@@ -73,12 +73,13 @@ export const loginUser = (credentials, navigate) => async (dispatch) => {
       navigate("/");
     }
   } catch (error) {
-    console.log("EROR!!-->", error);
     const errorPayload =
-      error.response && error.response.data
-        ? error.response.data
-        : error.message;
-    dispatch({ type: "LOGIN_FAILURE", payload: errorPayload });
+    error.response && error.response.data
+    ? error.response.data
+    : error.message;
+    // console.log("EROR!!-->", errorPayload);
+    // console.log("EROR!!---------->", error.message);
+    dispatch({ type: "LOGIN_FAILURE", payload: errorPayload  });
     // console.log("\nerrorPayload-->", errorPayload);
     
   }
