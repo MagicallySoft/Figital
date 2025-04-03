@@ -21,7 +21,7 @@
 }
 
 /* Highlight the selected option */
-.gender-slider input[type="radio"]:checked + label {
+.gender-slider input[type="radio"]:checked+label {
   background: #007bff;
   color: #fff;
 }
@@ -30,14 +30,18 @@
 
 
 /* Adjust the sliding indicator for each option */
-#male:checked ~ .gender-slider::before {
+#male:checked~.gender-slider::before {
   left: 0;
 }
-#female:checked ~ .gender-slider::before {
-  left: 100px; /* Adjust based on layout */
+
+#female:checked~.gender-slider::before {
+  left: 100px;
+  /* Adjust based on layout */
 }
-#other:checked ~ .gender-slider::before {
-  left: 200px; /* Adjust based on layout */
+
+#other:checked~.gender-slider::before {
+  left: 200px;
+  /* Adjust based on layout */
 }
 
 
@@ -56,8 +60,8 @@
   .login-container {
     display: flex;
     flex-direction: row;
-    width: 80%;
-    max-width: 1200px;
+    /* width: 80%; */
+    /* max-width: 1200px; */
     margin: 0 auto;
     /* background-color: #fff; */
     border-radius: 8px;
@@ -71,7 +75,8 @@
 
     .login-form-container {
       flex: 1;
-      padding: 3rem 2rem;
+      /* padding: 3rem 15rem 3rem 2rem; */
+      padding: 3rem calc(0rem) 3rem 0rem;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -200,7 +205,8 @@
 
         .login-btn {
           padding: 0.75rem 1rem;
-          background-color: #0c74d6; /* Amazon-ish orange */
+          background-color: #0c74d6;
+          /* Amazon-ish orange */
           border: none;
           border-radius: 4px;
           color: #111;
@@ -231,6 +237,13 @@
             text-decoration: underline;
           }
         }
+      }
+    }
+
+    @media (min-width: 992px) {
+      .login-form-container {
+        /* Large screen: 3rem 15rem 3rem 2rem */
+        padding: 3rem calc(2rem + 13rem) 3rem 2rem;
       }
     }
 
