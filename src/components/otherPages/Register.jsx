@@ -4,6 +4,10 @@ import { useDispatch } from "react-redux";
 import { registerUser } from "@/redux/action/auth/authActions";
 import { useSelector } from "react-redux";
 import { Alert, Spinner } from "react-bootstrap";
+import Preview from '/images/page/Log_In_-removebg-preview.png';
+import g_play from '/images/page/google_play.png';
+import a_store from '/images/page/app_store.png';
+import { FcGoogle } from "react-icons/fc";
 import './custom.css'
 
 export default function Register() {
@@ -72,18 +76,28 @@ export default function Register() {
   };
 
   return (
-    <section className="flat-spacing">
-      <div className="container">
-        <div className="login-wrap">
-          <div className="left">
-            <div className="heading">
-              <h4>Register</h4>
+    <>
+
+      <section className="login-section">
+        <div className="container login-container">
+          {/* Left side: login form */}
+          <div className="login-form-container">
+            <div className="login-header">
+              <img
+                src="/path/to/your-logo.png"
+                alt="Logo"
+                className="brand-logo"
+              />
+              <p>WELCOME BACK</p>
+              <h4>Continue to your Account</h4>
             </div>
+
             {error && (
               <Alert variant="danger" className="login-alert">
                 {error}
               </Alert>
             )}
+
             <form
               onSubmit={handleSubmit}
               className="form-login form-has-password"
@@ -317,7 +331,7 @@ export default function Register() {
                   </Link>
                 </div>
               </div>
-              <div className="button-submit">
+              {/* <div className="button-submit">
                 <button
                   className="tf-btn btn-fill"
                   type="submit"
@@ -338,59 +352,53 @@ export default function Register() {
                   ) : (<span className="text text-button">Register</span>)}
 
                 </button>
-              </div>
+              </div> */}
+                <button className="login-btn d-flex justify-content-center" type="submit" disabled={loading}>
+                  {loading ? (
+                    <>
+                      <Spinner
+                        as="span"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                        style={{ color: "red", zIndex: 9 }}
+                      /><span className="text text-button">Register</span>
+                    </>
+                  ) : (
+                    <span className="text text-button">Register</span>
+                  )}
+                </button>
             </form>
-            <div className="d-flex pt-3">
-              <span>Already have an account?   &nbsp;</span>
-              <Link to="/login" className=" text-decoration-underline text-primary">
-                <span> Login now</span>
-              </Link>
-            </div>
+             <div className="register-redirect">
+                        <span>Already have an account?</span>
+                        <Link to="/login">Login now</Link>
+                      </div>
+
+            {/* <div className="register-redirect">
+              <span>Don't have an account?</span>
+              <Link to="/register">Register now</Link>
+            </div> */}
           </div>
-          <div className="right">
-            <h4 className="mb_8">Welcome to Assuredcart</h4>
-            <p className="text-secondary">
-              Discover the best in electronic products. Experience unmatched innovation, lightning-fast delivery, and excellent customer service.
-            </p>
 
-            <div className="d-flex align-items-center my-3">
-              <div className="tf-icon-box mx-3">
-                <div className="icon-box">
-                  <span className="icon icon-return" />
-                </div>
-              </div>
-              <div className="content">
-                <h6>14-Day Returns</h6>
-                <p className="m-0">on time dilivery with all safty checkups, best shipment service with up, so do not forgot to buy from us.</p>
+          {/* Right side: phone / promotional graphic */}
+          <div className="login-graphic-container">
+            <img
+              src={Preview}
+              alt="App Preview"
+              className="phone-graphic"
+            />
+            <div className="graphic-text">
+              <h4>Shop Latest Technological Products</h4>
+              <p>Discover the best in electronics with unmatched innovation and speed.</p>
+              <div className="app-download-badges">
+                <img src={a_store} alt="App Store" />
+                <img src={g_play} alt="Google Play" />
               </div>
             </div>
-            <div className="d-flex align-items-center my-3">
-              <div className="tf-icon-box mx-3">
-                <div className="icon-box">
-                  <span className="icon icon-shipping" />
-                </div>
-              </div>
-              <div className="content">
-                <h6>Free Shipping</h6>
-                <p className="m-0">on time dilivery with all safty checkups, best shipment service with up, so do not forgot to buy from us.</p>
-              </div>
-            </div>
-            <div className="d-flex align-items-center my-3">
-              <div className="tf-icon-box mx-3">
-                <div className="icon-box">
-                  <span className="icon icon-headset" />
-                </div>
-              </div>
-              <div className="content">
-                <h6>24/7 Support</h6>
-                <p className="m-0">on time dilivery with all safty checkups, best shipment service with up, so do not forgot to buy from us.</p>
-              </div>
-            </div>
-
-
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

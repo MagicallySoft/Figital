@@ -9,8 +9,8 @@ export const registerUser = (userData, navigate) => async (dispatch) => {
         Authorization: "uOddiZliFen9pZyBMLBaGZhhXG2J3ENpeB6HOovzvhQ",
       },
     });
-    console.log("Register:", response);
-    console.log("Register response:", response.data);
+    // console.log("Register:", response);
+    // console.log("Register response:", response.data);
 
     // If the API returns a token on successful registration, you may decode and store it.
     // Otherwise, you can simply dispatch the user data.
@@ -32,7 +32,7 @@ export const registerUser = (userData, navigate) => async (dispatch) => {
       navigate("/login");
     }
   } catch (error) {
-    console.log("EROR!!-->", error);
+    // console.log("EROR!!-->", error);
 
     const errorPayload =
       error.response && error.response.data
@@ -45,7 +45,7 @@ export const registerUser = (userData, navigate) => async (dispatch) => {
 export const loginUser = (credentials, navigate) => async (dispatch) => {
   try {
     dispatch({ type: "LOGIN_REQUEST",  });
-    const contact_number = { contact_number: "8866116731" };
+    const contact_number = { contact_number: "9913423994" };
     const response = await axiosInstance.post("/login", contact_number, {
     // const response = await axiosInstance.post("/access", credentials, {
       headers: {

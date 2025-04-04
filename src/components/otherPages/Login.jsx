@@ -216,8 +216,6 @@
 
 
 //             </div>
-
-
 //           </div>
 //         </div>
 //       </section>
@@ -233,14 +231,18 @@ import { useDispatch } from "react-redux";
 import { loginUser } from "@/redux/action/auth/authActions";
 import { useAuth } from "@/context/AuthProvider";
 import { Alert, Spinner } from "react-bootstrap";
+import Preview from '/images/page/Log_In_-removebg-preview.png';
+import g_play from '/images/page/google_play.png';
+import a_store from '/images/page/app_store.png';
+import { FcGoogle } from "react-icons/fc";
 import "./custom.css"
 
 export default function Login() {
   const { loading, error } = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  console.log("error--->", error);
-  
+  // console.log("error--->", error);
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -304,7 +306,7 @@ export default function Login() {
               className="brand-logo"
             />
             <p>WELCOME BACK</p>
-            <h4>Continue to your Account</h4>
+            <h4 className="">Continue to your Account</h4>
           </div>
 
           {error && (
@@ -313,17 +315,17 @@ export default function Login() {
             </Alert>
           )}
 
-          <form onSubmit={handleSubmit} className="form-login">
+          <form onSubmit={handleSubmit} className="form-login form-has-password">
             {/* “Log in with Google” button or other social logins */}
             <button type="button" className="social-login-btn google-btn">
               <i className="icon-google" />
-              Log in with Google
+              <FcGoogle /> Log in with Google
             </button>
 
             <div className="or-divider">
-              <span>OR</span>
+              <span className="or">OR</span>
             </div>
-
+            
             <fieldset>
               <input
                 type="text"
@@ -345,12 +347,13 @@ export default function Login() {
                 required
               />
               <span
-                className={`toggle-password ${passwordType !== "text" ? "unshow" : ""}`}
-                onClick={togglePassword}
-              >
-                <i className={`icon-eye-${passwordType !== "text" ? "hide" : "show"}-line`} />
-              </span>
+                    className={`toggle-password ${passwordType !== "text" ? "unshow" : ""}`}
+                    onClick={togglePassword}
+                  >
+                    <i className={`icon-eye-${passwordType !== "text" ? "hide" : "show"}-line`} />
+                  </span>
             </fieldset>
+            
 
             <div className="options-row">
               <label className="remember-me">
@@ -366,35 +369,38 @@ export default function Login() {
                 Forgot your password?
               </Link>
             </div>
-          
+
             <button className="login-btn d-flex justify-content-center" type="submit" disabled={loading}>
               {loading ? (
-               <>
-                <Spinner
-                  as="span"
-                  animation="border"
-                  size="sm"
-                  role="status"
-                  aria-hidden="true"
-                  style={{ color: "red", zIndex: 9 }}
-                /><span className="text text-button">Login</span>
-               </>
+                <>
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                    style={{ color: "red", zIndex: 9 }}
+                  /><span className="text text-button">Login</span>
+                </>
               ) : (
                 <span className="text text-button">Login</span>
               )}
             </button>
           </form>
 
+
           <div className="register-redirect">
             <span>Don't have an account?</span>
             <Link to="/register">Register now</Link>
           </div>
+
+
         </div>
 
         {/* Right side: phone / promotional graphic */}
         <div className="login-graphic-container">
           <img
-            src="/path/to/phone-mockup.png"
+            src={Preview}
             alt="App Preview"
             className="phone-graphic"
           />
@@ -402,8 +408,8 @@ export default function Login() {
             <h4>Shop Latest Technological Products</h4>
             <p>Discover the best in electronics with unmatched innovation and speed.</p>
             <div className="app-download-badges">
-              <img src="/path/to/appstore-badge.png" alt="App Store" />
-              <img src="/path/to/googleplay-badge.png" alt="Google Play" />
+              <img src={a_store} alt="App Store" />
+              <img src={g_play} alt="Google Play" />
             </div>
           </div>
         </div>

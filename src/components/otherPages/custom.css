@@ -91,14 +91,15 @@
         }
 
         p {
-          font-size: 1rem;
-          color: #555;
+          font-size: 0.9rem;
+          color: #a6a5a5;
           margin: 0;
         }
 
         h4 {
+          font-weight: 600;
           font-size: 1.5rem;
-          margin: 0.25rem 0;
+          margin: 0 0;
         }
       }
 
@@ -130,7 +131,7 @@
           justify-content: center;
           margin: 1rem 0;
 
-          span {
+          .or {
             background-color: #fff;
             padding: 0 0.5rem;
             color: #aaa;
